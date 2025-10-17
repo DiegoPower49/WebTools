@@ -2,9 +2,13 @@
 import { motion } from "framer-motion";
 import React, { useState, useRef, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { IconVolume, IconScreenShare, IconPlayerStop } from "@tabler/icons-react";
+import {
+  IconVolume,
+  IconScreenShare,
+  IconPlayerStop,
+} from "@tabler/icons-react";
 
-export default function Recorder() {
+export default function Recorder({ display }) {
   const [filmando, setFilmando] = useState("");
   const [grabando, setGrabando] = useState("");
   const [recordingType, setRecordingType] = useState(null);
@@ -108,29 +112,41 @@ export default function Recorder() {
 
   return (
     <>
-      <div className="h-full flex flex-col border-2 border-white rounded-md">
+      <div
+        className={`h-full flex flex-col border-2 border-white rounded-md ${
+          display ? "" : "hidden"
+        }`}
+      >
         <div className="bg-red-700 h-14 items-center justify-center flex w-full">
           <div className="text-xl font-bold uppercase">Screen Recorder</div>
         </div>
 
         <div className="h-full p-4 grid grid-cols-2 md:gap-x-5 gap-x-4">
-          
           <div className="flex items-center justify-center">
             <div
               onClick={videoRecorder}
               className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105 hover:bg-red-600 hover:text-white text-black ${grabando}`}
             >
               <div className="bg-white rounded-full p-2">
-                <IconScreenShare className="h-10 w-10" color="black" stroke={2} />
+                <IconScreenShare
+                  className="h-10 w-10"
+                  color="black"
+                  stroke={2}
+                />
               </div>
-              {grabando && <div className="text-center">Recording <motion.span
-              key={dotCount}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {".".repeat(dotCount)}
-            </motion.span></div>}
+              {grabando && (
+                <div className="text-center">
+                  Recording{" "}
+                  <motion.span
+                    key={dotCount}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {".".repeat(dotCount)}
+                  </motion.span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -140,18 +156,27 @@ export default function Recorder() {
               className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105 hover:bg-red-600 hover:text-white text-black ${filmando}`}
             >
               <div className="flex items-center gap-2 bg-white rounded-full p-2">
-                <IconScreenShare className="h-10 w-10" color="black" stroke={2} />
+                <IconScreenShare
+                  className="h-10 w-10"
+                  color="black"
+                  stroke={2}
+                />
                 <div className="text-black text-3xl">+</div>
                 <IconVolume className="h-10 w-10" color="black" stroke={2} />
               </div>
-              {filmando && <div className="text-center">Recording <motion.span
-              key={dotCount}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {".".repeat(dotCount)}
-            </motion.span></div>}
+              {filmando && (
+                <div className="text-center">
+                  Recording{" "}
+                  <motion.span
+                    key={dotCount}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {".".repeat(dotCount)}
+                  </motion.span>
+                </div>
+              )}
             </div>
           </div>
         </div>

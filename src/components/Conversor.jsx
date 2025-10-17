@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function Conversor() {
+export default function Conversor({ display }) {
   const canvasRef = useRef();
   const [preview, setPreview] = useState(null);
   const [webUrl, setWebpUrl] = useState(null);
@@ -54,7 +54,6 @@ export default function Conversor() {
 
     const mimeType = `image/${format}`;
     canvas.toBlob((blob) => {
-      
       const blobUrl = URL.createObjectURL(blob);
       setWebpUrl(blobUrl);
     }, mimeType);
@@ -96,14 +95,18 @@ export default function Conversor() {
   };
 
   return (
-    <div className="h-full w-full flex flex-col items-center border-2 border-white rounded-md">
+    <div
+      className={`h-full w-full flex flex-col items-center border-2 border-white rounded-md ${
+        display ? "" : "hidden"
+      }`}
+    >
       <div className="bg-red-700 h-14 items-center justify-center flex w-full">
         <h1 className="text-xl font-bold text-center">CONVERT IMAGE</h1>
       </div>
 
       <div
         className={` ${
-          webUrl ? "grid grid-cols-[3fr_1fr]":"flex w-full"
+          webUrl ? "grid grid-cols-[3fr_1fr]" : "flex w-full"
         } h-full justify-center`}
       >
         <div
@@ -117,14 +120,18 @@ export default function Conversor() {
           >
             {preview ? (
               <>
-              <div className="w-full h-full flex justify-center items-center p-4">
-                <img
-                  src={preview}
-                  alt="Vista previa"
-                  className="max-h-48 object-contain border rounded"
-                /></div>
+                <div className="w-full h-full flex justify-center items-center p-4">
+                  <img
+                    src={preview}
+                    alt="Vista previa"
+                    className="max-h-48 object-contain border rounded"
+                  />
+                </div>
                 <div className="w-full h-full flex items-center justify-center">
-                <p className=" h-full flex justify-center items-center">{filename + "." + format}</p></div>
+                  <p className=" h-full flex justify-center items-center">
+                    {filename + "." + format}
+                  </p>
+                </div>
               </>
             ) : (
               <div className="font-bold">SELECT OR DRAG IMAGE</div>
@@ -176,7 +183,7 @@ export default function Conversor() {
                   <input
                     name="height"
                     type="number"
-                   className="w-full text-center p-1 rounded"
+                    className="w-full text-center p-1 rounded"
                     value={height}
                     onChange={(e) => {
                       const val = e.target.value;

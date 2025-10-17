@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-export default function Block() {
+export default function Block({ display }) {
   const [data, setData] = useState("");
   const [txtname, setTxtName] = useState("note");
 
@@ -44,7 +44,11 @@ export default function Block() {
   };
 
   return (
-    <div className="h-full border-2 border-white rounded-md">
+    <div
+      className={`h-full border-2 border-white rounded-md ${
+        display ? "" : "hidden"
+      }`}
+    >
       <div className="grid grid-rows-1 grid-cols-8  border-b-2 h-1/6 ">
         <div className="col-span-1 flex justify-center items-center font-bold bg-white text-black">
           Name:

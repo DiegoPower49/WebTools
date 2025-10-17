@@ -1,25 +1,75 @@
-import React from "react";
+"use client";
 import Recorder from "../components/recorder";
 import Block from "../components/block";
 import Calculator from "../components/calculator";
 import Conversor from "@/components/Conversor";
+import { useState } from "react";
+import {
+  IconBlocks,
+  IconBook,
+  IconBook2,
+  IconCalculator,
+  IconCamera,
+  IconImageInPicture,
+  IconNote,
+} from "@tabler/icons-react";
 
 export default function page() {
+  const [showCalc, setShowCalc] = useState(false);
+  const [showBlock, setShowBlock] = useState(false);
+  const [showConversor, setShowConversor] = useState(false);
+  const [showRecorder, setShowRecorder] = useState(false);
   return (
     <div
-      className={`grid  ${
+      className={`flex flex-col    ${
         process.env.NODE_ENV === "development" ? "debug-screens" : ""
       }`}
     >
-      <div className="font-bold text-4xl grid h-28 justify-center items-center text-center md:p-4 md:mb-4 bg-red-800">
+      <div className=" font-bold text-4xl grid h-28 justify-center items-center text-center md:p-4  bg-red-800">
         <div>WELCOME TO FAST TOOLS</div>
         <div className="text-lg">(browser edition)</div>
       </div>
-      <div className="h-full grid grid-cols-1 md:grid-cols-2 auto-rows-[350px] items-center gap-y-4 md:gap-5 ">
-        <Conversor />
-        <Recorder />
-        <Block />
-        <Calculator />
+      <div className="w-screen h-16 bg-black ">
+        <div className="flex h-full w-full justify-center items-center gap-2 ">
+          <button
+            className={` p-2 rounded ${
+              showCalc ? "bg-red-700 text-white" : "bg-white text-black"
+            }`}
+            onClick={() => setShowCalc(!showCalc)}
+          >
+            <IconCalculator size={40} />
+          </button>
+          <button
+            className={` p-2 rounded ${
+              showRecorder ? "bg-red-700 text-white" : "bg-white text-black"
+            }`}
+            onClick={() => setShowRecorder(!showRecorder)}
+          >
+            <IconCamera size={40} />
+          </button>
+          <button
+            className={` p-2 rounded ${
+              showBlock ? "bg-red-700 text-white" : "bg-white text-black"
+            }`}
+            onClick={() => setShowBlock(!showBlock)}
+          >
+            <IconBook2 size={40} />
+          </button>
+          <button
+            className={` p-2 rounded ${
+              showConversor ? "bg-red-700 text-white" : "bg-white text-black"
+            }`}
+            onClick={() => setShowConversor(!showConversor)}
+          >
+            <IconImageInPicture size={40} />
+          </button>
+        </div>
+      </div>
+      <div className="h-full grid grid-cols-1 md:grid-cols-2 auto-rows-[350px] items-center justify-center gap-y-4 md:gap-5 ">
+        <Conversor display={showConversor} />
+        <Recorder display={showRecorder} />
+        <Block display={showBlock} />
+        <Calculator display={showCalc} />
       </div>
       <div className="flex justify-between items-center px-10">
         <a href="https://diegotorres-portfoliodev.vercel.app">
