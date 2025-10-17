@@ -113,7 +113,7 @@ export default function Recorder({ display }) {
   return (
     <>
       <div
-        className={`h-full flex flex-col border-2 border-white rounded-md ${
+        className={`h-full overflow-hidden flex flex-col border-2 border-white rounded-md ${
           display ? "" : "hidden"
         }`}
       >

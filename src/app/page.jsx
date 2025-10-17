@@ -5,13 +5,10 @@ import Calculator from "../components/calculator";
 import Conversor from "@/components/Conversor";
 import { useState } from "react";
 import {
-  IconBlocks,
-  IconBook,
-  IconBook2,
   IconCalculator,
-  IconCamera,
-  IconImageInPicture,
   IconNote,
+  IconPhotoEdit,
+  IconVideoPlus,
 } from "@tabler/icons-react";
 
 export default function page() {
@@ -21,15 +18,15 @@ export default function page() {
   const [showRecorder, setShowRecorder] = useState(false);
   return (
     <div
-      className={`flex flex-col    ${
+      className={`flex flex-col min-h-dvh overflow-hidden  ${
         process.env.NODE_ENV === "development" ? "debug-screens" : ""
       }`}
     >
-      <div className=" font-bold text-4xl grid h-28 justify-center items-center text-center md:p-4  bg-red-800">
+      <div className="font-bold text-4xl grid h-28 justify-center items-center text-center md:p-4  bg-red-800">
         <div>WELCOME TO FAST TOOLS</div>
         <div className="text-lg">(browser edition)</div>
       </div>
-      <div className="w-screen h-16 bg-black ">
+      <div className="w-screen bg-black h-16 ">
         <div className="flex h-full w-full justify-center items-center gap-2 ">
           <button
             className={` p-2 rounded ${
@@ -45,7 +42,7 @@ export default function page() {
             }`}
             onClick={() => setShowRecorder(!showRecorder)}
           >
-            <IconCamera size={40} />
+            <IconVideoPlus size={40} />
           </button>
           <button
             className={` p-2 rounded ${
@@ -53,7 +50,7 @@ export default function page() {
             }`}
             onClick={() => setShowBlock(!showBlock)}
           >
-            <IconBook2 size={40} />
+            <IconNote size={40} />
           </button>
           <button
             className={` p-2 rounded ${
@@ -61,11 +58,11 @@ export default function page() {
             }`}
             onClick={() => setShowConversor(!showConversor)}
           >
-            <IconImageInPicture size={40} />
+            <IconPhotoEdit size={40} />
           </button>
         </div>
       </div>
-      <div className="h-full grid grid-cols-1 md:grid-cols-2 auto-rows-[350px] items-center justify-center gap-y-4 md:gap-5 ">
+      <div className="flex-1 py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 auto-rows-[350px] items-center justify-center gap-y-4 md:gap-5 ">
         <Conversor display={showConversor} />
         <Recorder display={showRecorder} />
         <Block display={showBlock} />

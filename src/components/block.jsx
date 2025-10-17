@@ -49,7 +49,7 @@ export default function Block({ display }) {
         display ? "" : "hidden"
       }`}
     >
-      <div className="grid grid-rows-1 grid-cols-8  border-b-2 h-1/6 ">
+      <div className="grid overflow-hidden grid-rows-1 grid-cols-8  border-b-2 h-1/6 ">
         <div className="col-span-1 flex justify-center items-center font-bold bg-white text-black">
           Name:
         </div>

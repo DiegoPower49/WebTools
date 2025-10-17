@@ -96,7 +96,7 @@ export default function Conversor({ display }) {
 
   return (
     <div
-      className={`h-full w-full flex flex-col items-center border-2 border-white rounded-md ${
+      className={`h-full w-full overflow-hidden flex flex-col items-center border-2 border-white rounded-md ${
         display ? "" : "hidden"
       }`}
     >

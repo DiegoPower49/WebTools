@@ -38,7 +38,7 @@ const Calculator = ({ display }) => {
 
   return (
     <div
-      className={`h-full w-full border-2 border-white rounded-lg ${
+      className={`h-full overflow-hidden w-full border-2 border-white rounded-lg ${
         display ? "" : "hidden"
       }`}
     >
