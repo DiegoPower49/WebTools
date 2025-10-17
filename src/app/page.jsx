@@ -29,8 +29,8 @@ export default function page() {
         process.env.NODE_ENV === "development" ? "debug-screens" : ""
       }`}
     >
-      <div className="font-bold text-4xl grid h-28 justify-center items-center text-center md:p-4  bg-red-800">
-        <div>WELCOME TO FAST TOOLS</div>
+      <div className="font-bold text-4xl grid h-14 justify-center items-center text-center  bg-red-800">
+        Fasttools.vercel.app
       </div>
       <div className="w-screen bg-black h-16 ">
         <div className="flex h-full w-full justify-center items-center gap-2 ">
