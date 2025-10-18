@@ -7,6 +7,8 @@ export const pageStore = createStore(
     (set, get) => ({
       colores: [],
       links: [],
+      text: "",
+      title: "",
       tabs: {
         calculator: false,
         recorder: false,
@@ -15,6 +17,8 @@ export const pageStore = createStore(
         links: false,
         colors: false,
       },
+      setText: (text) => set({ text: text }),
+      setTitle: (title) => set({ title: title }),
 
       setTabs: (tab) => {
         const tabList = get().tabs;

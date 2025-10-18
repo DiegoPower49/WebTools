@@ -1,46 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { usePageStore } from "@/store/PageStore";
 
 export default function Block({ display }) {
-  const [data, setData] = useState("");
-  const [txtname, setTxtName] = useState("note");
+  const { text, setText, title, setTitle } = usePageStore();
 
   const exportToTextFile = () => {
-    const blob = new Blob([data], { type: "text/plain" });
+    const blob = new Blob([text], { type: "text/plain" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `${txtname}.txt`; // Nombre del archivo descargado
+    link.download = `${title === "" ? "untitled" : title}.txt`; // Nombre del archivo descargado
     link.click();
-  };
-
-  const enviarDatos = async (id, texto) => {
-    const datos = {
-      id: id,
-      texto: texto,
-    };
-    const array = JSON.stringify(datos);
-    localStorage.setItem(`memoria`, array);
-  };
-
-  const handle = (event) => {
-    const newValue = event.target.value;
-    setData(newValue);
-    enviarDatos(`memoria`, newValue);
-  };
-
-  useEffect(() => {
-    try {
-      const local = localStorage.getItem(`memoria`);
-      const datos = JSON.parse(local);
-      setData(datos.texto);
-    } catch {
-      localStorage.setItem(`memoria`, "");
-    }
-  }, []);
-
-  const nombre = (event) => {
-    const newValue = event.target.value;
-    setTxtName(newValue);
   };
 
   return (
@@ -57,8 +26,8 @@ export default function Block({ display }) {
           className="col-span-5 p-2 w-full bg-black outline-none resize-none"
           spellCheck="false"
           type="text"
-          value={txtname}
-          onChange={nombre}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <div
           onClick={exportToTextFile}
@@ -71,8 +40,8 @@ export default function Block({ display }) {
         <textarea
           className="  bg-black text-white   p-5 resize-none"
           spellCheck="false"
-          value={data}
-          onChange={handle}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
         ></textarea>
       </div>
     </div>
