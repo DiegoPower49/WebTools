@@ -145,7 +145,7 @@ export function Colors({ display }) {
           <DialogDescription className="hidden">
             Cuadro de edicion de color
           </DialogDescription>
-          <div className="flex flex-col gap-8  p-4 h-full">
+          <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
             <div className="flex flex-col gap-2">
               <label htmlFor="color">Color</label>
               <input
@@ -174,9 +174,11 @@ export function Colors({ display }) {
                 }}
               />
             </div>
-            <button className="w-full bg-white p-2 rounded text-black font-bold hover:bg-red-400 hover:text-white active:scale-110 duration-200 active:bg-black active:text-white active:border-2 active:border-white">
-              Guardar
-            </button>
+            <div className="w-full h-full flex justify-center items-center">
+              <button className="w-full bg-white p-2 rounded text-black font-bold hover:bg-red-400 hover:text-white active:scale-110 duration-200 active:bg-black active:text-white active:border-2 active:border-white">
+                Guardar
+              </button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>

@@ -14,8 +14,11 @@ import {
 } from "@tabler/icons-react";
 import { Links } from "@/components/enlaces";
 import { Colors } from "@/components/colors";
+import { usePageStore } from "@/store/PageStore";
 
 export default function page() {
+  const { tabs, setTabs } = usePageStore();
+
   const [showCalc, setShowCalc] = useState(false);
   const [showBlock, setShowBlock] = useState(false);
   const [showConversor, setShowConversor] = useState(false);
@@ -36,61 +39,73 @@ export default function page() {
         <div className="flex h-full w-full justify-center items-center gap-2 ">
           <button
             className={` p-2 rounded ${
-              showCalc ? "bg-red-700 text-white" : "bg-white text-black"
+              tabs.calculator ? "bg-red-700 text-white" : "bg-white text-black"
             }`}
-            onClick={() => setShowCalc(!showCalc)}
+            onClick={() => {
+              setTabs("calculator");
+            }}
           >
             <IconCalculator size={40} />
           </button>
           <button
             className={` p-2 rounded ${
-              showRecorder ? "bg-red-700 text-white" : "bg-white text-black"
+              tabs.recorder ? "bg-red-700 text-white" : "bg-white text-black"
             }`}
-            onClick={() => setShowRecorder(!showRecorder)}
+            onClick={() => {
+              setTabs("recorder");
+            }}
           >
             <IconVideoPlus size={40} />
           </button>
           <button
             className={` p-2 rounded ${
-              showBlock ? "bg-red-700 text-white" : "bg-white text-black"
+              tabs.notes ? "bg-red-700 text-white" : "bg-white text-black"
             }`}
-            onClick={() => setShowBlock(!showBlock)}
+            onClick={() => {
+              setTabs("notes");
+            }}
           >
             <IconNote size={40} />
           </button>
           <button
             className={` p-2 rounded ${
-              showConversor ? "bg-red-700 text-white" : "bg-white text-black"
+              tabs.conversor ? "bg-red-700 text-white" : "bg-white text-black"
             }`}
-            onClick={() => setShowConversor(!showConversor)}
+            onClick={() => {
+              setTabs("conversor");
+            }}
           >
             <IconPhotoEdit size={40} />
           </button>
           <button
             className={` p-2 rounded ${
-              showLinks ? "bg-red-700 text-white" : "bg-white text-black"
+              tabs.links ? "bg-red-700 text-white" : "bg-white text-black"
             }`}
-            onClick={() => setShowLinks(!showLinks)}
+            onClick={() => {
+              setTabs("links");
+            }}
           >
             <IconLink size={40} />
           </button>
           <button
             className={` p-2 rounded ${
-              showColors ? "bg-red-700 text-white" : "bg-white text-black"
+              tabs.colors ? "bg-red-700 text-white" : "bg-white text-black"
             }`}
-            onClick={() => setShowColors(!showColors)}
+            onClick={() => {
+              setTabs("colors");
+            }}
           >
             <IconBrush size={40} />
           </button>
         </div>
       </div>
       <div className="flex-1 py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 auto-rows-[350px] items-center justify-center gap-y-4 md:gap-5 ">
-        <Conversor display={showConversor} />
-        <Recorder display={showRecorder} />
-        <Block display={showBlock} />
-        <Calculator display={showCalc} />
-        <Links display={showLinks} />
-        <Colors display={showColors} />
+        <Conversor display={tabs.conversor} />
+        <Recorder display={tabs.recorder} />
+        <Block display={tabs.notes} />
+        <Calculator display={tabs.calculator} />
+        <Links display={tabs.links} />
+        <Colors display={tabs.colors} />
       </div>
       <div className="flex justify-between items-center px-10">
         <a href="https://diegotorres-portfoliodev.vercel.app">
