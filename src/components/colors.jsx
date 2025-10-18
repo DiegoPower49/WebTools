@@ -115,7 +115,7 @@ export function Colors({ display }) {
               {group.map((color, i) => (
                 <div
                   key={i}
-                  className="  border-2 border-slate-900 w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl hover:bg-white hover:text-black transition"
+                  className="w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl hover:bg-white hover:text-black transition"
                   onClick={() => {
                     if (!editable) {
                       handleCopy(color.color);
