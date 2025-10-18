@@ -10,8 +10,11 @@ import {
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState, use } from "react";
 import { IconPencil } from "@tabler/icons-react";
+import { usePageStore } from "@/store/PageStore";
 
 export function Colors({ display }) {
+  const { colors, changeColor } = usePageStore();
+
   const scrollRef = useRef(null);
   const [editable, setEditable] = useState(false);
   const [editForm, setEditForm] = useState(false);
@@ -46,12 +49,12 @@ export function Colors({ display }) {
     { id: 24, nombre: "default24", color: "#b2d817" },
   ];
   const groups = [];
-  for (let i = 0; i < tools.length; i += 12) {
-    groups.push(tools.slice(i, i + 12));
+  for (let i = 0; i < colors.length; i += 12) {
+    groups.push(colors.slice(i, i + 12));
   }
 
   const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText("#" + text);
     toast.success("Copied!");
   };
 
@@ -73,8 +76,6 @@ export function Colors({ display }) {
   useEffect(() => {
     if (!editForm) {
       setId(0);
-      setColor("");
-      setNombre("");
     }
   }, [editForm]);
   return (
@@ -114,19 +115,25 @@ export function Colors({ display }) {
               {group.map((color, i) => (
                 <div
                   key={i}
-                  className="w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl hover:bg-white hover:text-black transition"
+                  className="  border-2 border-slate-900 w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl hover:bg-white hover:text-black transition"
                   onClick={() => {
                     if (!editable) {
                       handleCopy(color.color);
                     } else {
                       setId(color.id - 1);
+                      setColor(color.color);
+                      setNombre(color.nombre);
                       setEditForm(true);
                     }
                   }}
                 >
                   <div
-                    style={{ backgroundColor: color.color }}
-                    className="h-full w-12"
+                    style={{
+                      backgroundColor: color.color
+                        ? `#${color.color}`
+                        : "transparent",
+                    }}
+                    className="h-full w-12 rounded"
                   ></div>
                   <div className="w-full h-full flex items-center">
                     <h1>{color.nombre}</h1>
@@ -147,25 +154,11 @@ export function Colors({ display }) {
           </DialogDescription>
           <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
             <div className="flex flex-col gap-2">
-              <label htmlFor="color">Color</label>
-              <input
-                id="color"
-                className="p-2 rounded text-black"
-                type="text"
-                placeholder={tools[id].color}
-                value={color}
-                onChange={(e) => {
-                  const color = e.target.value;
-                  setColor(color);
-                }}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
               <label htmlFor="nombre">Nombre</label>
               <input
                 id="nombre"
                 type="text"
-                placeholder={tools[id].nombre}
+                placeholder={colors[id].nombre || ""}
                 className="p-2 rounded placeholder:text-gray-500 text-black"
                 value={nombre}
                 onChange={(e) => {
@@ -174,8 +167,35 @@ export function Colors({ display }) {
                 }}
               />
             </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="color">Color</label>
+              <div className="w-full h-full flex gap-4">
+                <span className="w-12 flex justify-center items-center text-xl font-bold">
+                  #
+                </span>
+                <input
+                  id="color"
+                  className="p-2 w-full rounded text-black"
+                  type="text"
+                  placeholder={colors[id].color || ""}
+                  value={color}
+                  onChange={(e) => {
+                    const color = e.target.value;
+                    setColor(color.toLowerCase());
+                  }}
+                />
+              </div>
+            </div>
+
             <div className="w-full h-full flex justify-center items-center">
-              <button className="w-full bg-white p-2 rounded text-black font-bold hover:bg-red-400 hover:text-white active:scale-110 duration-200 active:bg-black active:text-white active:border-2 active:border-white">
+              <button
+                onClick={() => {
+                  changeColor(id, nombre, color);
+                  console.log(id, nombre, color);
+                  setEditForm(false);
+                }}
+                className="w-full bg-white p-2 rounded text-black font-bold hover:bg-red-400 hover:text-white active:scale-110 duration-200 active:bg-black active:text-white active:border-2 active:border-white"
+              >
                 Guardar
               </button>
             </div>
