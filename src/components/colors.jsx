@@ -129,9 +129,10 @@ export function Colors({ display }) {
                 >
                   <div
                     style={{
-                      backgroundColor: color.color
-                        ? `#${color.color}`
-                        : "transparent",
+                      backgroundColor:
+                        color.color && color.color.length === 6
+                          ? `#${color.color}`
+                          : "transparent",
                     }}
                     className="h-full w-12 rounded"
                   ></div>
