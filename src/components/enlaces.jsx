@@ -30,146 +30,6 @@ export function Links({ display }) {
       label: "Iconos",
       icon: <IconBrandSkype size={40} />,
     },
-    {
-      href: "https://create.wa.link",
-      label: "Generador links Whatsapp",
-      icon: <IconBrandWhatsapp size={40} />,
-    },
-    {
-      href: "https://pagespeed.web.dev",
-      label: "Test de velocidad Web",
-      icon: <IconBrandSpeedtest size={40} />,
-    },
-    {
-      href: "https://tablericons.com",
-      label: "Iconos de marcas",
-      icon: <IconIcons size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://create.wa.link",
-      label: "Generador links Whatsapp",
-      icon: <IconBrandWhatsapp size={40} />,
-    },
-    {
-      href: "https://pagespeed.web.dev",
-      label: "Test de velocidad Web",
-      icon: <IconBrandSpeedtest size={40} />,
-    },
-    {
-      href: "https://tablericons.com",
-      label: "Iconos de marcas",
-      icon: <IconIcons size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://create.wa.link",
-      label: "Generador links Whatsapp",
-      icon: <IconBrandWhatsapp size={40} />,
-    },
-    {
-      href: "https://pagespeed.web.dev",
-      label: "Test de velocidad Web",
-      icon: <IconBrandSpeedtest size={40} />,
-    },
-    {
-      href: "https://tablericons.com",
-      label: "Iconos de marcas",
-      icon: <IconIcons size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://create.wa.link",
-      label: "Generador links Whatsapp",
-      icon: <IconBrandWhatsapp size={40} />,
-    },
-    {
-      href: "https://pagespeed.web.dev",
-      label: "Test de velocidad Web",
-      icon: <IconBrandSpeedtest size={40} />,
-    },
-    {
-      href: "https://tablericons.com",
-      label: "Iconos de marcas",
-      icon: <IconIcons size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://create.wa.link",
-      label: "Generador links Whatsapp",
-      icon: <IconBrandWhatsapp size={40} />,
-    },
-    {
-      href: "https://pagespeed.web.dev",
-      label: "Test de velocidad Web",
-      icon: <IconBrandSpeedtest size={40} />,
-    },
-    {
-      href: "https://tablericons.com",
-      label: "Iconos de marcas",
-      icon: <IconIcons size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
   ];
   const groups = [];
   for (let i = 0; i < tools.length; i += 8) {
@@ -196,14 +56,9 @@ export function Links({ display }) {
         display ? "" : "hidden"
       }`}
     >
-      <div className="bg-red-700  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full">
-        <button
-          title="Acceder"
-          className="col-start-1 col-end-2 bg-red-700 h-full  w-3/4"
-        ></button>
-
-        <div className="col-start-2 col-end-6 text-xl  w-full font-bold uppercase flex justify-center items-center">
-          Useful Links
+      <div className="bg-red-700  h-14 items-center justify-center flex w-full">
+        <div className=" text-xl  w-full font-bold uppercase flex justify-center items-center">
+          Links
         </div>
       </div>
       <div

@@ -25,7 +25,7 @@ export default function page() {
 
   return (
     <div
-      className={`flex flex-col min-h-dvh overflow-hidden  ${
+      className={`flex bg-black text-white flex-col min-h-dvh overflow-hidden  ${
         process.env.NODE_ENV === "development" ? "debug-screens" : ""
       }`}
     >
