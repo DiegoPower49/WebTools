@@ -16,6 +16,7 @@ import {
 import { Links } from "@/components/enlaces";
 import { Colors } from "@/components/colors";
 import { usePageStore } from "@/store/PageStore";
+import ApiTester from "@/components/testApi";
 
 export default function Page() {
   const { tabs, setTabs, colors } = usePageStore();
@@ -162,7 +163,7 @@ export default function Page() {
               </button>
             </div>
           </div>
-          <div className="flex-1 py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 auto-rows-[350px] items-center justify-center gap-y-4 md:gap-5 ">
+          <div className="flex-1 py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 ">
             <Conversor
               display={tabs.conversor}
               theme={theme}
@@ -200,6 +201,13 @@ export default function Page() {
             />
             <Colors
               display={tabs.colors}
+              theme={theme}
+              textTheme={textTheme}
+              hoverTheme={hoverTheme}
+              hoverTextTheme={hoverTextTheme}
+            />
+            <ApiTester
+              display={true}
               theme={theme}
               textTheme={textTheme}
               hoverTheme={hoverTheme}
