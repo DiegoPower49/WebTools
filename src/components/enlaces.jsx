@@ -1,12 +1,21 @@
 "use client";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import toast, { Toaster } from "react-hot-toast";
+import {
   IconBrandSkype,
   IconBrandSpeedtest,
   IconBrandWhatsapp,
   IconIcons,
+  IconPencil,
 } from "@tabler/icons-react";
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
+import { usePageStore } from "@/store/PageStore";
 
 export function Links({
   display,
@@ -15,54 +24,39 @@ export function Links({
   hoverTheme,
   hoverTextTheme,
 }) {
+  const { links, changeLink } = usePageStore();
   const scrollRef = useRef(null);
-
-  const tools = [
-    {
-      href: "https://create.wa.link",
-      label: "Generador links Whatsapp",
-      icon: <IconBrandWhatsapp size={40} />,
-    },
-    {
-      href: "https://pagespeed.web.dev",
-      label: "Test de velocidad Web",
-      icon: <IconBrandSpeedtest size={40} />,
-    },
-    {
-      href: "https://tablericons.com",
-      label: "Iconos de marcas",
-      icon: <IconIcons size={40} />,
-    },
-    {
-      href: "https://svgl.app/",
-      label: "Iconos",
-      icon: <IconBrandSkype size={40} />,
-    },
-  ];
-
-  // Agrupamos de 8 en 8
+  const [editable, setEditable] = useState(false);
+  const [editForm, setEditForm] = useState(false);
+  const [id, setId] = useState(0);
+  const [link, setLink] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [icono, setIcono] = useState("");
   const groups = [];
-  for (let i = 0; i < tools.length; i += 8) {
-    groups.push(tools.slice(i, i + 8));
+  for (let i = 0; i < links.length; i += 8) {
+    groups.push(links.slice(i, i + 8));
   }
 
-  // Scroll horizontal con rueda del mouse
   useEffect(() => {
-    console.log(theme);
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
     const handleWheel = (e) => {
       if (scrollContainer.scrollWidth > scrollContainer.clientWidth) {
         e.preventDefault();
-        scrollContainer.scrollLeft += e.deltaY * 3.4;
+        const scrollSpeed = 3.4;
+        scrollContainer.scrollLeft += e.deltaY * scrollSpeed;
       }
     };
 
     scrollContainer.addEventListener("wheel", handleWheel, { passive: false });
     return () => scrollContainer.removeEventListener("wheel", handleWheel);
   }, []);
-
+  useEffect(() => {
+    if (!editForm) {
+      setId(0);
+    }
+  }, [editForm]);
   return (
     <div
       className={`h-full w-full overflow-hidden flex flex-col items-center border-2 border-white rounded-md ${
@@ -72,62 +66,163 @@ export function Links({
       <div
         style={{
           backgroundColor: theme,
-          color: textTheme,
         }}
-        className="h-14 items-center justify-center flex w-full"
+        className={`relative  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full`}
       >
-        <div className="text-xl w-full font-bold uppercase flex justify-center items-center">
-          Links
+        <div className="col-start-1 col-end-6 text-xl  w-full font-bold uppercase flex justify-center items-center">
+          Enlaces
         </div>
+        <button
+          style={{
+            backgroundColor: !editable ? theme : hoverTheme,
+          }}
+          onClick={() => setEditable(!editable)}
+          className={`col-start-6 col-end-7  flex justify-center w-12 h-5/6 rounded items-center absolute`}
+        >
+          <IconPencil
+            color={!editable ? textTheme : hoverTextTheme}
+            className={editable && styles.pulse}
+            size={40}
+          />
+        </button>
       </div>
-
       <div
         ref={scrollRef}
-        className={`w-full overflow-x-auto overflow-y-hidden ${styles.scrollContainer}`}
+        style={{
+          "--theme": theme,
+        }}
+        className={`w-full flex-1 overflow-x-auto overflow-y-hidden ${styles.scrollContainer}`}
       >
         <div className="flex gap-6 w-full">
-          {groups.map((group, index) => (
-            <div
-              key={index}
-              className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
-            >
-              {group.map((tool, i) => (
-                <LinkItem
-                  key={i}
-                  tool={tool}
-                  theme={theme}
-                  textTheme={textTheme}
-                  hoverTheme={hoverTheme}
-                  hoverTextTheme={hoverTextTheme}
-                />
-              ))}
-            </div>
-          ))}
+          {links &&
+            groups.map((group, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
+              >
+                {group.map((link, e) => (
+                  <a
+                    target="_blank"
+                    {...(!editable && { href: link.link })}
+                    key={e}
+                    onClick={() => {
+                      if (editable) {
+                        setId(link.id - 1);
+                        setLink(link.link);
+                        setNombre(link.nombre);
+                        setEditForm(true);
+                        setIcono(link.icono);
+                      }
+                    }}
+                  >
+                    <LinkItem
+                      link={link}
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </a>
+                ))}
+              </div>
+            ))}
         </div>
       </div>
+      <Dialog onOpenChange={setEditForm} open={editForm}>
+        <DialogContent className="w-full bg-black border-white border-2 text-white overflow-hidden">
+          <DialogTitle className="flex justify-center items-center">
+            Editar Links
+          </DialogTitle>
+          <DialogDescription className="hidden">
+            Cuadro de edicion de Links
+          </DialogDescription>
+          <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="icono">Icono</label>
+              <input
+                id="icono"
+                type="text"
+                className="p-2 rounded placeholder:text-gray-500 text-black"
+                value={icono}
+                placeholder="Url"
+                onChange={(e) => {
+                  const icono = e.target.value;
+                  setIcono(icono);
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="nombre">Nombre</label>
+              <input
+                id="nombre"
+                type="text"
+                placeholder={links[id].nombre || ""}
+                className="p-2 rounded placeholder:text-gray-500 text-black"
+                value={nombre}
+                onChange={(e) => {
+                  const nombre = e.target.value;
+                  setNombre(nombre);
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="color">Link</label>
+              <div className="w-full h-full flex gap-4">
+                <input
+                  id="link"
+                  className="p-2 w-full rounded text-black"
+                  type="text"
+                  placeholder={links[id].link || ""}
+                  value={link}
+                  onChange={(e) => {
+                    const link = e.target.value;
+                    setLink(link.toLowerCase());
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="w-full h-full flex justify-center items-center">
+              <button
+                style={{ backgroundColor: theme, color: textTheme }}
+                onClick={() => {
+                  changeLink(id, nombre, link, icono);
+                  setEditForm(false);
+                }}
+                className="w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Toaster />
     </div>
   );
 }
 
-function LinkItem({ tool, theme, textTheme, hoverTheme, hoverTextTheme }) {
+function LinkItem({ link, theme }) {
   const [hover, setHover] = useState(false);
-
   return (
-    <a
-      style={{
-        backgroundColor: hover ? hoverTheme : theme,
-        color: hover ? hoverTextTheme : textTheme,
-        transition: "background-color 0.25s ease, color 0.25s ease",
-      }}
+    <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      href={tool.href}
+      style={{ color: theme, borderColor: hover && theme }}
       target="_blank"
       rel="noopener noreferrer"
-      className="w-full flex items-center gap-4 p-2 rounded-xl"
+      className="w-full h-12 flex bg-black items-center gap-4 rounded-xl border-2 border-transparent transition-colors duration-200"
     >
-      {tool.icon}
-      <h1 className="font-medium">{tool.label}</h1>
-    </a>
+      <div className="h-12 w-12 rounded-l-md flex items-center justify-center">
+        {link.icono && (
+          <img
+            className="flex items-center rounded-xl p-2 justify-center"
+            src={link.icono}
+            alt=""
+          />
+        )}
+      </div>
+      <h1 className="font-medium">{link.nombre}</h1>
+    </div>
   );
 }

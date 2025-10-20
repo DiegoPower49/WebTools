@@ -8,7 +8,15 @@ import {
   IconPlayerStop,
 } from "@tabler/icons-react";
 
-export default function Recorder({ display }) {
+export default function Recorder({
+  display,
+  theme,
+  textTheme,
+  hoverTheme,
+  hoverTextTheme,
+}) {
+  const [hoverAudio, setHoverAudio] = useState(false);
+  const [hoverVideo, setHoverVideo] = useState(false);
   const [filmando, setFilmando] = useState("");
   const [grabando, setGrabando] = useState("");
   const [recordingType, setRecordingType] = useState(null);
@@ -117,13 +125,24 @@ export default function Recorder({ display }) {
           display ? "" : "hidden"
         }`}
       >
-        <div className="bg-red-700 h-14 items-center justify-center flex w-full">
+        <div
+          style={{
+            backgroundColor: theme,
+            color: textTheme,
+          }}
+          className="h-14 items-center justify-center flex w-full"
+        >
           <div className="text-xl font-bold uppercase">Screen Recorder</div>
         </div>
 
         <div className="h-full p-4 grid grid-cols-2 md:gap-x-5 gap-x-4">
           <div className="flex items-center justify-center">
             <div
+              style={{
+                backgroundColor: hoverAudio ? hoverTheme : theme,
+              }}
+              onMouseEnter={() => setHoverAudio(true)}
+              onMouseLeave={() => setHoverAudio(false)}
               onClick={videoRecorder}
               className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105 hover:bg-red-600 hover:text-white text-black ${grabando}`}
             >
@@ -152,6 +171,11 @@ export default function Recorder({ display }) {
 
           <div className="flex items-center justify-center">
             <div
+              style={{
+                backgroundColor: hoverVideo ? hoverTheme : theme,
+              }}
+              onMouseEnter={() => setHoverVideo(true)}
+              onMouseLeave={() => setHoverVideo(false)}
               onClick={videoAndAudioRecorder}
               className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105 hover:bg-red-600 hover:text-white text-black ${filmando}`}
             >

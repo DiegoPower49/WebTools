@@ -87,6 +87,9 @@ export function Colors({
       </div>
       <div
         ref={scrollRef}
+        style={{
+          "--theme": theme,
+        }}
         className={`w-full flex-1 overflow-x-auto overflow-y-hidden ${styles.scrollContainer}`}
       >
         <div className="flex gap-6 w-full">
@@ -98,7 +101,6 @@ export function Colors({
               {group.map((color, i) => (
                 <div
                   key={i}
-                  className="w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl hover:border-2 hover:border-white"
                   onClick={() => {
                     if (!editable) {
                       handleCopy(color.color);
@@ -110,19 +112,7 @@ export function Colors({
                     }
                   }}
                 >
-                  <div
-                    style={{
-                      backgroundColor:
-                        color.color && color.color.length === 6
-                          ? `#${color.color}`
-                          : "transparent",
-                      border: `1px solid ${theme}`,
-                    }}
-                    className="h-full w-12 rounded"
-                  ></div>
-                  <div className="w-full h-full flex items-center">
-                    <h1>{color.nombre}</h1>
-                  </div>
+                  <Color color={color} theme={theme} />
                 </div>
               ))}
             </div>
@@ -174,11 +164,12 @@ export function Colors({
 
             <div className="w-full h-full flex justify-center items-center">
               <button
+                style={{ backgroundColor: theme, color: textTheme }}
                 onClick={() => {
                   changeColor(id, nombre, color);
                   setEditForm(false);
                 }}
-                className="w-full bg-white p-2 rounded text-black font-bold hover:bg-red-400 hover:text-white active:scale-110 duration-200 active:bg-black active:text-white active:border-2 active:border-white"
+                className="w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
               >
                 Guardar
               </button>
@@ -187,6 +178,32 @@ export function Colors({
         </DialogContent>
       </Dialog>
       <Toaster />
+    </div>
+  );
+}
+
+function Color({ color, theme }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{ color: theme, borderColor: hover && theme }}
+      className="w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl border-2 border-transparent"
+    >
+      <div
+        style={{
+          backgroundColor:
+            color.color && color.color.length === 6
+              ? `#${color.color}`
+              : "transparent",
+          border: `1px solid ${theme}`,
+        }}
+        className="h-full w-12 rounded"
+      ></div>
+      <div className="w-full h-full flex items-center">
+        <h1>{color.nombre}</h1>
+      </div>
     </div>
   );
 }

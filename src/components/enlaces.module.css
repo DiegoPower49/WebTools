@@ -2,9 +2,9 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   scrollbar-gutter: stable both-edges;
-  /* Ocultar la barra en navegadores que lo soportan (opcional) */
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #b91c1c #1e1e1e; /* thumb color / track color */
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme) #1e1e1e;
 }
 
 /* Chrome, Edge, Safari */

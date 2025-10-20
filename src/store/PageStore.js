@@ -31,7 +31,40 @@ export const pageStore = createStore(
         { id: 23, nombre: "", color: "" },
         { id: 24, nombre: "", color: "" },
       ],
-      links: [],
+      links: [
+        {
+          id: 1,
+          nombre: "Generador links Whatsapp",
+          link: "https://create.wa.link",
+          icono:
+            "https://bantelperu.com/storage/2025/10/cropped-ISOLOGO-SLOGAN_Mesa-de-trabajo-1-1.webp",
+        },
+        {
+          id: 2,
+          nombre: "Test de velocidad Web",
+          link: "https://pagespeed.web.dev",
+          icono: "",
+        },
+        {
+          id: 3,
+          nombre: "Iconos de marcas",
+          link: "https://tablericons.com",
+          icono: "",
+        },
+        { id: 4, nombre: "Iconos", link: "https://svgl.app", icono: "" },
+        { id: 5, nombre: "", link: "", icono: "" },
+        { id: 6, nombre: "", link: "", icono: "" },
+        { id: 7, nombre: "", link: "", icono: "" },
+        { id: 8, nombre: "", link: "", icono: "" },
+        { id: 9, nombre: "", link: "", icono: "" },
+        { id: 10, nombre: "", link: "", icono: "" },
+        { id: 11, nombre: "", link: "", icono: "" },
+        { id: 12, nombre: "", link: "", icono: "" },
+        { id: 13, nombre: "", link: "", icono: "" },
+        { id: 14, nombre: "", link: "", icono: "" },
+        { id: 15, nombre: "", link: "", icono: "" },
+        { id: 16, nombre: "", link: "", icono: "" },
+      ],
       text: "",
       title: "",
       tabs: {
@@ -52,29 +85,24 @@ export const pageStore = createStore(
         set({ tabs: updatedTabList });
         console.log(tab, tabList);
       },
-      // changeColor: (id,text,color) => {
-      //   const colors = get().colors;
 
-      //   const selectedColor = colors[id+1];
-      //   const editedColor = {...selectedColor,nombre:text,color:color}
-      //   const newColors ={...colors,editedColor}
-
-      //   set({colors:newColors})
-      // },
       changeColor: (id, text, color) => {
         const colors = get().colors;
-
-        // Creamos una copia del array y reemplazamos el color correspondiente
         const updatedColors = colors.map((c, i) =>
           i === id ? { ...c, nombre: text, color: color } : c
         );
-
-        // Actualizamos el estado
         set({ colors: updatedColors });
+      },
+      changeLink: (id, text, link, icono) => {
+        const links = get().links;
+        const updatedLinks = links.map((c, i) =>
+          i === id ? { ...c, nombre: text, link: link, icono: icono } : c
+        );
+        set({ links: updatedLinks });
       },
     }),
     {
-      name: "pagestorage", // ✅ Esto va fuera del callback
+      name: "pagestorage",
     }
   )
 );

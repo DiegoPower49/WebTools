@@ -1,7 +1,7 @@
 "use client";
 import { usePageStore } from "@/store/PageStore";
 
-export default function Block({ display }) {
+export default function Block({ display, theme, textTheme }) {
   const { text, setText, title, setTitle } = usePageStore();
 
   const exportToTextFile = () => {
@@ -30,8 +30,12 @@ export default function Block({ display }) {
           onChange={(e) => setTitle(e.target.value)}
         />
         <div
+          style={{
+            backgroundColor: theme,
+            color: textTheme,
+          }}
           onClick={exportToTextFile}
-          className="col-span-2 flex p-2  bg-red-800 hover:bg-red-600 hover:text-white items-center justify-center font-bold "
+          className="col-span-2 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold "
         >
           Download
         </div>

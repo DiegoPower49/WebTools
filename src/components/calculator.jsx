@@ -1,9 +1,16 @@
 "use client";
 import React, { useState } from "react";
 
-const Calculator = ({ display }) => {
+const Calculator = ({
+  display,
+  theme,
+  textTheme,
+  hoverTheme,
+  hoverTextTheme,
+}) => {
   const [input, setInput] = useState(""); // Estado para el input del usuario
   const [result, setResult] = useState("");
+  const [hover, setHover] = useState(false);
 
   // Manejar la entrada del usuario
   const handleInput = (value) => {
@@ -97,8 +104,14 @@ const Calculator = ({ display }) => {
             ))}
           </div>
           <button
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            style={{
+              backgroundColor: hover ? hoverTheme : theme,
+              color: hover ? hoverTextTheme : textTheme,
+            }}
             onClick={clearInput}
-            className="m-2 p-2 bg-red-800 text-white rounded hover:bg-red-600"
+            className="m-2 p-2 text-white rounded"
           >
             Clear
           </button>
