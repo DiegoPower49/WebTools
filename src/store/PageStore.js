@@ -6,11 +6,11 @@ export const pageStore = createStore(
   persist(
     (set, get) => ({
       colors: [
-        { id: 1, nombre: "", color: "" },
-        { id: 2, nombre: "", color: "" },
+        { id: 1, nombre: "theme", color: "b91c1c" },
+        { id: 2, nombre: "text", color: "fafafa" },
         { id: 3, nombre: "", color: "" },
-        { id: 4, nombre: "", color: "" },
-        { id: 5, nombre: "", color: "" },
+        { id: 4, nombre: "hover", color: "fafafa" },
+        { id: 5, nombre: "textHover", color: "000000" },
         { id: 6, nombre: "", color: "" },
         { id: 7, nombre: "", color: "" },
         { id: 8, nombre: "", color: "" },
@@ -35,6 +35,7 @@ export const pageStore = createStore(
       text: "",
       title: "",
       tabs: {
+        header: true,
         calculator: false,
         recorder: false,
         notes: false,

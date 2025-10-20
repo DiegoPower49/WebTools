@@ -1,53 +1,31 @@
+"use client";
 import toast, { Toaster } from "react-hot-toast";
 
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import styles from "./enlaces.module.css";
-import { useRef, useEffect, useState, use } from "react";
+import { useRef, useEffect, useState } from "react";
 import { IconPencil } from "@tabler/icons-react";
 import { usePageStore } from "@/store/PageStore";
 
-export function Colors({ display }) {
+export function Colors({
+  display,
+  theme,
+  textTheme,
+  hoverTheme,
+  hoverTextTheme,
+}) {
   const { colors, changeColor } = usePageStore();
-
   const scrollRef = useRef(null);
   const [editable, setEditable] = useState(false);
   const [editForm, setEditForm] = useState(false);
   const [id, setId] = useState(0);
   const [color, setColor] = useState("");
   const [nombre, setNombre] = useState("");
-
-  const tools = [
-    { id: 1, nombre: "default", color: "#b2d817" },
-    { id: 2, nombre: "default2", color: "#b2d817" },
-    { id: 3, nombre: "default3", color: "#b2d817" },
-    { id: 4, nombre: "default4", color: "#b2d817" },
-    { id: 5, nombre: "default5", color: "#b2d817" },
-    { id: 6, nombre: "default6", color: "#b2d817" },
-    { id: 7, nombre: "default7", color: "#b2d817" },
-    { id: 8, nombre: "default8", color: "#b2d817" },
-    { id: 9, nombre: "default9", color: "#b2d817" },
-    { id: 10, nombre: "default10", color: "#b2d817" },
-    { id: 11, nombre: "default11", color: "#b2d817" },
-    { id: 12, nombre: "default12", color: "#b2d817" },
-    { id: 13, nombre: "default13", color: "#b2d817" },
-    { id: 14, nombre: "default14", color: "#b2d817" },
-    { id: 15, nombre: "default15", color: "#b2d817" },
-    { id: 16, nombre: "default16", color: "#b2d817" },
-    { id: 17, nombre: "default17", color: "#b2d817" },
-    { id: 18, nombre: "default18", color: "#b2d817" },
-    { id: 19, nombre: "default19", color: "#b2d817" },
-    { id: 20, nombre: "default20", color: "#b2d817" },
-    { id: 21, nombre: "default21", color: "#b2d817" },
-    { id: 22, nombre: "default22", color: "#b2d817" },
-    { id: 23, nombre: "default23", color: "#b2d817" },
-    { id: 24, nombre: "default24", color: "#b2d817" },
-  ];
   const groups = [];
   for (let i = 0; i < colors.length; i += 12) {
     groups.push(colors.slice(i, i + 12));
@@ -65,7 +43,7 @@ export function Colors({ display }) {
     const handleWheel = (e) => {
       if (scrollContainer.scrollWidth > scrollContainer.clientWidth) {
         e.preventDefault();
-        const scrollSpeed = 3.4; // para más desplazamiento
+        const scrollSpeed = 3.4;
         scrollContainer.scrollLeft += e.deltaY * scrollSpeed;
       }
     };
@@ -84,19 +62,24 @@ export function Colors({ display }) {
         display ? "" : "hidden"
       }`}
     >
-      <div className="bg-red-700 relative  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full">
+      <div
+        style={{
+          backgroundColor: theme,
+        }}
+        className={`relative  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full`}
+      >
         <div className="col-start-1 col-end-6 text-xl  w-full font-bold uppercase flex justify-center items-center">
           Colors
         </div>
         <button
-          title="Acceder"
+          style={{
+            backgroundColor: !editable ? theme : hoverTheme,
+          }}
           onClick={() => setEditable(!editable)}
-          className={`col-start-6 col-end-7 ${
-            editable ? "bg-black" : "bg-white"
-          } flex justify-center w-12 h-5/6 rounded items-center absolute`}
+          className={`col-start-6 col-end-7  flex justify-center w-12 h-5/6 rounded items-center absolute`}
         >
           <IconPencil
-            color={editable ? "white" : "black"}
+            color={!editable ? textTheme : hoverTextTheme}
             className={editable && styles.pulse}
             size={40}
           />
@@ -110,12 +93,12 @@ export function Colors({ display }) {
           {groups.map((group, index) => (
             <div
               key={index}
-              className="grid grid-cols-3 grid-rows-4 gap-2 w-full p-4    rounded-2xl flex-shrink-0"
+              className="grid grid-cols-3 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
             >
               {group.map((color, i) => (
                 <div
                   key={i}
-                  className="w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl hover:bg-white hover:text-black transition"
+                  className="w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl hover:border-2 hover:border-white"
                   onClick={() => {
                     if (!editable) {
                       handleCopy(color.color);
@@ -133,6 +116,7 @@ export function Colors({ display }) {
                         color.color && color.color.length === 6
                           ? `#${color.color}`
                           : "transparent",
+                      border: `1px solid ${theme}`,
                     }}
                     className="h-full w-12 rounded"
                   ></div>
@@ -192,7 +176,6 @@ export function Colors({ display }) {
               <button
                 onClick={() => {
                   changeColor(id, nombre, color);
-                  console.log(id, nombre, color);
                   setEditForm(false);
                 }}
                 className="w-full bg-white p-2 rounded text-black font-bold hover:bg-red-400 hover:text-white active:scale-110 duration-200 active:bg-black active:text-white active:border-2 active:border-white"

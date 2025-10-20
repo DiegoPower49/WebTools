@@ -3,8 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function Conversor({ display }) {
+export default function Conversor({
+  display,
+  theme,
+  textTheme,
+  hoverTheme,
+  hoverTextTheme,
+}) {
   const canvasRef = useRef();
+  const [hover, setHover] = useState(false);
   const [preview, setPreview] = useState(null);
   const [webUrl, setWebpUrl] = useState(null);
   const [filename, setFilename] = useState("");
@@ -100,7 +107,13 @@ export default function Conversor({ display }) {
         display ? "" : "hidden"
       }`}
     >
-      <div className="bg-red-700 h-14 items-center justify-center flex w-full">
+      <div
+        style={{
+          backgroundColor: theme,
+          color: textTheme,
+        }}
+        className=" h-14 items-center justify-center flex w-full"
+      >
         <h1 className="text-xl font-bold text-center">CONVERT IMAGE</h1>
       </div>
 
@@ -147,7 +160,13 @@ export default function Conversor({ display }) {
         </div>
 
         {webUrl && (
-          <div className="p-4 flex flex-col gap-2 h-full  bg-red-700">
+          <div
+            style={{
+              backgroundColor: theme,
+              color: textTheme,
+            }}
+            className="p-4 flex flex-col gap-2 h-full"
+          >
             <div className="flex h-full gap-2 flex-col py-2 ">
               <div className="w-full flex flex-col justify-center">
                 <p className="text-xl font-bold">FORMAT:</p>
@@ -199,8 +218,14 @@ export default function Conversor({ display }) {
             <div className="w-full flex justify-center items-center">
               <div className="h-full">
                 <button
+                  onMouseEnter={() => setHover(true)}
+                  onMouseLeave={() => setHover(false)}
+                  style={{
+                    backgroundColor: hover ? theme : hoverTheme,
+                    color: hover ? hoverTextTheme : theme,
+                  }}
                   onClick={() => descargar()}
-                  className="bg-green-500 flex text-center justify-center items-center font-bold text-xl text-white p-2 rounded hover:bg-green-600"
+                  className="flex text-center active:scale-110 duration-300 border-white border-2 justify-center items-center font-bold text-xl text-white p-2 rounded "
                 >
                   CONVERT & DOWNLOAD
                 </button>
