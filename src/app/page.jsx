@@ -17,7 +17,7 @@ import { Links } from "@/components/enlaces";
 import { Colors } from "@/components/colors";
 import { usePageStore } from "@/store/PageStore";
 
-export default function page() {
+export default function Page() {
   const { tabs, setTabs, colors } = usePageStore();
   const [theme, setTheme] = useState();
   const [hoverTheme, setHoverTheme] = useState();
