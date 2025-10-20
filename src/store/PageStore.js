@@ -75,8 +75,6 @@ export const pageStore = createStore(
     }),
     {
       name: "pagestorage", // ✅ Esto va fuera del callback
-      getStorage: () =>
-        typeof window !== "undefined" ? localStorage : undefined,
     }
   )
 );
