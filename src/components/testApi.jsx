@@ -49,61 +49,60 @@ export default function ApiTester({
 
   // 🧩 Botones de formateo JSON
   const formatHeaders = () => {
-    let fixed = headers;
-
     try {
-      // 1️⃣ Reemplazar comillas simples por dobles
-      fixed = fixed
-        .replace(/'/g, '"')
-        // 2️⃣ Quitar comas extra antes de } o ]
-        .replace(/,(\s*[}\]])/g, "$1")
-        // 3️⃣ Agregar comillas a claves sin comillas
-        .replace(/([{,]\s*)([a-zA-Z0-9_-]+)\s*:/g, '$1"$2":')
-        // 4️⃣ Arreglar comas faltantes entre objetos
-        .replace(/}(\s*{)/g, "},$1");
+      let fixed = headers.trim();
 
-      // Intentar parsear el JSON
-      const parsed = JSON.parse(fixed);
+      // Reemplazar comillas simples por dobles
+      fixed = fixed.replace(/'/g, '"');
 
-      // 5️⃣ Validar que todos los valores sean strings (headers deben ser texto)
-      for (const [key, value] of Object.entries(parsed)) {
-        if (typeof value !== "string") {
-          parsed[key] = String(value);
+      // Agregar comillas a claves sin comillas
+      fixed = fixed.replace(/([{,]\s*)([a-zA-Z0-9_-]+)\s*:/g, '$1"$2":');
+
+      // Quitar comas extra antes de cerrar
+      fixed = fixed.replace(/,(\s*[}\]])/g, "$1");
+
+      // Intentar parsear
+      let parsed = JSON.parse(fixed);
+
+      // Convertir valores no string a string (headers deben ser texto)
+      for (const key in parsed) {
+        if (typeof parsed[key] !== "string") {
+          parsed[key] = String(parsed[key]);
         }
       }
 
-      // 6️⃣ Formatear de vuelta
-      const formatted = JSON.stringify(parsed, null, 2);
-      setHeaders(formatted);
+      // Formatear JSON limpio
+      setHeaders(JSON.stringify(parsed, null, 2));
       setHeadersError(null);
     } catch (err) {
       setHeadersError(err.message);
-      toast.error("No se pudo corregir automáticamente: ");
+      toast.error("No se pudo corregir automáticamente");
     }
   };
 
+  // 🧩 Reparar y formatear Body
   const formatBody = () => {
-    let fixed = body;
-
     try {
-      // 1️⃣ Reemplazar comillas simples por dobles (solo fuera de las comillas ya válidas)
-      fixed = fixed
-        .replace(/'/g, '"')
-        // 2️⃣ Quitar comas extra antes de } o ]
-        .replace(/,(\s*[}\]])/g, "$1")
-        // 3️⃣ Intentar agregar comillas a claves sin comillas (clave: valor)
-        .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
-        // 4️⃣ Arreglar comas faltantes entre objetos
-        .replace(/}(\s*{)/g, "},$1");
+      let fixed = body.trim();
 
-      // Intentar parsear y formatear
-      const formatted = JSON.stringify(JSON.parse(fixed), null, 2);
-      setBody(formatted);
+      // Reemplazar comillas simples por dobles
+      fixed = fixed.replace(/'/g, '"');
+
+      // Agregar comillas a claves sin comillas
+      fixed = fixed.replace(/([{,]\s*)([a-zA-Z0-9_-]+)\s*:/g, '$1"$2":');
+
+      // Quitar comas extra antes de cerrar
+      fixed = fixed.replace(/,(\s*[}\]])/g, "$1");
+
+      // Intentar parsear
+      let parsed = JSON.parse(fixed);
+
+      // Formatear JSON limpio
+      setBody(JSON.stringify(parsed, null, 2));
       setBodyError(null);
     } catch (err) {
-      // Si sigue siendo inválido, mostramos el error original
       setBodyError(err.message);
-      toast.error("No se pudo corregir automáticamente: ");
+      toast.error("No se pudo corregir automáticamente");
     }
   };
 
@@ -223,7 +222,12 @@ export default function ApiTester({
               />
 
               {/* Botón Format */}
-              <div className="w-full flex justify-end">
+              <div className="w-full flex justify-between">
+                {headersError && (
+                  <p className="text-red-400 text-xs mt-1 font-mono">
+                    ⚠️ {headersError}
+                  </p>
+                )}
                 <button
                   onClick={formatHeaders}
                   className="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600"
@@ -232,12 +236,6 @@ export default function ApiTester({
                 </button>
               </div>
             </div>
-
-            {headersError && (
-              <p className="text-red-400 text-xs mt-1 font-mono">
-                ⚠️ {headersError}
-              </p>
-            )}
           </div>
           {/* BODY */}
 
@@ -264,7 +262,12 @@ export default function ApiTester({
               disabled:opacity-20`}
                 placeholder='{"name": "Diego", "age": 25}'
               />
-              <div className="w-full flex justify-end">
+              <div className="w-full flex justify-between">
+                {bodyError && (
+                  <p className="text-red-400 text-xs mt-1 font-mono">
+                    ⚠️ {bodyError}
+                  </p>
+                )}
                 <button
                   disabled={method === "GET" || method === "HEAD"}
                   onClick={formatBody}
@@ -275,15 +278,6 @@ export default function ApiTester({
               </div>
             </div>
           </div>
-          {bodyError && (
-            <p className="text-red-400 text-xs mt-1 font-mono">
-              ⚠️ {bodyError}
-            </p>
-          )}
-        </div>
-
-        {/* Derecha */}
-        <div className="flex-1 h-full gap-2 flex flex-col justify-center">
           <div className="flex gap-2">
             <button
               onClick={handleSend}
@@ -292,11 +286,15 @@ export default function ApiTester({
                 backgroundColor: theme,
                 color: textTheme,
               }}
-              className="flex-1 p-2 rounded font-semibold disabled:opacity-50"
+              className="flex-1 hover:opacity-80 p-2 rounded font-semibold disabled:opacity-50"
             >
               {loading ? "Sending..." : "Send Request"}
             </button>
           </div>
+        </div>
+
+        {/* Derecha */}
+        <div className="flex-1 h-full gap-2 flex flex-col justify-center">
           <div className="flex justify-between">
             <h3 className="text-lg font-semibold">Response</h3>
             <button

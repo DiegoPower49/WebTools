@@ -187,7 +187,7 @@ export default function Links({
                   changeLink(id, nombre, link, icono);
                   setEditForm(false);
                 }}
-                className="w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
+                className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
               >
                 Guardar
               </button>

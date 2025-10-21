@@ -1,13 +1,16 @@
 "use client";
+import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import {
   IconApi,
   IconBrush,
   IconCalculator,
+  IconHash,
   IconLayoutNavbar,
   IconLink,
   IconNote,
   IconPhotoEdit,
+  IconShield,
   IconVideoPlus,
 } from "@tabler/icons-react";
 import { usePageStore } from "@/store/PageStore";
@@ -18,6 +21,7 @@ import Conversor from "@/components/Conversor";
 import Links from "@/components/enlaces";
 import Colors from "@/components/colors";
 import ApiTester from "@/components/testApi";
+import Hasher from "@/components/hasher";
 
 export default function Page() {
   const { tabs, setTabs, colors } = usePageStore();
@@ -174,6 +178,18 @@ export default function Page() {
               >
                 <IconApi size={40} />
               </button>
+              <button
+                style={{
+                  backgroundColor: !tabs.jwt ? theme : hoverTheme,
+                  color: !tabs.jwt ? textTheme : hoverTextTheme,
+                }}
+                className={` p-2 rounded`}
+                onClick={() => {
+                  setTabs("jwt");
+                }}
+              >
+                <IconHash size={40} />
+              </button>
             </div>
           </div>
           <div className="flex-1 py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 ">
@@ -226,9 +242,17 @@ export default function Page() {
               />
             </div>
             <div
-              className={`h-[450px] col-span-2 ${!tabs.apiTester && "hidden"}`}
+              className={`h-[500px] col-span-2 ${!tabs.apiTester && "hidden"}`}
             >
               <ApiTester
+                theme={theme}
+                textTheme={textTheme}
+                hoverTheme={hoverTheme}
+                hoverTextTheme={hoverTextTheme}
+              />
+            </div>
+            <div className={`h-[500px] col-span-2 ${tabs.jwt && "hidden"}`}>
+              <Hasher
                 theme={theme}
                 textTheme={textTheme}
                 hoverTheme={hoverTheme}
@@ -245,6 +269,7 @@ export default function Page() {
           </div>
         </div>
       )}
+      <Toaster />
     </>
   );
 }

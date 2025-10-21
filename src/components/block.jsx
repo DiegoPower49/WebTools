@@ -34,7 +34,7 @@ export default function Block({ theme, textTheme }) {
             color: textTheme,
           }}
           onClick={exportToTextFile}
-          className="col-span-2 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold "
+          className="hover:opacity-60 col-span-2 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold "
         >
           Download
         </div>

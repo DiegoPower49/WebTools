@@ -213,7 +213,7 @@ export default function Conversor({
                 </div>
               </div>
             </div>
-            <div className="w-full flex justify-center items-center">
+            <div className="w-full h-full flex justify-center items-center">
               <div className="h-full">
                 <button
                   onMouseEnter={() => setHover(true)}
