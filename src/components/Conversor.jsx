@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Conversor({
-  display,
   theme,
   textTheme,
   hoverTheme,
@@ -103,9 +102,8 @@ export default function Conversor({
 
   return (
     <div
-      className={`h-full w-full overflow-hidden flex flex-col items-center border-2 border-white rounded-md ${
-        display ? "" : "hidden"
-      }`}
+      style={{ border: `2px solid ${theme}` }}
+      className={`h-full border- rounded-xl overflow-hidden`}
     >
       <div
         style={{

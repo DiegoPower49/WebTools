@@ -1,10 +1,7 @@
 "use client";
-import Recorder from "../components/recorder";
-import Block from "../components/block";
-import Calculator from "../components/calculator";
-import Conversor from "@/components/Conversor";
 import { useEffect, useState } from "react";
 import {
+  IconApi,
   IconBrush,
   IconCalculator,
   IconLayoutNavbar,
@@ -13,9 +10,13 @@ import {
   IconPhotoEdit,
   IconVideoPlus,
 } from "@tabler/icons-react";
-import { Links } from "@/components/enlaces";
-import { Colors } from "@/components/colors";
 import { usePageStore } from "@/store/PageStore";
+import Recorder from "../components/recorder";
+import Block from "../components/block";
+import Calculator from "../components/calculator";
+import Conversor from "@/components/Conversor";
+import Links from "@/components/enlaces";
+import Colors from "@/components/colors";
 import ApiTester from "@/components/testApi";
 
 export default function Page() {
@@ -161,59 +162,81 @@ export default function Page() {
               >
                 <IconBrush size={40} />
               </button>
+              <button
+                style={{
+                  backgroundColor: !tabs.apiTester ? theme : hoverTheme,
+                  color: !tabs.apiTester ? textTheme : hoverTextTheme,
+                }}
+                className={` p-2 rounded`}
+                onClick={() => {
+                  setTabs("apiTester");
+                }}
+              >
+                <IconApi size={40} />
+              </button>
             </div>
           </div>
-          <div className="flex-1 py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 ">
-            <Conversor
-              display={tabs.conversor}
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
-            <Recorder
-              display={tabs.recorder}
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
-            <Block
-              display={tabs.notes}
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
-            <Calculator
-              display={tabs.calculator}
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
-            <Links
-              display={tabs.links}
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
-            <Colors
-              display={tabs.colors}
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
-            <ApiTester
-              display={true}
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
+          <div className="flex-1 py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 ">
+            <div className={`h-[350px] ${!tabs.conversor && "hidden"}`}>
+              <Conversor
+                theme={theme}
+                textTheme={textTheme}
+                hoverTheme={hoverTheme}
+                hoverTextTheme={hoverTextTheme}
+              />
+            </div>
+            <div className={`h-[350px] ${!tabs.recorder && "hidden"}`}>
+              <Recorder
+                theme={theme}
+                textTheme={textTheme}
+                hoverTheme={hoverTheme}
+                hoverTextTheme={hoverTextTheme}
+              />
+            </div>
+            <div className={`h-[350px] ${!tabs.notes && "hidden"}`}>
+              <Block
+                theme={theme}
+                textTheme={textTheme}
+                hoverTheme={hoverTheme}
+                hoverTextTheme={hoverTextTheme}
+              />
+            </div>
+            <div className={`h-[350px] ${!tabs.calculator && "hidden"}`}>
+              <Calculator
+                theme={theme}
+                textTheme={textTheme}
+                hoverTheme={hoverTheme}
+                hoverTextTheme={hoverTextTheme}
+              />
+            </div>
+            <div className={`h-[350px] ${!tabs.links && "hidden"}`}>
+              <Links
+                theme={theme}
+                textTheme={textTheme}
+                hoverTheme={hoverTheme}
+                hoverTextTheme={hoverTextTheme}
+              />
+            </div>
+            <div className={`h-[350px] ${!tabs.colors && "hidden"}`}>
+              <Colors
+                theme={theme}
+                textTheme={textTheme}
+                hoverTheme={hoverTheme}
+                hoverTextTheme={hoverTextTheme}
+              />
+            </div>
+            <div
+              className={`h-[450px] col-span-2 ${!tabs.apiTester && "hidden"}`}
+            >
+              <ApiTester
+                theme={theme}
+                textTheme={textTheme}
+                hoverTheme={hoverTheme}
+                hoverTextTheme={hoverTextTheme}
+              />
+            </div>
           </div>
+
           <div className="flex justify-between items-center px-10">
             <a href="https://diegotorres-portfoliodev.vercel.app">
               Web created by: Diego Torres

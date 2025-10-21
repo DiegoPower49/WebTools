@@ -12,8 +12,7 @@ import { useRef, useEffect, useState } from "react";
 import { IconPencil } from "@tabler/icons-react";
 import { usePageStore } from "@/store/PageStore";
 
-export function Colors({
-  display,
+export default function Colors({
   theme,
   textTheme,
   hoverTheme,
@@ -58,9 +57,8 @@ export function Colors({
   }, [editForm]);
   return (
     <div
-      className={`h-full w-full overflow-hidden flex flex-col items-center border-2 border-white rounded-md ${
-        display ? "" : "hidden"
-      }`}
+      style={{ border: `2px solid ${theme}` }}
+      className={`flex flex-col h-full border- rounded-xl overflow-hidden`}
     >
       <div
         style={{

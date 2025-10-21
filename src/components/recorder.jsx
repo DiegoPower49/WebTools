@@ -9,7 +9,6 @@ import {
 } from "@tabler/icons-react";
 
 export default function Recorder({
-  display,
   theme,
   textTheme,
   hoverTheme,
@@ -121,9 +120,8 @@ export default function Recorder({
   return (
     <>
       <div
-        className={`h-full overflow-hidden flex flex-col border-2 border-white rounded-md ${
-          display ? "" : "hidden"
-        }`}
+        style={{ border: `2px solid ${theme}` }}
+        className={`h-full border- rounded-xl overflow-hidden flex flex-col`}
       >
         <div
           style={{

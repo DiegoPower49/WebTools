@@ -1,13 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-const Calculator = ({
-  display,
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) => {
+const Calculator = ({ theme, textTheme, hoverTheme, hoverTextTheme }) => {
   const [input, setInput] = useState(""); // Estado para el input del usuario
   const [result, setResult] = useState("");
   const [hover, setHover] = useState(false);
@@ -45,9 +39,8 @@ const Calculator = ({
 
   return (
     <div
-      className={`h-full overflow-hidden w-full border-2 border-white rounded-lg ${
-        display ? "" : "hidden"
-      }`}
+      style={{ border: `2px solid ${theme}` }}
+      className={`h-full border- rounded-xl overflow-hidden`}
     >
       <div className="h-full  p-5 md:px-10 grid grid-cols-2">
         <div className="h-full  grid grid-row-[1fr,2fr] ">

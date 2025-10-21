@@ -17,8 +17,7 @@ import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { usePageStore } from "@/store/PageStore";
 
-export function Links({
-  display,
+export default function Links({
   theme,
   textTheme,
   hoverTheme,
@@ -59,9 +58,8 @@ export function Links({
   }, [editForm]);
   return (
     <div
-      className={`h-full w-full overflow-hidden flex flex-col items-center border-2 border-white rounded-md ${
-        display ? "" : "hidden"
-      }`}
+      style={{ border: `2px solid ${theme}` }}
+      className={`flex flex-col h-full border- rounded-xl overflow-hidden`}
     >
       <div
         style={{

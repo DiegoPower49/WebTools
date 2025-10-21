@@ -75,6 +75,7 @@ export const pageStore = createStore(
         conversor: false,
         links: false,
         colors: false,
+        apiTester: false,
       },
       setText: (text) => set({ text: text }),
       setTitle: (title) => set({ title: title }),

@@ -1,7 +1,7 @@
 "use client";
 import { usePageStore } from "@/store/PageStore";
 
-export default function Block({ display, theme, textTheme }) {
+export default function Block({ theme, textTheme }) {
   const { text, setText, title, setTitle } = usePageStore();
 
   const exportToTextFile = () => {
@@ -14,9 +14,8 @@ export default function Block({ display, theme, textTheme }) {
 
   return (
     <div
-      className={`h-full border-2 border-white rounded-md ${
-        display ? "" : "hidden"
-      }`}
+      style={{ border: `2px solid ${theme}` }}
+      className={`h-full border- rounded-xl overflow-hidden`}
     >
       <div className="grid overflow-hidden grid-rows-1 grid-cols-8  border-b-2 h-1/6 ">
         <div className="col-span-1 flex justify-center items-center font-bold bg-white text-black">
