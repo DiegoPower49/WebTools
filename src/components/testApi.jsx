@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import styles from "./enlaces.module.css";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
 export default function ApiTester({
   theme,
   textTheme,
@@ -176,14 +184,13 @@ export default function ApiTester({
         <span className="text-xl font-bold uppercase">Api tester</span>
       </div>
 
-      <div className="w-full h-full grid grid-cols-2 gap-4 py-4 px-16">
-        {/* Izquierda */}
+      <div className="w-full flex-1 flex flex-col gap-4 py-4 px-4 md:px-16">
         <div className="h-full grid grid-cols-1 gap-2  justify-center">
-          <div className="flex h-14 w-full gap-4">
+          <div className="flex w-full gap-4">
             <select
               value={method}
               onChange={(e) => setMethod(e.target.value)}
-              className=" rounded bg-gray-800 border border-gray-700"
+              className=" rounded h-10 bg-gray-800 border border-gray-700"
             >
               {["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"].map((m) => (
                 <option key={m}>{m}</option>
@@ -194,7 +201,7 @@ export default function ApiTester({
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="Enter API URL..."
-              className="w-full p-2 rounded bg-gray-800 border border-gray-700 focus:border-blue-400 outline-none"
+              className="w-full  h-10 p-2 rounded bg-gray-800 border border-gray-700 focus:border-blue-400 outline-none"
             />
           </div>
           {/* HEADER */}
@@ -213,7 +220,7 @@ export default function ApiTester({
                 onChange={handleHeadersChange}
                 className={`${
                   styles.scrollContainer
-                } resize-none w-full rounded border font-mono text-sm ${
+                } p-2 resize-none w-full rounded border font-mono text-sm ${
                   headersError
                     ? "border-red-500 bg-red-900/30"
                     : "border-gray-700 bg-gray-800"
@@ -279,57 +286,73 @@ export default function ApiTester({
             </div>
           </div>
           <div className="flex gap-2">
-            <button
-              onClick={handleSend}
-              disabled={loading}
-              style={{
-                backgroundColor: theme,
-                color: textTheme,
-              }}
-              className="flex-1 hover:opacity-80 p-2 rounded font-semibold disabled:opacity-50"
-            >
-              {loading ? "Sending..." : "Send Request"}
-            </button>
-          </div>
-        </div>
-
-        {/* Derecha */}
-        <div className="flex-1 h-full gap-2 flex flex-col justify-center">
-          <div className="flex justify-between">
-            <h3 className="text-lg font-semibold">Response</h3>
-            <button
-              onClick={toggleWrap}
-              className="self-start bg-slate-700 text-white px-3 py-1 rounded hover:bg-slate-600"
-            >
-              {wrap ? "Desactivar ajuste" : "Ajustar texto"}
-            </button>
-          </div>
-          <pre
-            style={{ border: `1px solid ${theme}`, "--theme": theme }}
-            className={`text-white p-3 rounded text-sm h-full ${
-              styles.scrollContainer
-            } ${
-              wrap
-                ? "whitespace-pre-wrap break-words overflow-y-auto"
-                : "overflow-auto whitespace-pre"
-            }`}
-          >
-            {response
-              ? JSON.stringify(response, null, 2)
-              : loading && (
-                  <div>
-                    Loading{" "}
-                    <motion.span
-                      key={dotCount}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
+            <Dialog>
+              <DialogTrigger
+                onClick={handleSend}
+                style={{
+                  backgroundColor: theme,
+                  color: textTheme,
+                }}
+                className="flex-1 hover:opacity-80 p-2 rounded font-semibold disabled:opacity-50"
+              >
+                Send Request
+              </DialogTrigger>
+              <DialogContent className="w-[100vw] rounded h-[85vh] bg-black border-white border-2 text-white overflow-hidden">
+                <DialogHeader>
+                  <DialogTitle className="text-center" style={{ color: theme }}>
+                    Response
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="flex-1 h-full gap-2 flex flex-col justify-center w-full">
+                  <div className="flex justify-between">
+                    <button
+                      onClick={toggleWrap}
+                      style={{
+                        backgroundColor: !wrap ? theme : hoverTheme,
+                        color: !wrap ? textTheme : hoverTextTheme,
+                        boxShadow: wrap && `0px 0px 5px 1px ${theme}`,
+                      }}
+                      className={`self-start font-bold  px-3 py-1 rounded hover:bg-slate-600`}
                     >
-                      {".".repeat(dotCount)}
-                    </motion.span>
+                      Wrap
+                    </button>
                   </div>
-                )}
-          </pre>
+                  <pre
+                    style={{ border: `1px solid ${theme}`, "--theme": theme }}
+                    className={`text-white overflow-scroll w-[85vw] md:w-[35vw] p-3 rounded text-sm h-[350px] ${
+                      styles.scrollContainer
+                    } ${
+                      wrap
+                        ? "whitespace-pre-wrap break-words overflow-y-auto"
+                        : "overflow-auto whitespace-pre"
+                    }`}
+                  >
+                    {response
+                      ? JSON.stringify(response, null, 2)
+                      : loading && (
+                          <div>
+                            Loading{" "}
+                            <motion.span
+                              key={dotCount}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              {".".repeat(dotCount)}
+                            </motion.span>
+                          </div>
+                        )}
+                  </pre>
+                </div>
+                <DialogClose
+                  style={{ backgroundColor: theme, color: textTheme }}
+                  className="flex w-full items-center font-bold justify-center hover:opacity-80 duration-300 p-2 rounded"
+                >
+                  Close
+                </DialogClose>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </div>
       <Toaster />

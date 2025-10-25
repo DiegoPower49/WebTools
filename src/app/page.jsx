@@ -72,20 +72,21 @@ export default function Page() {
               backgroundColor: theme,
               color: textTheme,
             }}
-            className={`font-bold text-4xl grid h-14 justify-center items-center text-center ${
+            className={`font-bold text-4xl grid h-16 justify-center items-center text-center ${
               !tabs.header && "hidden"
             }`}
           >
             Fasttools.vercel.app
           </div>
-          <div className="w-screen bg-black h-16 ">
-            <div className="flex h-full w-full justify-center items-center gap-2 ">
+          <div className="w-screen my-2 bg-black flex justify-center items-center gap-2">
+            <div className="grid grid-cols-5 sm:grid-cols-9 h-full justify-center items-center gap-2">
               <button
                 style={{
                   backgroundColor: !tabs.header ? theme : hoverTheme,
                   color: !tabs.header ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.header && `0px 0px 5px 1px ${theme}`,
                 }}
-                className={` p-2 rounded 
+                className={`h-14 w-14 p-2 rounded 
                  
                   `}
                 onClick={() => {
@@ -94,96 +95,112 @@ export default function Page() {
               >
                 <IconLayoutNavbar size={40} />
               </button>
+
               <button
                 style={{
                   backgroundColor: !tabs.calculator ? theme : hoverTheme,
                   color: !tabs.calculator ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.calculator && `0px 0px 5px 1px ${theme}`,
                 }}
-                className={` p-2 rounded `}
+                className={`h-14 w-14 p-2 rounded `}
                 onClick={() => {
                   setTabs("calculator");
                 }}
               >
                 <IconCalculator size={40} />
               </button>
+
               <button
                 style={{
                   backgroundColor: !tabs.recorder ? theme : hoverTheme,
                   color: !tabs.recorder ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.recorder && `0px 0px 5px 1px ${theme}`,
                 }}
-                className={` p-2 rounded`}
+                className={`h-14 w-14 p-2 rounded hidden md:block`}
                 onClick={() => {
                   setTabs("recorder");
                 }}
               >
                 <IconVideoPlus size={40} />
               </button>
+
               <button
                 style={{
                   backgroundColor: !tabs.notes ? theme : hoverTheme,
                   color: !tabs.notes ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.notes && `0px 0px 5px 1px ${theme}`,
                 }}
-                className={` p-2 rounded `}
+                className={`h-14 w-14 p-2 rounded `}
                 onClick={() => {
                   setTabs("notes");
                 }}
               >
                 <IconNote size={40} />
               </button>
+
               <button
                 style={{
                   backgroundColor: !tabs.conversor ? theme : hoverTheme,
                   color: !tabs.conversor ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.conversor && `0px 0px 5px 1px ${theme}`,
                 }}
-                className={` p-2 rounded `}
+                className={`h-14 w-14 p-2 rounded `}
                 onClick={() => {
                   setTabs("conversor");
                 }}
               >
                 <IconPhotoEdit size={40} />
               </button>
+
               <button
                 style={{
                   backgroundColor: !tabs.links ? theme : hoverTheme,
                   color: !tabs.links ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.links && `0px 0px 5px 1px ${theme}`,
                 }}
-                className={` p-2 rounded `}
+                className={`h-14 w-14 p-2 rounded `}
                 onClick={() => {
                   setTabs("links");
                 }}
               >
                 <IconLink size={40} />
               </button>
+
               <button
                 style={{
                   backgroundColor: !tabs.colors ? theme : hoverTheme,
                   color: !tabs.colors ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.colors && `0px 0px 5px 1px ${theme}`,
                 }}
-                className={` p-2 rounded`}
+                className={`h-14 w-14 p-2 rounded`}
                 onClick={() => {
                   setTabs("colors");
                 }}
               >
                 <IconBrush size={40} />
               </button>
+
               <button
                 style={{
                   backgroundColor: !tabs.apiTester ? theme : hoverTheme,
                   color: !tabs.apiTester ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.apiTester && `0px 0px 5px 1px ${theme}`,
                 }}
-                className={` p-2 rounded`}
+                className={`h-14 w-14 p-2 rounded`}
                 onClick={() => {
                   setTabs("apiTester");
                 }}
               >
                 <IconApi size={40} />
               </button>
+
               <button
                 style={{
                   backgroundColor: !tabs.jwt ? theme : hoverTheme,
                   color: !tabs.jwt ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.jwt && `0px 0px 5px 1px ${theme}`,
                 }}
-                className={` p-2 rounded`}
+                className={`h-14 w-14 p-2 rounded`}
                 onClick={() => {
                   setTabs("jwt");
                 }}
@@ -201,7 +218,11 @@ export default function Page() {
                 hoverTextTheme={hoverTextTheme}
               />
             </div>
-            <div className={`h-[350px] ${!tabs.recorder && "hidden"}`}>
+            <div
+              className={`hidden h-[350px] ${
+                !tabs.recorder ? "hidden" : "md:block"
+              }`}
+            >
               <Recorder
                 theme={theme}
                 textTheme={textTheme}
@@ -241,9 +262,7 @@ export default function Page() {
                 hoverTextTheme={hoverTextTheme}
               />
             </div>
-            <div
-              className={`h-[500px] col-span-2 ${!tabs.apiTester && "hidden"}`}
-            >
+            <div className={`h-[500px] ${!tabs.apiTester && "hidden"}`}>
               <ApiTester
                 theme={theme}
                 textTheme={textTheme}
@@ -251,7 +270,7 @@ export default function Page() {
                 hoverTextTheme={hoverTextTheme}
               />
             </div>
-            <div className={`h-[500px] col-span-2 ${tabs.jwt && "hidden"}`}>
+            <div className={`h-[500px]  ${!tabs.jwt && "hidden"}`}>
               <Hasher
                 theme={theme}
                 textTheme={textTheme}

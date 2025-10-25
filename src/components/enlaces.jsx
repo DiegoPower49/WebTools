@@ -129,14 +129,14 @@ export default function Links({
       <Dialog onOpenChange={setEditForm} open={editForm}>
         <DialogContent className="w-full bg-black border-white border-2 text-white overflow-hidden">
           <DialogTitle className="flex justify-center items-center">
-            Editar Links
+            Edit Links
           </DialogTitle>
           <DialogDescription className="hidden">
             Cuadro de edicion de Links
           </DialogDescription>
           <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
             <div className="flex flex-col gap-2">
-              <label htmlFor="icono">Icono</label>
+              <label htmlFor="icono">Icon</label>
               <input
                 id="icono"
                 type="text"
@@ -150,7 +150,7 @@ export default function Links({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="nombre">Nombre</label>
+              <label htmlFor="nombre">Name</label>
               <input
                 id="nombre"
                 type="text"
@@ -189,7 +189,7 @@ export default function Links({
                 }}
                 className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
               >
-                Guardar
+                SAVE
               </button>
             </div>
           </div>
