@@ -18,6 +18,7 @@ export default function JWTGenerator({ theme, textTheme }) {
   const [secret, setSecret] = useState("");
   const [algorithm, setAlgorithm] = useState("HS256");
   const [token, setToken] = useState("");
+  const [expiration, setExpiration] = useState(false);
   const [expiryMinutes, setExpiryMinutes] = useState(60);
 
   const [publicKey, setPublicKey] = useState("");
@@ -79,7 +80,6 @@ export default function JWTGenerator({ theme, textTheme }) {
       toast.error("Failed to generate RSA keys");
     }
   };
-
   const handleGenerate = async () => {
     try {
       const payloadObj = JSON.parse(payload);
@@ -87,23 +87,24 @@ export default function JWTGenerator({ theme, textTheme }) {
       const exp = now + expiryMinutes * 60;
 
       let signedJwt;
+      let jwtBuilder = new jose.SignJWT(payloadObj).setProtectedHeader({
+        alg: algorithm,
+        typ: "JWT",
+      });
+
+      // ✅ Solo agregar expiración si el checkbox está activo
+      if (expiration) {
+        jwtBuilder = jwtBuilder.setExpirationTime(exp).setIssuedAt(now);
+      }
 
       if (algorithm.startsWith("HS")) {
         if (!secret) return toast.error("Secret required");
         const key = new TextEncoder().encode(secret);
-        signedJwt = await new jose.SignJWT(payloadObj)
-          .setProtectedHeader({ alg: algorithm, typ: "JWT" })
-          .setIssuedAt(now)
-          .setExpirationTime(exp)
-          .sign(key);
+        signedJwt = await jwtBuilder.sign(key);
       } else if (algorithm === "RS256") {
         if (!privateKey) return toast.error("Private key required");
         const pk = await jose.importPKCS8(privateKey, "RS256");
-        signedJwt = await new jose.SignJWT(payloadObj)
-          .setProtectedHeader({ alg: "RS256", typ: "JWT" })
-          .setIssuedAt(now)
-          .setExpirationTime(exp)
-          .sign(pk);
+        signedJwt = await jwtBuilder.sign(pk);
       } else {
         return toast.error("Unsupported algorithm");
       }
@@ -169,14 +170,22 @@ export default function JWTGenerator({ theme, textTheme }) {
               <option value="RS256">RS256 (RSA)</option>
             </select>
           </div>
+          <div className="flex gap-2">
+            <span>Expiration?:</span>
+            <input
+              onChange={(e) => setExpiration(e.target.checked)}
+              type="checkbox"
+            />
+          </div>
           <div className="flex gap-2 items-center justify-center">
             <label className="text-sm md:text-sm">Expiry (minutes)</label>
             <input
               type="number"
               min={0}
+              disabled={!expiration}
               value={expiryMinutes}
               onChange={(e) => setExpiryMinutes(e.target.value)}
-              className="p-1 w-12 rounded bg-gray-800 border border-gray-600 text-sm"
+              className="disabled:opacity-40 p-1 w-12 rounded bg-gray-800 border border-gray-600 text-sm"
             />
             <span className="text-xs text-gray-400">({expiryMinutes} min)</span>
           </div>
