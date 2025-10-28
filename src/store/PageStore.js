@@ -36,7 +36,7 @@ export const pageStore = createStore(
           id: 1,
           nombre: "Generador links Whatsapp",
           link: "https://create.wa.link",
-          icono: "https://svgl.app/library/whatsapp.svg",
+          icono: "https://svgl.app/library/whatsapp-icon.svg",
         },
         {
           id: 2,

@@ -63,7 +63,7 @@ export default function Page() {
           style={{
             color: textTheme,
           }}
-          className={`flex bg-black  flex-col min-h-dvh overflow-hidden  ${
+          className={`flex   flex-col min-h-dvh overflow-hidden  ${
             process.env.NODE_ENV === "development" ? "debug-screens" : ""
           }`}
         >
@@ -78,7 +78,7 @@ export default function Page() {
           >
             Fasttools.vercel.app
           </div>
-          <div className="w-screen my-2 bg-black flex justify-center items-center gap-2">
+          <div className="w-screen my-2  flex justify-center items-center gap-2">
             <div className="grid grid-cols-5 sm:grid-cols-9 h-full justify-center items-center gap-2">
               <button
                 style={{

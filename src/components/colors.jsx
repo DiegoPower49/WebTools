@@ -132,7 +132,17 @@ export default function Colors({
                 <input
                   id="nombre"
                   type="text"
-                  placeholder={colors[id].nombre || ""}
+                  placeholder={
+                    colors[id].id === 1
+                      ? "theme"
+                      : colors[id].id === 2
+                      ? "text"
+                      : colors[id].id === 3
+                      ? "hover"
+                      : colors[id].id === 4
+                      ? "textHover"
+                      : colors[id].nombre
+                  }
                   className="p-2 rounded placeholder:text-gray-500 text-black"
                   value={nombre}
                   onChange={(e) => {
