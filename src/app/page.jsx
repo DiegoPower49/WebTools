@@ -22,6 +22,7 @@ import Links from "@/components/enlaces";
 import Colors from "@/components/colors";
 import ApiTester from "@/components/testApi";
 import Hasher from "@/components/hasher";
+import Image from "next/image";
 
 export default function Page() {
   const { tabs, setTabs, colors } = usePageStore();
@@ -78,7 +79,7 @@ export default function Page() {
           >
             Fasttools.vercel.app
           </div>
-          <div className="w-screen my-2  flex justify-center items-center gap-2">
+          <div className="w-screen bg-black py-2  flex justify-center items-center gap-2">
             <div className="grid grid-cols-5 sm:grid-cols-9 h-full justify-center items-center gap-2">
               <button
                 style={{
@@ -209,77 +210,89 @@ export default function Page() {
               </button>
             </div>
           </div>
-          <div className="flex-1 py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 ">
-            <div className={`h-[350px] ${!tabs.conversor && "hidden"}`}>
-              <Conversor
-                theme={theme}
-                textTheme={textTheme}
-                hoverTheme={hoverTheme}
-                hoverTextTheme={hoverTextTheme}
+          <div className="relative w-full flex-1 flex flex-col justify-center items-center">
+            <div className="w-screen h-screen absolute bg-black inset-0 flex justify-center items-center -z-10">
+              <Image
+                src="/icono.png"
+                alt="Background"
+                width={600} // ajusta según el tamaño que desees
+                height={600}
+                className="opacity-30 object-contain select-none pointer-events-none"
+                priority
               />
             </div>
-            <div
-              className={`hidden h-[350px] ${
-                !tabs.recorder ? "hidden" : "md:block"
-              }`}
-            >
-              <Recorder
-                theme={theme}
-                textTheme={textTheme}
-                hoverTheme={hoverTheme}
-                hoverTextTheme={hoverTextTheme}
-              />
-            </div>
-            <div className={`h-[350px] ${!tabs.notes && "hidden"}`}>
-              <Block
-                theme={theme}
-                textTheme={textTheme}
-                hoverTheme={hoverTheme}
-                hoverTextTheme={hoverTextTheme}
-              />
-            </div>
-            <div className={`h-[350px] ${!tabs.calculator && "hidden"}`}>
-              <Calculator
-                theme={theme}
-                textTheme={textTheme}
-                hoverTheme={hoverTheme}
-                hoverTextTheme={hoverTextTheme}
-              />
-            </div>
-            <div className={`h-[350px] ${!tabs.links && "hidden"}`}>
-              <Links
-                theme={theme}
-                textTheme={textTheme}
-                hoverTheme={hoverTheme}
-                hoverTextTheme={hoverTextTheme}
-              />
-            </div>
-            <div className={`h-[350px] ${!tabs.colors && "hidden"}`}>
-              <Colors
-                theme={theme}
-                textTheme={textTheme}
-                hoverTheme={hoverTheme}
-                hoverTextTheme={hoverTextTheme}
-              />
-            </div>
-            <div className={`h-[500px] ${!tabs.apiTester && "hidden"}`}>
-              <ApiTester
-                theme={theme}
-                textTheme={textTheme}
-                hoverTheme={hoverTheme}
-                hoverTextTheme={hoverTextTheme}
-              />
-            </div>
-            <div className={`h-[500px]  ${!tabs.jwt && "hidden"}`}>
-              <Hasher
-                theme={theme}
-                textTheme={textTheme}
-                hoverTheme={hoverTheme}
-                hoverTextTheme={hoverTextTheme}
-              />
+
+            <div className="2xl:w-9/12 lg:w-full py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 ">
+              <div className={`h-[350px] ${!tabs.conversor && "hidden"}`}>
+                <Conversor
+                  theme={theme}
+                  textTheme={textTheme}
+                  hoverTheme={hoverTheme}
+                  hoverTextTheme={hoverTextTheme}
+                />
+              </div>
+              <div
+                className={`hidden h-[350px] ${
+                  !tabs.recorder ? "hidden" : "md:block"
+                }`}
+              >
+                <Recorder
+                  theme={theme}
+                  textTheme={textTheme}
+                  hoverTheme={hoverTheme}
+                  hoverTextTheme={hoverTextTheme}
+                />
+              </div>
+              <div className={`h-[350px] ${!tabs.notes && "hidden"}`}>
+                <Block
+                  theme={theme}
+                  textTheme={textTheme}
+                  hoverTheme={hoverTheme}
+                  hoverTextTheme={hoverTextTheme}
+                />
+              </div>
+              <div className={`h-[350px] ${!tabs.calculator && "hidden"}`}>
+                <Calculator
+                  theme={theme}
+                  textTheme={textTheme}
+                  hoverTheme={hoverTheme}
+                  hoverTextTheme={hoverTextTheme}
+                />
+              </div>
+              <div className={`h-[350px] ${!tabs.links && "hidden"}`}>
+                <Links
+                  theme={theme}
+                  textTheme={textTheme}
+                  hoverTheme={hoverTheme}
+                  hoverTextTheme={hoverTextTheme}
+                />
+              </div>
+              <div className={`h-[350px] ${!tabs.colors && "hidden"}`}>
+                <Colors
+                  theme={theme}
+                  textTheme={textTheme}
+                  hoverTheme={hoverTheme}
+                  hoverTextTheme={hoverTextTheme}
+                />
+              </div>
+              <div className={`h-[500px] ${!tabs.apiTester && "hidden"}`}>
+                <ApiTester
+                  theme={theme}
+                  textTheme={textTheme}
+                  hoverTheme={hoverTheme}
+                  hoverTextTheme={hoverTextTheme}
+                />
+              </div>
+              <div className={`h-[500px]  ${!tabs.jwt && "hidden"}`}>
+                <Hasher
+                  theme={theme}
+                  textTheme={textTheme}
+                  hoverTheme={hoverTheme}
+                  hoverTextTheme={hoverTextTheme}
+                />
+              </div>
             </div>
           </div>
-
           <div className="flex justify-between items-center px-10">
             <a href="https://diegotorres-portfoliodev.vercel.app">
               Web created by: Diego Torres

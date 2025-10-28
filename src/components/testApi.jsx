@@ -297,7 +297,7 @@ export default function ApiTester({
               >
                 Send Request
               </DialogTrigger>
-              <DialogContent className="w-[100vw] rounded h-[85vh] bg-black border-white border-2 text-white overflow-hidden">
+              <DialogContent className="w-[100vw] rounded 2xl:h-[70vh] h-[85vh] bg-black border-white border-2 text-white overflow-hidden">
                 <DialogHeader>
                   <DialogTitle className="text-center" style={{ color: theme }}>
                     Response
@@ -319,7 +319,7 @@ export default function ApiTester({
                   </div>
                   <pre
                     style={{ border: `1px solid ${theme}`, "--theme": theme }}
-                    className={`text-white overflow-scroll w-[85vw] md:w-[35vw] p-3 rounded text-sm h-[350px] ${
+                    className={`text-white overflow-scroll 2xl:w-[25vw]  w-[85vw] md:w-[35vw] p-3 rounded text-sm h-[350px] ${
                       styles.scrollContainer
                     } ${
                       wrap
@@ -346,7 +346,7 @@ export default function ApiTester({
                 </div>
                 <DialogClose
                   style={{ backgroundColor: theme, color: textTheme }}
-                  className="flex w-full items-center font-bold justify-center hover:opacity-80 duration-300 p-2 rounded"
+                  className="flex w-full items-center font-bold h-12 justify-center hover:opacity-80 duration-300 p-2 rounded"
                 >
                   Close
                 </DialogClose>

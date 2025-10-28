@@ -252,9 +252,11 @@ export default function JWTGenerator({ theme, textTheme }) {
         </div>
       </div>
       <Dialog open={rsa} onOpenChange={setRsa}>
-        <DialogContent className="md:w-[60vw] h-[85vh] bg-black border-white border-2 text-white overflow-hidden">
+        <DialogContent className=" md:w-[60vw] 2xl:h-[70vh] h-[85vh] bg-black border-white border-2 text-white overflow-hidden">
           <DialogHeader>
-            <DialogTitle className="text-center my-2">RSA KEYS</DialogTitle>
+            <DialogTitle className="text-center" style={{ color: theme }}>
+              RSA KEYS
+            </DialogTitle>
             <div className="py-3 w-full flex justify-center items-center gap-4">
               <button
                 onClick={generateRSAKeys}
@@ -280,7 +282,7 @@ export default function JWTGenerator({ theme, textTheme }) {
                   value={publicKey}
                   placeholder="Public Key (SPKI)"
                   onChange={(e) => setPublicKey(e.target.value)}
-                  className="p-2 rounded bg-gray-800 border border-gray-600 w-full font-mono text-xs resize-none h-72"
+                  className="p-2 rounded bg-gray-800 border border-gray-600 w-full font-mono text-xs resize-none 2xl:h-96 h-72"
                 />
                 <div className="w-full flex items-center justify-center">
                   <button
@@ -297,7 +299,7 @@ export default function JWTGenerator({ theme, textTheme }) {
                   placeholder="Private Key (PKCS8)"
                   value={privateKey}
                   onChange={(e) => setPrivateKey(e.target.value)}
-                  className="p-2 rounded bg-gray-800 border border-gray-600 w-full font-mono text-xs resize-none h-72"
+                  className="p-2 rounded bg-gray-800 border border-gray-600 w-full font-mono text-xs resize-none 2xl:h-96 h-72"
                 />
                 <div className="w-full flex items-center justify-center">
                   <button

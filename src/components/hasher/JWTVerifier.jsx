@@ -115,9 +115,9 @@ export default function JWTVerifier({ theme, textTheme }) {
                 >
                   Public Key
                 </DialogTrigger>
-                <DialogContent className="flex flex-col  justify-center gap-2 w-full md:w-80 h-[80vh] bg-black border-white border-2 text-white overflow-hidden">
+                <DialogContent className="flex flex-col  justify-center gap-2 w-full md:w-80 h-[80vh] 2xl:h-[60vh] 2xl:w-[90vw] bg-black border-white border-2 text-white overflow-hidden">
                   <DialogHeader></DialogHeader>
-                  <DialogTitle className="text-center py-2">
+                  <DialogTitle className="text-center" style={{ color: theme }}>
                     Public Key
                   </DialogTitle>
                   <div className="flex flex-col gap-4">

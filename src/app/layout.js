@@ -29,16 +29,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
-        <div className="fixed bg-black inset-0 flex justify-center items-center -z-10">
-          <Image
-            src="/icono.png"
-            alt="Background"
-            width={800} // ajusta según el tamaño que desees
-            height={800}
-            className="opacity-30 object-contain select-none pointer-events-none"
-            priority
-          />
-        </div>
+        <div className="w-full h-full absolute bg-black inset-0 flex justify-center items-center -z-20"></div>
         {children}
         <Analytics />
       </body>
