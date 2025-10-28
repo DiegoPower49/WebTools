@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import content from "@/content/content.json";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Webtools",
-  description: "Website created to give you the best webtools",
+  title: content.metadata.title,
+  description: content.metadata.description,
+  authors: content.metadata.authors,
+  metadataBase: new URL("https://fasttools.vercel.app"),
+  openGraph: content.metadata.openGraph,
+  icons: content.metadata.icons,
 };
 
 export default function RootLayout({ children }) {
@@ -24,7 +29,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-          <Analytics />
+        <Analytics />
       </body>
     </html>
   );

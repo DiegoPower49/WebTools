@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "title": "Fast Tools",
+    "description": "My portfolio created with Next.js and Tailwind CSS",
+    "icons": {
+      "icon": "/favicon.png"
+    },
+    "authors": [
+      {
+        "name": "Diego Torres",
+        "url": "https://fasttools.vercel.app"
+      }
+    ],
+    "openGraph": {
+      "title": "Fast Tools",
+      "description": "Sitio web con muchas herramientas acelerar el desarrollo",
+      "url": "https://fasttools.vercel.app",
+      "siteName": "Fast Tools",
+      "images": [
+        {
+          "url": "/icono.png",
+          "width": 630,
+          "height": 630,
+          "alt": "logo"
+        }
+      ],
+      "locale": "en_US",
+      "type": "website"
+    }
+  }
+}
