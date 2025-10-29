@@ -10,6 +10,7 @@ import {
   IconLink,
   IconNote,
   IconPhotoEdit,
+  IconRocket,
   IconShield,
   IconVideoPlus,
 } from "@tabler/icons-react";
@@ -23,6 +24,7 @@ import Colors from "@/components/colors";
 import ApiTester from "@/components/testApi";
 import Hasher from "@/components/hasher";
 import Image from "next/image";
+import { Icon } from "lucide-react";
 
 export default function Page() {
   const { tabs, setTabs, colors } = usePageStore();
@@ -73,15 +75,16 @@ export default function Page() {
               backgroundColor: theme,
               color: textTheme,
             }}
-            className={`font-bold text-4xl grid h-16 justify-center items-center text-center ${
+            className={`font-bold flex text-4xl gap-2 h-16 justify-center items-center text-center ${
               !tabs.header && "hidden"
             }`}
           >
-            Fasttools.vercel.app
+            FAST TOOLS <IconRocket size={50} />
           </div>
           <div className="w-screen bg-black py-2  flex justify-center items-center gap-2">
             <div className="grid grid-cols-5 sm:grid-cols-9 h-full justify-center items-center gap-2">
               <button
+                aria-label="Show Header"
                 style={{
                   backgroundColor: !tabs.header ? theme : hoverTheme,
                   color: !tabs.header ? textTheme : hoverTextTheme,
@@ -98,6 +101,7 @@ export default function Page() {
               </button>
 
               <button
+                aria-label="Show Calculator"
                 style={{
                   backgroundColor: !tabs.calculator ? theme : hoverTheme,
                   color: !tabs.calculator ? textTheme : hoverTextTheme,
@@ -112,6 +116,7 @@ export default function Page() {
               </button>
 
               <button
+                aria-label="Show Recorder"
                 style={{
                   backgroundColor: !tabs.recorder ? theme : hoverTheme,
                   color: !tabs.recorder ? textTheme : hoverTextTheme,
@@ -126,6 +131,7 @@ export default function Page() {
               </button>
 
               <button
+                aria-label="Show Notes"
                 style={{
                   backgroundColor: !tabs.notes ? theme : hoverTheme,
                   color: !tabs.notes ? textTheme : hoverTextTheme,
@@ -140,6 +146,7 @@ export default function Page() {
               </button>
 
               <button
+                aria-label="Show Conversor"
                 style={{
                   backgroundColor: !tabs.conversor ? theme : hoverTheme,
                   color: !tabs.conversor ? textTheme : hoverTextTheme,
@@ -154,6 +161,7 @@ export default function Page() {
               </button>
 
               <button
+                aria-label="Show Links"
                 style={{
                   backgroundColor: !tabs.links ? theme : hoverTheme,
                   color: !tabs.links ? textTheme : hoverTextTheme,
@@ -168,6 +176,7 @@ export default function Page() {
               </button>
 
               <button
+                aria-label="Show Colors"
                 style={{
                   backgroundColor: !tabs.colors ? theme : hoverTheme,
                   color: !tabs.colors ? textTheme : hoverTextTheme,
@@ -182,6 +191,7 @@ export default function Page() {
               </button>
 
               <button
+                aria-label="Show Api Tester"
                 style={{
                   backgroundColor: !tabs.apiTester ? theme : hoverTheme,
                   color: !tabs.apiTester ? textTheme : hoverTextTheme,
@@ -196,6 +206,7 @@ export default function Page() {
               </button>
 
               <button
+                aria-label="Show Hasher"
                 style={{
                   backgroundColor: !tabs.jwt ? theme : hoverTheme,
                   color: !tabs.jwt ? textTheme : hoverTextTheme,
@@ -219,6 +230,7 @@ export default function Page() {
                 height={600}
                 className="opacity-30 object-contain select-none pointer-events-none"
                 priority
+                fetchPriority="high"
               />
             </div>
 
@@ -305,12 +317,16 @@ export default function Page() {
               )}
             </div>
           </div>
-          <div className="flex justify-between items-center px-10">
-            <a href="https://diegotorres-portfoliodev.vercel.app">
-              Web created by: Diego Torres
-            </a>
-            <div>Browser edition</div>
-          </div>
+          {tabs.header && (
+            <div
+              style={{ color: textTheme, background: theme }}
+              className="flex font-bold justify-center items-center "
+            >
+              <a href="https://diegotorres-portfoliodev.vercel.app">
+                Web created by: Diego Torres
+              </a>
+            </div>
+          )}
         </div>
       )}
       <Toaster />
