@@ -1,7 +1,8 @@
 "use client";
 import { usePageStore } from "@/store/PageStore";
+import { color } from "framer-motion";
 
-export default function Block({ theme, textTheme }) {
+export default function Block({ theme, textTheme, hoverTextTheme }) {
   const { text, setText, title, setTitle } = usePageStore();
 
   const exportToTextFile = () => {
@@ -17,8 +18,14 @@ export default function Block({ theme, textTheme }) {
       style={{ border: `2px solid ${theme}` }}
       className={`h-full border- rounded-xl overflow-hidden`}
     >
-      <div className="grid overflow-hidden grid-rows-1 grid-cols-8  border-b-2 h-1/6 ">
-        <div className="col-span-1 flex justify-center items-center font-bold bg-white text-black">
+      <div
+        style={{ borderColor: theme }}
+        className="grid overflow-hidden grid-rows-1 grid-cols-8  border-b-2 h-1/6 "
+      >
+        <div
+          style={{ backgroundColor: theme, color: textTheme }}
+          className="col-span-1 flex justify-center items-center font-bold "
+        >
           Name:
         </div>
         <input
@@ -34,14 +41,15 @@ export default function Block({ theme, textTheme }) {
             color: textTheme,
           }}
           onClick={exportToTextFile}
-          className="hover:opacity-60 col-span-2 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold "
+          className="hover:opacity-60 col-span-2 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold cursor-pointer"
         >
           Download
         </div>
       </div>
       <div className="h-5/6 grid">
         <textarea
-          className="  bg-black text-white   p-5 resize-none"
+          style={{ color: theme, borderColor: theme }}
+          className="bg-transparent text-white focus:border-black  p-5 resize-none"
           spellCheck="false"
           value={text}
           onChange={(e) => setText(e.target.value)}

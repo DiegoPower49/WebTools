@@ -198,7 +198,7 @@ function Color({ color, theme }) {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{ color: theme, borderColor: hover && theme }}
-      className="w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl border-2 border-transparent"
+      className="cursor-pointer w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl border-2 border-transparent"
     >
       <div
         style={{
@@ -211,7 +211,7 @@ function Color({ color, theme }) {
         className="h-full w-12 rounded"
       ></div>
       <div className="w-full h-full flex items-center">
-        <h1>{color.nombre}</h1>
+        <h1 className="">{color.nombre}</h1>
       </div>
     </div>
   );

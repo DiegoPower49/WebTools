@@ -223,74 +223,86 @@ export default function Page() {
             </div>
 
             <div className="2xl:w-9/12 lg:w-full py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 ">
-              <div className={`h-[350px] ${!tabs.conversor && "hidden"}`}>
-                <Conversor
-                  theme={theme}
-                  textTheme={textTheme}
-                  hoverTheme={hoverTheme}
-                  hoverTextTheme={hoverTextTheme}
-                />
-              </div>
-              <div
-                className={`hidden h-[350px] ${
-                  !tabs.recorder ? "hidden" : "md:block"
-                }`}
-              >
-                <Recorder
-                  theme={theme}
-                  textTheme={textTheme}
-                  hoverTheme={hoverTheme}
-                  hoverTextTheme={hoverTextTheme}
-                />
-              </div>
-              <div className={`h-[350px] ${!tabs.notes && "hidden"}`}>
-                <Block
-                  theme={theme}
-                  textTheme={textTheme}
-                  hoverTheme={hoverTheme}
-                  hoverTextTheme={hoverTextTheme}
-                />
-              </div>
-              <div className={`h-[350px] ${!tabs.calculator && "hidden"}`}>
-                <Calculator
-                  theme={theme}
-                  textTheme={textTheme}
-                  hoverTheme={hoverTheme}
-                  hoverTextTheme={hoverTextTheme}
-                />
-              </div>
-              <div className={`h-[350px] ${!tabs.links && "hidden"}`}>
-                <Links
-                  theme={theme}
-                  textTheme={textTheme}
-                  hoverTheme={hoverTheme}
-                  hoverTextTheme={hoverTextTheme}
-                />
-              </div>
-              <div className={`h-[350px] ${!tabs.colors && "hidden"}`}>
-                <Colors
-                  theme={theme}
-                  textTheme={textTheme}
-                  hoverTheme={hoverTheme}
-                  hoverTextTheme={hoverTextTheme}
-                />
-              </div>
-              <div className={`h-[500px] ${!tabs.apiTester && "hidden"}`}>
-                <ApiTester
-                  theme={theme}
-                  textTheme={textTheme}
-                  hoverTheme={hoverTheme}
-                  hoverTextTheme={hoverTextTheme}
-                />
-              </div>
-              <div className={`h-[500px]  ${!tabs.jwt && "hidden"}`}>
-                <Hasher
-                  theme={theme}
-                  textTheme={textTheme}
-                  hoverTheme={hoverTheme}
-                  hoverTextTheme={hoverTextTheme}
-                />
-              </div>
+              {tabs.conversor && (
+                <div className={`h-[350px]`}>
+                  <Conversor
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </div>
+              )}
+              {tabs.recorder && (
+                <div className={`h-[350px]`}>
+                  <Recorder
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </div>
+              )}
+              {tabs.notes && (
+                <div className={`h-[350px]`}>
+                  <Block
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </div>
+              )}
+              {tabs.calculator && (
+                <div className={`h-[350px]`}>
+                  <Calculator
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </div>
+              )}
+              {tabs.links && (
+                <div className={`h-[350px]`}>
+                  <Links
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </div>
+              )}
+              {tabs.colors && (
+                <div className={`h-[350px]`}>
+                  <Colors
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </div>
+              )}
+              {tabs.apiTester && (
+                <div className={`h-[500px]`}>
+                  <ApiTester
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </div>
+              )}
+              {tabs.jwt && (
+                <div className={`h-[500px] `}>
+                  <Hasher
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div className="flex justify-between items-center px-10">
