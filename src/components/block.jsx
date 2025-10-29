@@ -1,8 +1,8 @@
 "use client";
+import styles from "./enlaces.module.css";
 import { usePageStore } from "@/store/PageStore";
-import { color } from "framer-motion";
 
-export default function Block({ theme, textTheme, hoverTextTheme }) {
+export default function Block({ theme, textTheme, hoverTheme }) {
   const { text, setText, title, setTitle } = usePageStore();
 
   const exportToTextFile = () => {
@@ -29,7 +29,8 @@ export default function Block({ theme, textTheme, hoverTextTheme }) {
           Name:
         </div>
         <input
-          className="col-span-5 p-2 w-full bg-black outline-none resize-none"
+          style={{ color: theme }}
+          className={`col-span-5 p-2 w-full font-bold bg-transparent resize-none focus:outline-none `}
           spellCheck="false"
           type="text"
           value={title}
@@ -48,8 +49,8 @@ export default function Block({ theme, textTheme, hoverTextTheme }) {
       </div>
       <div className="h-5/6 grid">
         <textarea
-          style={{ color: theme, borderColor: theme }}
-          className="bg-transparent text-white focus:border-black  p-5 resize-none"
+          style={{ color: theme, "--theme": theme }}
+          className={`bg-transparent p-5 resize-none ${styles.notes} ${styles.scrollContainer}`}
           spellCheck="false"
           value={text}
           onChange={(e) => setText(e.target.value)}

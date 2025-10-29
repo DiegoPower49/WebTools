@@ -7,6 +7,10 @@
   scrollbar-color: var(--theme) #1e1e1e;
 }
 
+.notes:focus {
+  outline: 2px solid var(--theme);
+}
+
 /* Chrome, Edge, Safari */
 .scrollContainer::-webkit-scrollbar {
   height: 10px; /* grosor horizontal */
