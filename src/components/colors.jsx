@@ -105,9 +105,10 @@ export default function Colors({
                   <div
                     key={i}
                     onClick={() => {
-                      if (!editable) {
+                      if (!editable && color.color) {
                         handleCopy(color.color);
-                      } else {
+                      }
+                      if (editable) {
                         setId(color.id - 1);
                         setColor(color.color);
                         setNombre(color.nombre);
@@ -115,7 +116,9 @@ export default function Colors({
                       }
                     }}
                   >
-                    <Color color={color} theme={theme} />
+                    {(color.color || editable) && (
+                      <Color color={color} editable={editable} theme={theme} />
+                    )}
                   </div>
                 ))}
               </div>
@@ -131,9 +134,10 @@ export default function Colors({
                   <div
                     key={i}
                     onClick={() => {
-                      if (!editable) {
+                      if (!editable && color.color) {
                         handleCopy(color.color);
-                      } else {
+                      }
+                      if (editable) {
                         setId(color.id - 1);
                         setColor(color.color);
                         setNombre(color.nombre);
@@ -141,7 +145,9 @@ export default function Colors({
                       }
                     }}
                   >
-                    <Color color={color} theme={theme} />
+                    {(color.color || editable) && (
+                      <Color color={color} editable={editable} theme={theme} />
+                    )}
                   </div>
                 ))}
               </div>
@@ -221,14 +227,24 @@ export default function Colors({
   );
 }
 
-function Color({ color, theme }) {
+function Color({ color, theme, editable }) {
   const [hover, setHover] = useState(false);
+  const borderStyle =
+    hover && (color.color || editable)
+      ? `2px solid ${theme}`
+      : "2px solid transparent";
+
   return (
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      style={{ color: theme, borderColor: hover && theme }}
-      className="cursor-pointer w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl border-2 border-transparent"
+      style={{
+        color: theme,
+        border: borderStyle,
+      }}
+      className={`${
+        (color.color || editable) && "cursor-pointer"
+      } w-full h-12 flex text-white items-center gap-4 p-2 rounded-xl border-2 border-transparent`}
     >
       <div
         style={{
@@ -236,7 +252,7 @@ function Color({ color, theme }) {
             color.color && color.color.length === 6
               ? `#${color.color}`
               : "transparent",
-          border: `1px solid ${theme}`,
+          border: color.color || editable ? `1px solid ${theme}` : "none",
         }}
         className="h-full w-12 rounded"
       ></div>

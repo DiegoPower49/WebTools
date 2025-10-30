@@ -16,6 +16,7 @@ import {
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { usePageStore } from "@/store/PageStore";
+import { div } from "framer-motion/client";
 
 export default function Links({
   theme,
@@ -103,28 +104,35 @@ export default function Links({
                 className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
               >
                 {group.map((link, e) => (
-                  <a
-                    target="_blank"
-                    {...(!editable && { href: link.link })}
-                    key={e}
-                    onClick={() => {
-                      if (editable) {
-                        setId(link.id - 1);
-                        setLink(link.link);
-                        setNombre(link.nombre);
-                        setEditForm(true);
-                        setIcono(link.icono);
-                      }
-                    }}
-                  >
-                    <LinkItem
-                      link={link}
-                      theme={theme}
-                      textTheme={textTheme}
-                      hoverTheme={hoverTheme}
-                      hoverTextTheme={hoverTextTheme}
-                    />
-                  </a>
+                  <div key={e}>
+                    {(link.link || editable) && (
+                      <a
+                        className={
+                          editable ? "cursor-pointer" : "cursor-pointer"
+                        }
+                        target="_blank"
+                        {...(!editable && { href: link.link })}
+                        onClick={() => {
+                          if (editable) {
+                            setId(link.id - 1);
+                            setLink(link.link);
+                            setNombre(link.nombre);
+                            setEditForm(true);
+                            setIcono(link.icono);
+                          }
+                        }}
+                      >
+                        <LinkItem
+                          link={link}
+                          theme={theme}
+                          editable={editable}
+                          textTheme={textTheme}
+                          hoverTheme={hoverTheme}
+                          hoverTextTheme={hoverTextTheme}
+                        />
+                      </a>
+                    )}
+                  </div>
                 ))}
               </div>
             ))}
@@ -137,28 +145,35 @@ export default function Links({
                 className="grid grid-cols-1 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
               >
                 {group.map((link, e) => (
-                  <a
-                    target="_blank"
-                    {...(!editable && { href: link.link })}
-                    key={e}
-                    onClick={() => {
-                      if (editable) {
-                        setId(link.id - 1);
-                        setLink(link.link);
-                        setNombre(link.nombre);
-                        setEditForm(true);
-                        setIcono(link.icono);
-                      }
-                    }}
-                  >
-                    <LinkItem
-                      link={link}
-                      theme={theme}
-                      textTheme={textTheme}
-                      hoverTheme={hoverTheme}
-                      hoverTextTheme={hoverTextTheme}
-                    />
-                  </a>
+                  <div key={e}>
+                    {(link.link || editable) && (
+                      <a
+                        className={
+                          editable ? "cursor-pointer" : "cursor-pointer"
+                        }
+                        target="_blank"
+                        {...(!editable && { href: link.link })}
+                        onClick={() => {
+                          if (editable) {
+                            setId(link.id - 1);
+                            setLink(link.link);
+                            setNombre(link.nombre);
+                            setEditForm(true);
+                            setIcono(link.icono);
+                          }
+                        }}
+                      >
+                        <LinkItem
+                          link={link}
+                          theme={theme}
+                          editable={editable}
+                          textTheme={textTheme}
+                          hoverTheme={hoverTheme}
+                          hoverTextTheme={hoverTextTheme}
+                        />
+                      </a>
+                    )}
+                  </div>
                 ))}
               </div>
             ))}
@@ -238,16 +253,20 @@ export default function Links({
   );
 }
 
-function LinkItem({ link, theme }) {
+function LinkItem({ link, theme, editable }) {
   const [hover, setHover] = useState(false);
+  const borderStyle =
+    editable || (hover && link.link)
+      ? `2px solid ${theme}`
+      : "2px solid transparent";
   return (
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      style={{ color: theme, borderColor: hover && theme }}
+      style={{ color: theme, border: borderStyle }}
       target="_blank"
       rel="noopener noreferrer"
-      className="w-full h-12 flex bg-black items-center gap-4 rounded-xl border-2 border-transparent transition-colors duration-200"
+      className="w-full h-12 flex bg-black items-center gap-4 rounded-xl duration-200"
     >
       <div className="h-12 w-12 rounded-l-md flex items-center justify-center">
         {link.icono && (
