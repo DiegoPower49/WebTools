@@ -29,6 +29,10 @@ export default function Colors({
   for (let i = 0; i < colors.length; i += 12) {
     groups.push(colors.slice(i, i + 12));
   }
+  const groupsMobile = [];
+  for (let i = 0; i < colors.length; i += 8) {
+    groupsMobile.push(colors.slice(i, i + 8));
+  }
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText("#" + text);
@@ -91,11 +95,37 @@ export default function Colors({
           }}
           className={`w-full flex-1 overflow-x-auto overflow-y-hidden ${styles.scrollContainer}`}
         >
-          <div className="flex gap-6 w-full">
+          <div className="hidden md:flex gap-6 w-full">
             {groups.map((group, index) => (
               <div
                 key={index}
                 className="grid grid-cols-3 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
+              >
+                {group.map((color, i) => (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      if (!editable) {
+                        handleCopy(color.color);
+                      } else {
+                        setId(color.id - 1);
+                        setColor(color.color);
+                        setNombre(color.nombre);
+                        setEditForm(true);
+                      }
+                    }}
+                  >
+                    <Color color={color} theme={theme} />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+          <div className="flex md:hidden gap-6 w-full">
+            {groupsMobile.map((group, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
               >
                 {group.map((color, i) => (
                   <div

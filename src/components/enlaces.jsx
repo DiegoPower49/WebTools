@@ -35,6 +35,10 @@ export default function Links({
   for (let i = 0; i < links.length; i += 8) {
     groups.push(links.slice(i, i + 8));
   }
+  const groupsMobile = [];
+  for (let i = 0; i < links.length; i += 4) {
+    groupsMobile.push(links.slice(i, i + 4));
+  }
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -91,12 +95,46 @@ export default function Links({
         }}
         className={`w-full flex-1 overflow-x-auto overflow-y-hidden ${styles.scrollContainer}`}
       >
-        <div className="flex gap-6 w-full">
+        <div className="hidden md:flex gap-6 w-full">
           {links &&
             groups.map((group, index) => (
               <div
                 key={index}
                 className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
+              >
+                {group.map((link, e) => (
+                  <a
+                    target="_blank"
+                    {...(!editable && { href: link.link })}
+                    key={e}
+                    onClick={() => {
+                      if (editable) {
+                        setId(link.id - 1);
+                        setLink(link.link);
+                        setNombre(link.nombre);
+                        setEditForm(true);
+                        setIcono(link.icono);
+                      }
+                    }}
+                  >
+                    <LinkItem
+                      link={link}
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </a>
+                ))}
+              </div>
+            ))}
+        </div>
+        <div className="flex md:hidden gap-6 w-full">
+          {links &&
+            groupsMobile.map((group, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
               >
                 {group.map((link, e) => (
                   <a

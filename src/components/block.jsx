@@ -24,13 +24,13 @@ export default function Block({ theme, textTheme, hoverTheme }) {
       >
         <div
           style={{ backgroundColor: theme, color: textTheme }}
-          className="col-span-1 flex justify-center items-center font-bold "
+          className="col-span-2 md:col-span-1 flex justify-center items-center font-bold "
         >
           Name:
         </div>
         <input
           style={{ color: theme }}
-          className={`col-span-5 p-2 w-full font-bold bg-transparent resize-none focus:outline-none `}
+          className={`col-span-3 md:col-span-5 p-2 w-full font-bold bg-transparent resize-none focus:outline-none `}
           spellCheck="false"
           type="text"
           value={title}
@@ -42,7 +42,7 @@ export default function Block({ theme, textTheme, hoverTheme }) {
             color: textTheme,
           }}
           onClick={exportToTextFile}
-          className="hover:opacity-60 col-span-2 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold cursor-pointer"
+          className="hover:opacity-60 col-span-3 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold cursor-pointer"
         >
           Download
         </div>

@@ -234,7 +234,7 @@ export default function Page() {
               />
             </div>
 
-            <div className="2xl:w-9/12 lg:w-full py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 ">
+            <div className="2xl:w-9/12 w-full py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 ">
               {tabs.conversor && (
                 <div className={`h-[350px]`}>
                   <Conversor
