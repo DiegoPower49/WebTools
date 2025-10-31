@@ -84,14 +84,47 @@ export default function JWTVerifier({
           <div className="w-1/4">
             <label className="text-sm">Algorithm</label>
             <select
+              style={{ color: textTheme, border: `1px solid ${theme}` }}
               value={verifyAlgorithm}
               onChange={(e) => setVerifyAlgorithm(e.target.value)}
-              className="p-2 rounded bg-gray-800 border border-gray-600 w-full"
+              className="p-2 rounded w-full bg-transparent"
             >
-              <option value="HS256">HS256 (SHA-256)</option>
-              <option value="HS384">HS384 (SHA-384)</option>
-              <option value="HS512">HS512 (SHA-512)</option>
-              <option value="RS256">RS256 (RSA)</option>
+              <option
+                style={{
+                  backgroundColor: "black",
+                  text: hoverTextTheme,
+                }}
+                value="HS256"
+              >
+                HS256 (SHA-256)
+              </option>
+              <option
+                style={{
+                  backgroundColor: "black",
+                  text: hoverTextTheme,
+                }}
+                value="HS384"
+              >
+                HS384 (SHA-384)
+              </option>
+              <option
+                style={{
+                  backgroundColor: "black",
+                  text: hoverTextTheme,
+                }}
+                value="HS512"
+              >
+                HS512 (SHA-512)
+              </option>
+              <option
+                style={{
+                  backgroundColor: "black",
+                  text: hoverTextTheme,
+                }}
+                value="RS256"
+              >
+                RS256 (RSA)
+              </option>
             </select>
           </div>
         </div>

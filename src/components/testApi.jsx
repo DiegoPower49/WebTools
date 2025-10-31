@@ -196,7 +196,7 @@ export default function ApiTester({
               {["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"].map((m) => (
                 <option
                   style={{
-                    backgroundColor: hoverTheme,
+                    backgroundColor: "black",
                     text: hoverTextTheme,
                   }}
                   key={m}
