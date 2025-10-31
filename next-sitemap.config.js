@@ -9,6 +9,5 @@ module.exports = {
   priority: 0.7,
   robotsTxtOptions: {
     policies: [{ userAgent: "*", allow: "/" }],
-    additionalSitemaps: ["https://fasttools.vercel.app/sitemap.xml"],
   },
 };
