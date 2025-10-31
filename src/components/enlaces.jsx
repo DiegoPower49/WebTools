@@ -10,6 +10,7 @@ import {
   IconBrandSkype,
   IconBrandSpeedtest,
   IconBrandWhatsapp,
+  IconDeviceFloppy,
   IconIcons,
   IconPencil,
 } from "@tabler/icons-react";
@@ -242,7 +243,9 @@ export default function Links({
                 }}
                 className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
               >
-                SAVE
+                <div className="flex gap-2 items-center justify-center">
+                  <span>SAVE</span> <IconDeviceFloppy />
+                </div>
               </button>
             </div>
           </div>

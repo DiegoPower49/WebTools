@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/dialog";
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
-import { IconPencil } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
 import { usePageStore } from "@/store/PageStore";
+import { Save } from "lucide-react";
 
 export default function Colors({
   theme,
@@ -216,7 +217,9 @@ export default function Colors({
                   }}
                   className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
                 >
-                  Save
+                  <div className="flex gap-2 items-center justify-center">
+                    <span>SAVE</span> <IconDeviceFloppy />
+                  </div>
                 </button>
               </div>
             </div>

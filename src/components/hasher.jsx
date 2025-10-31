@@ -25,7 +25,7 @@ export default function Hasher({
     <div className="h-full w-full">
       <div
         style={{ border: `2px solid ${theme}`, color: textTheme }}
-        className="w-full h-full bg-black rounded-lg border overflow-hidden"
+        className="w-full h-full  rounded-lg border overflow-hidden"
       >
         <div
           style={{
@@ -71,9 +71,19 @@ export default function Hasher({
         {/* Payload */}
         <div className="p-4">
           {action === "hash" ? (
-            <JWTGenerator theme={theme} textTheme={textTheme} />
+            <JWTGenerator
+              theme={theme}
+              textTheme={textTheme}
+              hoverTheme={hoverTheme}
+              hoverTextTheme={hoverTextTheme}
+            />
           ) : (
-            <JWTVerifier theme={theme} textTheme={textTheme} />
+            <JWTVerifier
+              theme={theme}
+              textTheme={textTheme}
+              hoverTheme={hoverTheme}
+              hoverTextTheme={hoverTextTheme}
+            />
           )}
         </div>
       </div>

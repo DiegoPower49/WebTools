@@ -1,5 +1,7 @@
 "use client";
 
+import { IconDeviceFloppy } from "@tabler/icons-react";
+import { text } from "framer-motion/client";
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -123,7 +125,7 @@ export default function Conversor({
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          className="w-full h-full flex-1 justify-center items-center  border-t-2 border-r-2 border-white"
+          className="w-full h-full flex-1 justify-center items-center "
         >
           <label
             htmlFor="imagen"
@@ -160,8 +162,7 @@ export default function Conversor({
         {webUrl && (
           <div
             style={{
-              backgroundColor: theme,
-              color: textTheme,
+              color: theme,
             }}
             className="p-4 flex flex-col gap-2 h-full"
           >
@@ -219,13 +220,16 @@ export default function Conversor({
                   onMouseEnter={() => setHover(true)}
                   onMouseLeave={() => setHover(false)}
                   style={{
-                    backgroundColor: hover ? theme : hoverTheme,
-                    color: hover ? hoverTextTheme : theme,
+                    backgroundColor: hover ? hoverTheme : theme,
+                    color: hover ? hoverTextTheme : textTheme,
                   }}
                   onClick={() => descargar()}
-                  className="flex text-center active:scale-110 duration-300 border-white border-2 justify-center items-center font-bold text-xl text-white p-2 rounded "
+                  className="flex text-center active:scale-110 duration-300 border-white border-2 justify-center items-center font-bold text-white p-2 rounded "
                 >
-                  CONVERT & DOWNLOAD
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <span>CONVERT & DOWNLOAD</span>{" "}
+                    <IconDeviceFloppy size={20} />
+                  </div>
                 </button>
               </div>
             </div>

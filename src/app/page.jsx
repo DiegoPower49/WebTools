@@ -329,7 +329,38 @@ export default function Page() {
           )}
         </div>
       )}
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          // Estilo general
+          style: {
+            background: "#1e293b", // gris oscuro
+            color: "#f8fafc", // blanco
+            border: `1px solid ${theme}`,
+          },
+          // Éxitos
+          success: {
+            style: {
+              background: "black",
+              color: "white",
+            },
+            iconTheme: {
+              primary: theme,
+              secondary: "#fff",
+            },
+          },
+          // Errores
+          error: {
+            style: {
+              background: "black",
+              color: "red",
+            },
+            iconTheme: {
+              primary: "#b91c1c",
+              secondary: "white",
+            },
+          },
+        }}
+      />
     </>
   );
 }

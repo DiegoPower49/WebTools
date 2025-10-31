@@ -19,7 +19,7 @@ export default function ApiTester({
 }) {
   const [url, setUrl] = useState("http://localhost:");
   const [method, setMethod] = useState("GET");
-  const [headers, setHeaders] = useState("{}");
+  const [headers, setHeaders] = useState("");
   const [body, setBody] = useState("{}");
   const [headersError, setHeadersError] = useState(null);
   const [bodyError, setBodyError] = useState(null);
@@ -172,7 +172,7 @@ export default function ApiTester({
         border: `2px solid ${theme}`,
         color: textTheme,
       }}
-      className="bg-black h-full overflow-hidden flex flex-col items-center justify-start w-full rounded-xl shadow-xl"
+      className=" h-full overflow-hidden flex flex-col items-center justify-start w-full rounded-xl shadow-xl"
     >
       <div
         style={{
@@ -189,19 +189,29 @@ export default function ApiTester({
           <div className="flex w-full gap-4">
             <select
               value={method}
+              style={{ color: textTheme, border: `1px solid ${theme}` }}
               onChange={(e) => setMethod(e.target.value)}
-              className=" rounded h-10 bg-gray-800 border border-gray-700"
+              className=" rounded h-10 bg-transparent"
             >
               {["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"].map((m) => (
-                <option key={m}>{m}</option>
+                <option
+                  style={{
+                    backgroundColor: hoverTheme,
+                    text: hoverTextTheme,
+                  }}
+                  key={m}
+                >
+                  {m}
+                </option>
               ))}
             </select>
             <input
               type="text"
               value={url}
+              style={{ color: textTheme, border: `1px solid ${theme}` }}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="Enter API URL..."
-              className="w-full  h-10 p-2 rounded bg-gray-800 border border-gray-700 focus:border-blue-400 outline-none"
+              className="w-full font-bold bg-transparent h-10 p-2 rounded outline-none"
             />
           </div>
           {/* HEADER */}
@@ -215,12 +225,17 @@ export default function ApiTester({
               <textarea
                 id="header"
                 rows={4}
-                style={{ "--theme": theme }}
+                style={{
+                  color: textTheme,
+                  outlineColor: hoverTheme,
+                  border: `1px solid ${theme}`,
+                  "--theme": theme,
+                }}
                 value={headers}
                 onChange={handleHeadersChange}
-                className={`${
+                className={`bg-transparent ${
                   styles.scrollContainer
-                } p-2 resize-none w-full rounded border font-mono text-sm ${
+                } p-2 resize-none w-full rounded border font-mono text-sm  ${
                   headersError
                     ? "border-red-500 bg-red-900/30"
                     : "border-gray-700 bg-gray-800"
@@ -230,14 +245,16 @@ export default function ApiTester({
 
               {/* Botón Format */}
               <div className="w-full flex justify-between">
-                {headersError && (
-                  <p className="text-red-400 text-xs mt-1 font-mono">
-                    ⚠️ {headersError}
-                  </p>
-                )}
+                <p className="text-red-400 text-xs mt-1 font-mono">
+                  {headersError && `⚠️ ${headersError}`}
+                </p>
                 <button
+                  style={{
+                    color: textTheme,
+                    backgroundColor: theme,
+                  }}
                   onClick={formatHeaders}
-                  className="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600"
+                  className="text-xs font-bold px-2 py-1 rounded bg-gray-700 hover:bg-gray-600"
                 >
                   Format
                 </button>
@@ -255,10 +272,15 @@ export default function ApiTester({
                 id="body"
                 rows={4}
                 value={body}
-                style={{ "--theme": theme }}
+                style={{
+                  color: textTheme,
+                  outlineColor: hoverTheme,
+                  border: `1px solid ${theme}`,
+                  "--theme": theme,
+                }}
                 onChange={handleBodyChange}
                 disabled={method === "GET" || method === "HEAD"}
-                className={`${
+                className={`bg-transparent ${
                   styles.scrollContainer
                 } resize-none  w-full p-2 rounded border font-mono text-sm 
               ${
@@ -270,15 +292,17 @@ export default function ApiTester({
                 placeholder='{"name": "Diego", "age": 25}'
               />
               <div className="w-full flex justify-between">
-                {bodyError && (
-                  <p className="text-red-400 text-xs mt-1 font-mono">
-                    ⚠️ {bodyError}
-                  </p>
-                )}
+                <p className="text-red-400 text-xs mt-1 font-mono">
+                  {bodyError && `⚠️ ${bodyError}`}{" "}
+                </p>
                 <button
+                  style={{
+                    color: textTheme,
+                    backgroundColor: theme,
+                  }}
                   disabled={method === "GET" || method === "HEAD"}
                   onClick={formatBody}
-                  className={`  disabled:opacity-20 text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600`}
+                  className={`font-bold disabled:opacity-20 text-xs px-2 py-1 rounded`}
                 >
                   Format
                 </button>

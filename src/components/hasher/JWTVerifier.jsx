@@ -13,7 +13,12 @@ import * as jose from "jose";
 import styles from "../enlaces.module.css";
 import { DialogClose } from "@radix-ui/react-dialog";
 
-export default function JWTVerifier({ theme, textTheme }) {
+export default function JWTVerifier({
+  theme,
+  textTheme,
+  hoverTheme,
+  hoverTextTheme,
+}) {
   const [verifySecret, setVerifySecret] = useState("");
   const [verifyAlgorithm, setVerifyAlgorithm] = useState("HS256");
   const [verifyToken, setVerifyToken] = useState("");
@@ -69,9 +74,10 @@ export default function JWTVerifier({ theme, textTheme }) {
             <label className="text-sm">Verify JWT</label>
             <input
               type="text"
+              style={{ color: theme, border: `1px solid ${theme}` }}
               value={verifyToken}
               onChange={(e) => setVerifyToken(e.target.value)}
-              className="p-2 rounded bg-gray-800 border border-gray-600 font-mono text-sm w-full"
+              className="p-2 rounded bg-transparent font-mono text-sm w-full"
               placeholder="Paste a JWT token here..."
             />
           </div>
@@ -95,9 +101,10 @@ export default function JWTVerifier({ theme, textTheme }) {
             <label className="text-sm">Secret key</label>
             <input
               type="text"
+              style={{ color: theme, border: `1px solid ${theme}` }}
               value={verifySecret}
               onChange={(e) => setVerifySecret(e.target.value)}
-              className="p-2 rounded bg-gray-800 border border-gray-600 w-full"
+              className="p-2 rounded bg-transparent w-full"
               placeholder="Secret key"
             />
           </>
@@ -122,10 +129,11 @@ export default function JWTVerifier({ theme, textTheme }) {
                   </DialogTitle>
                   <div className="flex flex-col gap-4">
                     <textarea
+                      style={{ border: `1px solid ${theme}`, color: theme }}
                       placeholder={`-----BEGIN PUBLIC KEY-----\n\n\n\n........\n\n\n\n\n\n\n-----END PUBLIC KEY-----`}
                       value={verifyPublicKey}
                       onChange={(e) => setVerifyPublicKey(e.target.value)}
-                      className=" p-2 rounded bg-gray-800 border border-gray-600 font-mono text-xs w-full h-80 resize-none"
+                      className=" p-2 rounded bg-black font-mono text-xs w-full h-80 resize-none"
                     />
                     <DialogClose
                       style={{ backgroundColor: theme, color: textTheme }}

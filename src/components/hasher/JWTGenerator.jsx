@@ -12,7 +12,12 @@ import toast from "react-hot-toast";
 import * as jose from "jose";
 import styles from "../enlaces.module.css";
 
-export default function JWTGenerator({ theme, textTheme }) {
+export default function JWTGenerator({
+  theme,
+  textTheme,
+  hoverTheme,
+  hoverTextTheme,
+}) {
   const [rsa, setRsa] = useState(false);
   const [payload, setPayload] = useState("");
   const [secret, setSecret] = useState("");
@@ -148,12 +153,15 @@ export default function JWTGenerator({ theme, textTheme }) {
       <div className="">
         <textarea
           style={{
+            color: theme,
+            outlineColor: hoverTheme,
+            border: `1px solid ${theme}`,
             "--theme": theme,
           }}
           rows={3}
           value={payload}
           onChange={(e) => setPayload(e.target.value)}
-          className={`p-2 rounded bg-gray-800 border border-gray-600 font-mono text-sm w-full resize-none ${styles.scrollContainer}`}
+          className={`p-2 rounded bg-transparent font-mono text-sm w-full resize-none ${styles.scrollContainer}`}
           placeholder='{"name": "Diego", "age": 32}'
         />
         <div className="flex gap-2 justify-between items-center">
@@ -161,13 +169,46 @@ export default function JWTGenerator({ theme, textTheme }) {
             <label className="text-sm md:text-sm">Algorithm:</label>
             <select
               value={algorithm}
+              style={{ color: textTheme, border: `1px solid ${theme}` }}
               onChange={(e) => setAlgorithm(e.target.value)}
-              className="p-2 rounded bg-gray-800 border border-gray-600 w-full"
+              className="p-2 rounded w-full bg-transparent"
             >
-              <option value="HS256">HS256 (SHA-256)</option>
-              <option value="HS384">HS384 (SHA-384)</option>
-              <option value="HS512">HS512 (SHA-512)</option>
-              <option value="RS256">RS256 (RSA)</option>
+              <option
+                style={{
+                  backgroundColor: hoverTheme,
+                  text: hoverTextTheme,
+                }}
+                value="HS256"
+              >
+                HS256 (SHA-256)
+              </option>
+              <option
+                style={{
+                  backgroundColor: hoverTheme,
+                  text: hoverTextTheme,
+                }}
+                value="HS384"
+              >
+                HS384 (SHA-384)
+              </option>
+              <option
+                style={{
+                  backgroundColor: hoverTheme,
+                  text: hoverTextTheme,
+                }}
+                value="HS512"
+              >
+                HS512 (SHA-512)
+              </option>
+              <option
+                style={{
+                  backgroundColor: hoverTheme,
+                  text: hoverTextTheme,
+                }}
+                value="RS256"
+              >
+                RS256 (RSA)
+              </option>
             </select>
           </div>
           <div className="flex gap-2">
@@ -182,10 +223,11 @@ export default function JWTGenerator({ theme, textTheme }) {
             <input
               type="number"
               min={0}
+              style={{ color: theme, border: `1px solid ${theme}` }}
               disabled={!expiration}
               value={expiryMinutes}
               onChange={(e) => setExpiryMinutes(e.target.value)}
-              className="disabled:opacity-40 p-1 w-12 rounded bg-gray-800 border border-gray-600 text-sm"
+              className="disabled:opacity-40 p-1 w-12 rounded bg-transparent text-sm"
             />
             <span className="text-xs text-gray-400">({expiryMinutes} min)</span>
           </div>
@@ -198,8 +240,14 @@ export default function JWTGenerator({ theme, textTheme }) {
           <input
             type="text"
             value={secret}
+            style={{
+              color: theme,
+
+              border: `1px solid ${theme}`,
+              "--theme": theme,
+            }}
             onChange={(e) => setSecret(e.target.value)}
-            className="p-2 rounded bg-gray-800 border border-gray-600 w-full"
+            className="p-2 rounded bg-transparent w-full"
             placeholder="Secret for HS algorithms"
           />
         </div>
@@ -237,7 +285,7 @@ export default function JWTGenerator({ theme, textTheme }) {
               border: `1px solid ${theme}`,
               color: theme,
             }}
-            className={`bg-black/50 p-2 w-full h-12 items-center rounded overflow-auto text-xs break-all ${styles.scrollContainer}`}
+            className={`bg-black font-bold p-2 w-full h-12 items-center rounded overflow-auto text-xs break-all ${styles.scrollContainer}`}
           >
             {token && <span>{token}</span>}
           </pre>
@@ -279,10 +327,11 @@ export default function JWTGenerator({ theme, textTheme }) {
             <div className="w-full     flex gap-2">
               <div className="w-full h-full flex flex-col gap-4">
                 <textarea
+                  style={{ border: `1px solid ${theme}`, color: textTheme }}
                   value={publicKey}
                   placeholder="Public Key (SPKI)"
                   onChange={(e) => setPublicKey(e.target.value)}
-                  className="p-2 rounded bg-gray-800 border border-gray-600 w-full font-mono text-xs resize-none 2xl:h-96 h-72"
+                  className="p-2 rounded bg-black w-full font-mono text-xs resize-none 2xl:h-96 h-72"
                 />
                 <div className="w-full flex items-center justify-center">
                   <button
@@ -296,10 +345,11 @@ export default function JWTGenerator({ theme, textTheme }) {
               </div>
               <div className="w-full h-full flex flex-col gap-4">
                 <textarea
+                  style={{ border: `1px solid ${theme}`, color: textTheme }}
                   placeholder="Private Key (PKCS8)"
                   value={privateKey}
                   onChange={(e) => setPrivateKey(e.target.value)}
-                  className="p-2 rounded bg-gray-800 border border-gray-600 w-full font-mono text-xs resize-none 2xl:h-96 h-72"
+                  className="p-2 rounded bg-black w-full font-mono text-xs resize-none 2xl:h-96 h-72"
                 />
                 <div className="w-full flex items-center justify-center">
                   <button
