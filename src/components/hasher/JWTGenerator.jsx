@@ -184,7 +184,7 @@ export default function JWTGenerator({
               </option>
               <option
                 style={{
-                  backgroundColor: hoverTheme,
+                  backgroundColor: "black",
                   text: hoverTextTheme,
                 }}
                 value="HS384"
@@ -193,7 +193,7 @@ export default function JWTGenerator({
               </option>
               <option
                 style={{
-                  backgroundColor: hoverTheme,
+                  backgroundColor: "black",
                   text: hoverTextTheme,
                 }}
                 value="HS512"
@@ -202,7 +202,7 @@ export default function JWTGenerator({
               </option>
               <option
                 style={{
-                  backgroundColor: hoverTheme,
+                  backgroundColor: "black",
                   text: hoverTextTheme,
                 }}
                 value="RS256"
