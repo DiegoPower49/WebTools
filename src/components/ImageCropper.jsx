@@ -88,7 +88,7 @@ export default function ImageCropper({
         }}
         className=" h-14 items-center justify-center flex w-full"
       >
-        <h1 className="text-xl font-bold text-center">CONVERT IMAGE</h1>
+        <h1 className="text-xl font-bold text-center">IMAGE CROPPER</h1>
       </div>
       <input {...getInputProps()} id="ImageToCrop" className="hidden" />
 
@@ -120,23 +120,37 @@ export default function ImageCropper({
               onChange={setCrop}
               keepSelection={true}
             >
-              <img ref={imgRef} src={image} alt="to crop" />
+              <img
+                style={{ border: `2px solid ${theme}` }}
+                ref={imgRef}
+                src={image}
+                alt="to crop"
+              />
             </ReactCrop>
           </div>
 
           <div className="col-span-1 flex flex-col gap-4 items-center">
+            <div style={{ color: theme }} className="font-bold text-xl">
+              FORMAT:
+            </div>
             <Select value={format} onValueChange={setFormat}>
-              <SelectTrigger className="w-[120px]">
+              <SelectTrigger style={{ color: theme }} className="w-[120px]">
                 <SelectValue placeholder="Format" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent style={{ color: theme, backgroundColor: "black" }}>
                 <SelectItem value="png">PNG</SelectItem>
                 <SelectItem value="jpeg">JPG</SelectItem>
                 <SelectItem value="webp">WEBP</SelectItem>
               </SelectContent>
             </Select>
 
-            <Button onClick={downloadCroppedImage}>Download</Button>
+            <Button
+              style={{ backgroundColor: theme, color: textTheme }}
+              onClick={downloadCroppedImage}
+              className="hover:opacity-80"
+            >
+              Download
+            </Button>
           </div>
         </div>
       )}

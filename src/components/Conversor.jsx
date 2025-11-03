@@ -4,7 +4,14 @@ import { IconDeviceFloppy } from "@tabler/icons-react";
 import { text } from "framer-motion/client";
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "./ui/input";
 export default function Conversor({
   theme,
   textTheme,
@@ -134,7 +141,12 @@ export default function Conversor({
             {preview ? (
               <>
                 <div className="w-full h-full flex justify-center items-center p-4">
-                  <img src={preview} alt="Vista previa" className="max-h-48 " />
+                  <img
+                    style={{ border: `2px solid ${theme}` }}
+                    src={preview}
+                    alt="Vista previa"
+                    className="max-h-48"
+                  />
                 </div>
                 <div className="w-full h-full flex items-center justify-center">
                   <p className=" h-full flex justify-center items-center">
@@ -165,27 +177,32 @@ export default function Conversor({
             <div className="flex h-full gap-2 flex-col py-2 ">
               <div className="w-full flex flex-col justify-center">
                 <p className="text-xl font-bold">FORMAT:</p>
-                <select
-                  value={format}
-                  onChange={(e) => setFormat(e.target.value)}
-                  className=" h-fit p-1 border rounded text-black"
-                >
-                  <option value="webp">WEBP</option>
-                  <option value="jpeg">JPEG</option>
-                  <option value="png">PNG</option>
-                  <option value="bmp">BMP</option>
-                  <option value="avif">AVIF</option>
-                </select>
+                <Select value={format} onValueChange={setFormat}>
+                  <SelectTrigger className="w-[120px]">
+                    <SelectValue placeholder="Format" />
+                  </SelectTrigger>
+                  <SelectContent
+                    style={{ color: theme, backgroundColor: "black" }}
+                  >
+                    <SelectItem value="webp">WEBP</SelectItem>
+                    <SelectItem value="jpeg">JPEG</SelectItem>
+                    <SelectItem value="png">PNG</SelectItem>
+                    <SelectItem value="bmp">BMP</SelectItem>
+                    <SelectItem value="avif">AVIF</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex flex-col">
                 <p className="text-xl font-bold">RESOLUTION:</p>
                 <div className="flex w-full gap-2 text-black text-center">
-                  <input
+                  <Input
                     name="width"
-                    type="number"
-                    className="w-full text-center p-1 rounded"
+                    type="text"
+                    style={{ color: theme }}
+                    className="w-full text-center p-0 rounded"
                     value={width}
                     onChange={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9.]/g, "");
                       const val = e.target.value;
                       setWidth(val);
                       if (val && aspectRatio) {
@@ -194,12 +211,14 @@ export default function Conversor({
                     }}
                   />
                   <div className="text-white h-full flex items-center">X</div>
-                  <input
+                  <Input
                     name="height"
-                    type="number"
-                    className="w-full text-center p-1 rounded"
+                    type="text"
+                    style={{ color: theme }}
+                    className="w-full text-center p-0 rounded"
                     value={height}
                     onChange={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9.]/g, "");
                       const val = e.target.value;
                       setHeight(val);
                       if (val && aspectRatio) {
@@ -216,11 +235,11 @@ export default function Conversor({
                   onMouseEnter={() => setHover(true)}
                   onMouseLeave={() => setHover(false)}
                   style={{
-                    backgroundColor: hover ? hoverTheme : theme,
-                    color: hover ? hoverTextTheme : textTheme,
+                    backgroundColor: theme,
+                    color: textTheme,
                   }}
                   onClick={() => descargar()}
-                  className="flex text-center active:scale-110 duration-300 border-white border-2 justify-center items-center font-bold text-white p-2 rounded "
+                  className="flex text-center active:scale-110 border-white border-2 justify-center items-center font-bold text-white p-2 rounded hover:opacity-70"
                 >
                   <div className="flex flex-col gap-2 items-center justify-center">
                     <span>CONVERT & DOWNLOAD</span>{" "}
