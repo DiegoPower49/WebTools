@@ -138,9 +138,9 @@ export default function Conversor({
         <div
           onClick={() => reset()}
           style={{ backgroundColor: hoverTheme, color: hoverTextTheme }}
-          className="md:col-start-6 md:col-end-7 flex justify-center items-center gap-4 p-2 rounded m-4 hover:opacity-80"
+          className="md:col-start-6 font-bold md:col-end-7 flex justify-center items-center gap-4 p-2 rounded m-4 hover:opacity-80"
         >
-          clear
+          CLEAR
         </div>
       </div>
 
