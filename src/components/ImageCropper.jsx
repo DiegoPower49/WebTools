@@ -23,6 +23,13 @@ export default function ImageCropper({
   const [format, setFormat] = useState("png");
   const imgRef = useRef(null);
 
+  const reset = () => {
+    setImage(null);
+    setCrop({ unit: "%", width: 50, height: 50 });
+    setFormat("png");
+    imgRef.current = null;
+  };
+
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
     if (file) {
@@ -86,9 +93,18 @@ export default function ImageCropper({
           backgroundColor: theme,
           color: textTheme,
         }}
-        className=" h-14 items-center justify-center flex w-full"
+        className={`relative  h-14 items-center justify-center md:grid grid-cols-6 md:grid-rows-1 flex w-full`}
       >
-        <h1 className="text-xl font-bold text-center">IMAGE CROPPER</h1>
+        <div className="md:col-start-1 md:col-end-5 text-xl  w-full font-bold uppercase flex justify-center items-center">
+          CONVERT IMAGE
+        </div>
+        <div
+          onClick={() => reset()}
+          style={{ backgroundColor: hoverTheme, color: hoverTextTheme }}
+          className="md:col-start-6 md:col-end-7 flex justify-center items-center gap-4 p-2 rounded m-4 hover:opacity-80"
+        >
+          clear
+        </div>
       </div>
       <input {...getInputProps()} id="ImageToCrop" className="hidden" />
 

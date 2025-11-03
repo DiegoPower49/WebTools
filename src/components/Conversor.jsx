@@ -29,6 +29,17 @@ export default function Conversor({
   const [aspectRatio, setAspectRatio] = useState(null);
   const [originalImage, setOriginalImage] = useState(null);
 
+  const reset = () => {
+    setPreview(null);
+    setWebpUrl(null);
+    setFilename("");
+    setFormat("webp");
+    setHeight("");
+    setWidth("");
+    setAspectRatio(null);
+    setOriginalImage(null);
+  };
+
   const handleImage = (file) => {
     if (!file || !file.type.startsWith("image/")) return;
 
@@ -119,9 +130,18 @@ export default function Conversor({
           backgroundColor: theme,
           color: textTheme,
         }}
-        className=" h-14 items-center justify-center flex w-full"
+        className={`relative  h-14 items-center justify-center md:grid grid-cols-6 md:grid-rows-1 flex w-full`}
       >
-        <h1 className="text-xl font-bold text-center">CONVERT IMAGE</h1>
+        <div className="md:col-start-1 md:col-end-5 text-xl  w-full font-bold uppercase flex justify-center items-center">
+          CONVERT IMAGE
+        </div>
+        <div
+          onClick={() => reset()}
+          style={{ backgroundColor: hoverTheme, color: hoverTextTheme }}
+          className="md:col-start-6 md:col-end-7 flex justify-center items-center gap-4 p-2 rounded m-4 hover:opacity-80"
+        >
+          clear
+        </div>
       </div>
 
       <div
@@ -239,10 +259,10 @@ export default function Conversor({
                     color: textTheme,
                   }}
                   onClick={() => descargar()}
-                  className="flex text-center active:scale-110 border-white border-2 justify-center items-center font-bold text-white p-2 rounded hover:opacity-70"
+                  className="flex text-center w-full active:scale-110 border-white border-2 justify-center items-center font-bold text-white p-2 rounded hover:opacity-70"
                 >
                   <div className="flex flex-col gap-2 items-center justify-center">
-                    <span>CONVERT & DOWNLOAD</span>{" "}
+                    <span>DOWNLOAD</span>
                     <IconDeviceFloppy size={20} />
                   </div>
                 </button>
