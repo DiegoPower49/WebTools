@@ -105,7 +105,7 @@ export default function Conversor({
   return (
     <div
       style={{ border: `2px solid ${theme}` }}
-      className={`h-full border- rounded-xl overflow-hidden`}
+      className={`h-full  rounded-xl overflow-hidden`}
     >
       <div
         style={{
@@ -129,16 +129,12 @@ export default function Conversor({
         >
           <label
             htmlFor="imagen"
-            className="h-full w-full grid gap-4 items-center grid-rows-[5fr_1fr] justify-center"
+            className="h-full cursor-pointer w-full grid gap-4 items-center grid-rows-[5fr_1fr] justify-center"
           >
             {preview ? (
               <>
                 <div className="w-full h-full flex justify-center items-center p-4">
-                  <img
-                    src={preview}
-                    alt="Vista previa"
-                    className="max-h-48 object-contain border rounded"
-                  />
+                  <img src={preview} alt="Vista previa" className="max-h-48 " />
                 </div>
                 <div className="w-full h-full flex items-center justify-center">
                   <p className=" h-full flex justify-center items-center">

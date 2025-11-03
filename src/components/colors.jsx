@@ -11,7 +11,6 @@ import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
 import { usePageStore } from "@/store/PageStore";
-import { Save } from "lucide-react";
 
 export default function Colors({
   theme,

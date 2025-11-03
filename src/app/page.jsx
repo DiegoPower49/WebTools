@@ -1,17 +1,28 @@
 "use client";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   IconApi,
   IconBrush,
   IconCalculator,
+  IconCrop,
+  IconDoor,
   IconHash,
   IconLayoutNavbar,
   IconLink,
   IconNote,
   IconPhotoEdit,
   IconRocket,
-  IconShield,
+  IconScissors,
   IconVideoPlus,
 } from "@tabler/icons-react";
 import { usePageStore } from "@/store/PageStore";
@@ -24,11 +35,13 @@ import Colors from "@/components/colors";
 import ApiTester from "@/components/testApi";
 import Hasher from "@/components/hasher";
 import Image from "next/image";
-import { Icon } from "lucide-react";
+import AuthenticateForm from "@/components/authenticateForm";
+import ImageCropper from "@/components/ImageCropper";
 
 export default function Page() {
   const { tabs, setTabs, colors } = usePageStore();
   const [theme, setTheme] = useState();
+  const [authenticate, setAuthenticate] = useState(false);
   const [hoverTheme, setHoverTheme] = useState();
   const [textTheme, setTextTheme] = useState();
   const [hoverTextTheme, setHoverTextTheme] = useState();
@@ -70,19 +83,41 @@ export default function Page() {
             process.env.NODE_ENV === "development" ? "debug-screens" : ""
           }`}
         >
-          <div
-            style={{
-              backgroundColor: theme,
-              color: textTheme,
-            }}
-            className={`font-bold flex text-4xl gap-2 h-16 justify-center items-center text-center ${
-              !tabs.header && "hidden"
-            }`}
-          >
-            FAST TOOLS <IconRocket size={50} />
-          </div>
+          <AnimatePresence mode="popLayout">
+            {tabs.header && (
+              <motion.div
+                key="header"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  layout: { type: "spring", stiffness: 300, damping: 25 },
+                  duration: 0.4,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  backgroundColor: theme,
+                  color: textTheme,
+                }}
+                className={`font-bold w-screen grid grid-cols-3 gap-4 text-4xl h-16 justify-center items-center text-center`}
+              >
+                <div></div>
+                <div className="flex gap-2 items-center justify-center">
+                  FAST TOOLS <IconRocket size={50} />
+                </div>
+                <div
+                  onClick={() => {
+                    setAuthenticate(true);
+                  }}
+                  className="flex justify-end pr-12"
+                >
+                  <IconDoor size={40} />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <div className="w-screen bg-black py-2  flex justify-center items-center gap-2">
-            <div className="grid grid-cols-5 sm:grid-cols-9 h-full justify-center items-center gap-2">
+            <div className="grid grid-cols-5 sm:grid-cols-10 h-full justify-center items-center gap-2">
               <button
                 aria-label="Show Header"
                 style={{
@@ -219,6 +254,20 @@ export default function Page() {
               >
                 <IconHash size={40} />
               </button>
+              <button
+                aria-label="Show Image Editor"
+                style={{
+                  backgroundColor: !tabs.editor ? theme : hoverTheme,
+                  color: !tabs.editor ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.editor && `0px 0px 5px 1px ${theme}`,
+                }}
+                className={`h-14 w-14 p-2 rounded `}
+                onClick={() => {
+                  setTabs("editor");
+                }}
+              >
+                <IconCrop size={40} />
+              </button>
             </div>
           </div>
           <div className="relative w-full flex-1 flex flex-col justify-center items-center">
@@ -234,101 +283,256 @@ export default function Page() {
               />
             </div>
 
-            <div className="2xl:w-9/12 w-full py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 ">
-              {tabs.conversor && (
-                <div className={`h-[350px]`}>
-                  <Conversor
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </div>
-              )}
-              {tabs.recorder && (
-                <div className={`h-[350px]`}>
-                  <Recorder
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </div>
-              )}
-              {tabs.notes && (
-                <div className={`h-[350px]`}>
-                  <Block
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </div>
-              )}
-              {tabs.calculator && (
-                <div className={`h-[350px]`}>
-                  <Calculator
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </div>
-              )}
-              {tabs.links && (
-                <div className={`h-[350px]`}>
-                  <Links
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </div>
-              )}
-              {tabs.colors && (
-                <div className={`h-[350px]`}>
-                  <Colors
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </div>
-              )}
-              {tabs.apiTester && (
-                <div className={`h-[500px]`}>
-                  <ApiTester
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </div>
-              )}
-              {tabs.jwt && (
-                <div className={`h-[500px] `}>
-                  <Hasher
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-          {tabs.header && (
-            <div
-              style={{ color: textTheme, background: theme }}
-              className="flex font-bold justify-center items-center "
+            <motion.div
+              layout
+              className="2xl:w-9/12 w-full py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 "
             >
-              <a href="https://diegotorres-portfoliodev.vercel.app">
-                Web created by: Diego Torres
-              </a>
-            </div>
-          )}
+              <AnimatePresence mode="popLayout">
+                {tabs.conversor && (
+                  <motion.div
+                    key="conversor"
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[350px]`}
+                  >
+                    <Conversor
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+
+                {tabs.recorder && (
+                  <motion.div
+                    key="recorder"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[350px]`}
+                  >
+                    <Recorder
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+
+                {tabs.notes && (
+                  <motion.div
+                    key="notes"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[350px]`}
+                  >
+                    <Block
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+
+                {tabs.calculator && (
+                  <motion.div
+                    key="calculator"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[350px]`}
+                  >
+                    <Calculator
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+
+                {tabs.links && (
+                  <motion.div
+                    key="links"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[350px]`}
+                  >
+                    <Links
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+
+                {tabs.colors && (
+                  <motion.div
+                    key="colors"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[350px]`}
+                  >
+                    <Colors
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+
+                {tabs.apiTester && (
+                  <motion.div
+                    key="apitester"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[500px]`}
+                  >
+                    <ApiTester
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+
+                {tabs.jwt && (
+                  <motion.div
+                    key="jwt"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[500px] `}
+                  >
+                    <Hasher
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+                {tabs.editor && (
+                  <motion.div
+                    key="editor"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[350px]`}
+                  >
+                    <ImageCropper
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+          <AnimatePresence mode="popLayout">
+            {tabs.header && (
+              <motion.div
+                key="footer"
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 0.4,
+                  ease: "easeInOut",
+                }}
+                style={{ color: theme, background: "black" }}
+                className="flex font-bold justify-end items-center pr-20"
+              >
+                <a href="https://diegotorres-portfoliodev.vercel.app">
+                  Web created by: Diego Torres
+                </a>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
+      <Dialog onOpenChange={setAuthenticate} open={authenticate}>
+        <DialogContent
+          style={{ color: theme, border: `1px solid ${theme}` }}
+          className="bg-black flex flex-col w-full justify-center items-center"
+        >
+          <DialogHeader>
+            <DialogTitle className="text-center">
+              Si, puedes guardar tus datos
+            </DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+          <AuthenticateForm />
+        </DialogContent>
+      </Dialog>
       <Toaster
         toastOptions={{
           // Estilo general
