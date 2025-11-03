@@ -96,7 +96,7 @@ export default function ImageCropper({
         className={`relative  h-14 items-center justify-center md:grid grid-cols-6 md:grid-rows-1 flex w-full`}
       >
         <div className="md:col-start-1 md:col-end-5 text-xl  w-full font-bold uppercase flex justify-center items-center">
-          CONVERT IMAGE
+          IMAGE CROPPER
         </div>
         <div
           onClick={() => reset()}
