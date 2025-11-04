@@ -28,12 +28,19 @@ export default function QRGenerator({
     if (!file) return;
 
     const preview = URL.createObjectURL(file);
-    const img = new Image();
-    img.src = preview;
-    img.onload = () => {
-      logoImgRef.current = img;
-      setLogo({ file, preview });
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result; // ✅ data:image/png;base64,AAAB...
+      const img = new Image();
+      img.src = base64;
+      img.onload = () => {
+        logoImgRef.current = img;
+        setLogo({ file, preview, base64 });
+      };
     };
+
+    reader.readAsDataURL(file); // ✅ convierte en base64
   };
 
   const generatePNG = async () => {
@@ -60,15 +67,19 @@ export default function QRGenerator({
     await new Promise((res) => (img.onload = res));
     ctx.drawImage(img, 0, 0, size, size);
 
-    if (logoImgRef.current) {
+    if (logo?.base64) {
       const logoPx = (size * logoSize) / 100;
-      ctx.drawImage(
-        logoImgRef.current,
-        (size - logoPx) / 2,
-        (size - logoPx) / 2,
-        logoPx,
-        logoPx
-      );
+      const padding = logoPx * 0.08;
+      const bgSize = logoPx + padding * 2;
+      const pos = (size - bgSize) / 2;
+
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(pos, pos, bgSize, bgSize);
+      ctx.roundRect?.(pos, pos, bgSize, bgSize, 6);
+      ctx.fill();
+      img.src = logo.base64;
+      await new Promise((res) => (img.onload = res));
+      ctx.drawImage(img, pos + padding, pos + padding, logoPx, logoPx);
     }
   };
 
@@ -90,21 +101,41 @@ export default function QRGenerator({
         background: bgColor,
         ecl: "H",
       }).svg();
+
       if (logo) {
         const logoPx = (size * logoSize) / 100;
-        const logoX = (size - logoPx) / 2;
-        const logoY = (size - logoPx) / 2;
-        setSvgData(
-          svg.replace(
-            "</svg>",
-            `<image href="${logo.preview}" width="${logoPx}" height="${logoPx}" x="${logoX}" y="${logoY}" /> </svg>`
-          )
+        const bgPadding = logoPx * 0.08;
+        const bgSize = logoPx + bgPadding * 2;
+        const bgX = (size - bgSize) / 2;
+        const bgY = (size - bgSize) / 2;
+
+        const patchedSVG = svg.replace(
+          /<\/svg>\s*$/i,
+          `
+        <rect 
+          x="${bgX}" 
+          y="${bgY}" 
+          width="${bgSize}" 
+          height="${bgSize}" 
+          rx="8" 
+          fill="${bgColor}"
+        />
+        <image 
+          href="${logo.base64}"
+          width="${logoPx}" 
+          height="${logoPx}" 
+          x="${bgX + bgPadding}" 
+          y="${bgY + bgPadding}" 
+        />
+      </svg>`
         );
+
+        setSvgData(patchedSVG);
       } else {
         setSvgData(svg);
       }
     } catch {
-      console.log("No puedes incluir numeros menores que cero");
+      console.log("No puedes incluir números menores que cero");
     }
   };
 
