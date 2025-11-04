@@ -5,6 +5,7 @@ import QRSVG from "qrcode-svg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
+import { color } from "framer-motion";
 
 export default function QRGenerator({
   theme,
@@ -13,7 +14,7 @@ export default function QRGenerator({
   hoverTextTheme,
 }) {
   const canvasRef = useRef(null);
-  const [text, setText] = useState(" ");
+  const [text, setText] = useState("");
   const [size, setSize] = useState(512);
   const [fgColor, setFgColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");
@@ -22,6 +23,17 @@ export default function QRGenerator({
   const [logoSize, setLogoSize] = useState(20); // % del tamaño del QR
   const [svgData, setSvgData] = useState(null);
   const logoImgRef = useRef(null);
+
+  const reset = () => {
+    setText(" ");
+    setSize(512);
+    setFgColor("#000000");
+    setBgColor("#ffffff");
+    setLogo(null);
+    setLogoSize(20);
+    setSvgData(null);
+    logoImgRef.current = null;
+  };
 
   const handleLogoUpload = (e) => {
     const file = e.target.files?.[0];
@@ -44,42 +56,46 @@ export default function QRGenerator({
   };
 
   const generatePNG = async () => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    canvas.width = size;
-    canvas.height = size;
-
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, size, size);
-
-    const dataUrl = await QRCode.toDataURL(text, {
-      width: size,
-      margin: 1,
-      errorCorrectionLevel: "H",
-      color: {
-        dark: fgColor,
-        light: bgColor,
-      },
-    });
-
-    const img = new Image();
-    img.src = dataUrl;
-    await new Promise((res) => (img.onload = res));
-    ctx.drawImage(img, 0, 0, size, size);
-
-    if (logo?.base64) {
-      const logoPx = (size * logoSize) / 100;
-      const padding = logoPx * 0.08;
-      const bgSize = logoPx + padding * 2;
-      const pos = (size - bgSize) / 2;
+    try {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      canvas.width = size;
+      canvas.height = size;
 
       ctx.fillStyle = bgColor;
-      ctx.fillRect(pos, pos, bgSize, bgSize);
-      ctx.roundRect?.(pos, pos, bgSize, bgSize, 6);
-      ctx.fill();
-      img.src = logo.base64;
+      ctx.fillRect(0, 0, size, size);
+
+      const dataUrl = await QRCode.toDataURL(text, {
+        width: size,
+        margin: 1,
+        errorCorrectionLevel: "H",
+        color: {
+          dark: fgColor,
+          light: bgColor,
+        },
+      });
+
+      const img = new Image();
+      img.src = dataUrl;
       await new Promise((res) => (img.onload = res));
-      ctx.drawImage(img, pos + padding, pos + padding, logoPx, logoPx);
+      ctx.drawImage(img, 0, 0, size, size);
+
+      if (logo?.base64) {
+        const logoPx = (size * logoSize) / 100;
+        const padding = logoPx * 0.08;
+        const bgSize = logoPx + padding * 2;
+        const pos = (size - bgSize) / 2;
+
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(pos, pos, bgSize, bgSize);
+        ctx.roundRect?.(pos, pos, bgSize, bgSize, 6);
+        ctx.fill();
+        img.src = logo.base64;
+        await new Promise((res) => (img.onload = res));
+        ctx.drawImage(img, pos + padding, pos + padding, logoPx, logoPx);
+      }
+    } catch {
+      console.log("Text or URL is required");
     }
   };
 
@@ -135,7 +151,7 @@ export default function QRGenerator({
         setSvgData(svg);
       }
     } catch {
-      console.log("No puedes incluir números menores que cero");
+      console.log("Incorrect values");
     }
   };
 
@@ -165,14 +181,28 @@ export default function QRGenerator({
           backgroundColor: theme,
           color: textTheme,
         }}
-        className="h-14 items-center justify-center flex w-full"
+        className={`relative  h-14 items-center justify-center md:grid grid-cols-6 md:grid-rows-1 flex w-full`}
       >
-        <div className="text-xl font-bold uppercase">QR GENERATOR</div>
+        <div className="md:col-start-1 md:col-end-5 text-xl  w-full font-bold uppercase flex justify-center items-center">
+          QR GENERATOR
+        </div>
+        <div
+          onClick={() => reset()}
+          style={{ backgroundColor: hoverTheme, color: hoverTextTheme }}
+          className="md:col-start-6 font-bold md:col-end-7 flex justify-center items-center gap-4 p-2 rounded m-4 hover:opacity-80"
+        >
+          CLEAR
+        </div>
       </div>
       <div className="grid grid-cols-2 grid-rows-[6fr_1fr] md:grid-rows-[3fr_1fr] w-full h-full items-center justify-center gap-2">
         <div className="flex flex-col md:p-2 gap-2 md:gap-4 items-center justify-center h-full w-full">
           <label className="font-bold">Text or URL</label>
           <Input
+            style={{
+              color: theme,
+              border: `1px solid ${theme}`,
+              placeholder: hoverTextTheme,
+            }}
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="https://fasttools.vercel.app"
@@ -182,6 +212,10 @@ export default function QRGenerator({
               <label className="text-sm md:block hidden">Size (px):</label>
               <Input
                 type="text"
+                style={{
+                  color: theme,
+                  border: `1px solid ${theme}`,
+                }}
                 value={size}
                 onChange={(e) => {
                   const sanitized = e.target.value.replace(/[^0-9]/g, "");
@@ -224,10 +258,20 @@ export default function QRGenerator({
                   {logo ? (
                     <img
                       src={logo.preview}
+                      style={{
+                        color: theme,
+                        border: `1px solid ${theme}`,
+                      }}
                       className="w-12 h-12 rounded border object-cover"
                     />
                   ) : (
-                    <div className="h-12 w-12 flex justify-center items-center p-4 text-xs border-2 rounded">
+                    <div
+                      style={{
+                        color: theme,
+                        border: `1px solid ${theme}`,
+                      }}
+                      className="h-12 w-12 flex justify-center items-center p-4 text-xs border-2 rounded"
+                    >
                       LOGO
                     </div>
                   )}
