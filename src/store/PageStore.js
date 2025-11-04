@@ -84,6 +84,7 @@ export const pageStore = createStore(
         apiTester: false,
         jwt: false,
         editor: false,
+        qr: false,
       },
       setText: (text) => set({ text: text }),
       setTitle: (title) => set({ title: title }),

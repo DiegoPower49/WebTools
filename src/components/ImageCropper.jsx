@@ -128,10 +128,10 @@ export default function ImageCropper({
           </div>
         </div>
       ) : (
-        <div className="h-full grid grid-cols-4 grid-rows-[5fr_1fr] items-center justify-center gap-4 w-full">
-          <div className="col-span-3 w-full h-full flex justify-center items-center p-4">
+        <div className="h-full grid md:grid-cols-4 grid-cols-1 grid-rows-[2fr_1fr_1fr] md:grid-rows-[5fr_1fr] items-center justify-center md:gap-4 w-full">
+          <div className="md:col-span-3 w-full md:h-full flex justify-center items-start md:items-center p-4">
             <ReactCrop
-              className="max-h-64 object-contain border rounded"
+              className="max-h-40 md:max-h-64 object-contain border rounded"
               crop={crop}
               onChange={setCrop}
               keepSelection={true}
@@ -145,28 +145,32 @@ export default function ImageCropper({
             </ReactCrop>
           </div>
 
-          <div className="col-span-1 flex flex-col gap-4 items-center">
+          <div className="md:col-span-1 flex flex-col gap-4 items-center">
             <div style={{ color: theme }} className="font-bold text-xl">
               FORMAT:
             </div>
-            <Select value={format} onValueChange={setFormat}>
-              <SelectTrigger style={{ color: theme }} className="w-[120px]">
-                <SelectValue placeholder="Format" />
-              </SelectTrigger>
-              <SelectContent style={{ color: theme, backgroundColor: "black" }}>
-                <SelectItem value="png">PNG</SelectItem>
-                <SelectItem value="jpeg">JPG</SelectItem>
-                <SelectItem value="webp">WEBP</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex md:flex-col gap-4">
+              <Select value={format} onValueChange={setFormat}>
+                <SelectTrigger style={{ color: theme }} className="w-[120px]">
+                  <SelectValue placeholder="Format" />
+                </SelectTrigger>
+                <SelectContent
+                  style={{ color: theme, backgroundColor: "black" }}
+                >
+                  <SelectItem value="png">PNG</SelectItem>
+                  <SelectItem value="jpeg">JPG</SelectItem>
+                  <SelectItem value="webp">WEBP</SelectItem>
+                </SelectContent>
+              </Select>
 
-            <Button
-              style={{ backgroundColor: theme, color: textTheme }}
-              onClick={downloadCroppedImage}
-              className="hover:opacity-80"
-            >
-              Download
-            </Button>
+              <Button
+                style={{ backgroundColor: theme, color: textTheme }}
+                onClick={downloadCroppedImage}
+                className="hover:opacity-80"
+              >
+                Download
+              </Button>
+            </div>
           </div>
         </div>
       )}

@@ -21,6 +21,7 @@ import {
   IconLink,
   IconNote,
   IconPhotoEdit,
+  IconQrcode,
   IconRocket,
   IconScissors,
   IconVideoPlus,
@@ -37,6 +38,7 @@ import Hasher from "@/components/hasher";
 import Image from "next/image";
 import AuthenticateForm from "@/components/authenticateForm";
 import ImageCropper from "@/components/ImageCropper";
+import QRGenerator from "@/components/QRGenerator";
 
 export default function Page() {
   const { tabs, setTabs, colors } = usePageStore();
@@ -117,7 +119,7 @@ export default function Page() {
             )}
           </AnimatePresence>
           <div className="w-screen bg-black py-2  flex justify-center items-center gap-2">
-            <div className="grid grid-cols-5 sm:grid-cols-10 h-full justify-center items-center gap-2">
+            <div className="grid grid-cols-5 sm:grid-cols-11 h-full justify-center items-center gap-2">
               <button
                 aria-label="Show Header"
                 style={{
@@ -268,6 +270,20 @@ export default function Page() {
               >
                 <IconCrop size={40} />
               </button>
+              <button
+                aria-label="Show QR Generator"
+                style={{
+                  backgroundColor: !tabs.qr ? theme : hoverTheme,
+                  color: !tabs.qr ? textTheme : hoverTextTheme,
+                  boxShadow: tabs.qr && `0px 0px 5px 1px ${theme}`,
+                }}
+                className={`h-14 w-14 p-2 rounded `}
+                onClick={() => {
+                  setTabs("qr");
+                }}
+              >
+                <IconQrcode size={40} />
+              </button>
             </div>
           </div>
           <div className="relative w-full flex-1 flex flex-col justify-center items-center">
@@ -310,7 +326,6 @@ export default function Page() {
                     />
                   </motion.div>
                 )}
-
                 {tabs.recorder && (
                   <motion.div
                     key="recorder"
@@ -333,7 +348,6 @@ export default function Page() {
                     />
                   </motion.div>
                 )}
-
                 {tabs.notes && (
                   <motion.div
                     key="notes"
@@ -356,7 +370,6 @@ export default function Page() {
                     />
                   </motion.div>
                 )}
-
                 {tabs.calculator && (
                   <motion.div
                     key="calculator"
@@ -379,7 +392,6 @@ export default function Page() {
                     />
                   </motion.div>
                 )}
-
                 {tabs.links && (
                   <motion.div
                     key="links"
@@ -402,7 +414,6 @@ export default function Page() {
                     />
                   </motion.div>
                 )}
-
                 {tabs.colors && (
                   <motion.div
                     key="colors"
@@ -425,7 +436,6 @@ export default function Page() {
                     />
                   </motion.div>
                 )}
-
                 {tabs.apiTester && (
                   <motion.div
                     key="apitester"
@@ -448,7 +458,6 @@ export default function Page() {
                     />
                   </motion.div>
                 )}
-
                 {tabs.jwt && (
                   <motion.div
                     key="jwt"
@@ -486,6 +495,29 @@ export default function Page() {
                     className={`h-[350px]`}
                   >
                     <ImageCropper
+                      theme={theme}
+                      textTheme={textTheme}
+                      hoverTheme={hoverTheme}
+                      hoverTextTheme={hoverTextTheme}
+                    />
+                  </motion.div>
+                )}
+                ;
+                {tabs.qr && (
+                  <motion.div
+                    key="qr"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 300, damping: 25 },
+                      duration: 0.4,
+                      ease: "easeInOut",
+                    }}
+                    className={`h-[350px]`}
+                  >
+                    <QRGenerator
                       theme={theme}
                       textTheme={textTheme}
                       hoverTheme={hoverTheme}
