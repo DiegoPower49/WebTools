@@ -123,7 +123,7 @@ export default function Conversor({
   return (
     <div
       style={{ border: `2px solid ${theme}` }}
-      className={`h-full  rounded-xl overflow-hidden`}
+      className={`h-full flex flex-col rounded-xl overflow-hidden`}
     >
       <div
         style={{
@@ -146,34 +146,29 @@ export default function Conversor({
 
       <div
         className={` ${
-          webUrl ? "grid grid-cols-[3fr_1fr]" : "flex w-full"
-        } h-full justify-center`}
+          webUrl
+            ? "grid md:grid-cols-[5fr_1fr] grid-cols-1 grid-rows-[auto_auto] md:grid-rows-1 "
+            : "grid grid-cols-1 grid-rows-[5fr] w-full h-full"
+        } justify-center items-center h-full`}
       >
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          className="w-full h-full flex-1 justify-center items-center "
+          className="md:col-span-1 h-full w-full flex justify-center items-center "
         >
           <label
             htmlFor="imagen"
-            className="h-full cursor-pointer w-full grid gap-4 items-center grid-rows-[5fr_1fr] justify-center"
+            className="h-full cursor-pointer w-full flex gap-4 items-center  justify-center"
           >
             {preview ? (
-              <>
-                <div className="w-full h-full flex justify-center items-center p-4">
-                  <img
-                    style={{ border: `2px solid ${theme}` }}
-                    src={preview}
-                    alt="Vista previa"
-                    className="max-h-48"
-                  />
-                </div>
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className=" h-full flex justify-center items-center">
-                    {filename + "." + format}
-                  </p>
-                </div>
-              </>
+              <div className="w-full flex justify-center items-center p-4">
+                <img
+                  style={{ border: `2px solid ${theme}` }}
+                  src={preview}
+                  alt="Vista previa"
+                  className="max-h-48 md:max-h-64 rounded"
+                />
+              </div>
             ) : (
               <div className="font-bold">SELECT OR DRAG IMAGE</div>
             )}
@@ -192,13 +187,13 @@ export default function Conversor({
             style={{
               color: theme,
             }}
-            className="p-4 flex flex-col gap-2 h-full"
+            className="md:p-4 flex  md:flex-col gap-2 h-full"
           >
-            <div className="flex h-full gap-2 flex-col py-2 ">
-              <div className="w-full flex flex-col justify-center">
-                <p className="text-xl font-bold">FORMAT:</p>
+            <div className="flex h-full gap-2  md:flex-col md:py-2 ">
+              <div className="pl-4 md:p-0 w-full flex flex-col items-center justify-center md:items-start">
+                <p className="text-xl font-bold hidden md:block">FORMAT:</p>
                 <Select value={format} onValueChange={setFormat}>
-                  <SelectTrigger className="w-[120px]">
+                  <SelectTrigger className=" w-[80px] md:w-[120px]">
                     <SelectValue placeholder="Format" />
                   </SelectTrigger>
                   <SelectContent
@@ -212,14 +207,14 @@ export default function Conversor({
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex flex-col">
-                <p className="text-xl font-bold">RESOLUTION:</p>
-                <div className="flex w-full gap-2 text-black text-center">
+              <div className="flex flex-col justify-center md:items-start">
+                <p className="text-xl font-bold hidden md:block">RESOLUTION:</p>
+                <div className=" flex w-full gap-2 text-black text-center">
                   <Input
                     name="width"
                     type="text"
                     style={{ color: theme }}
-                    className="w-full text-center p-0 rounded"
+                    className="w-[60px] md:w-full text-center p-0 rounded"
                     value={width}
                     onChange={(e) => {
                       e.target.value = e.target.value.replace(/[^0-9.]/g, "");
@@ -235,7 +230,7 @@ export default function Conversor({
                     name="height"
                     type="text"
                     style={{ color: theme }}
-                    className="w-full text-center p-0 rounded"
+                    className="w-[60px] md:w-full text-center p-0 rounded"
                     value={height}
                     onChange={(e) => {
                       e.target.value = e.target.value.replace(/[^0-9.]/g, "");
@@ -249,24 +244,23 @@ export default function Conversor({
                 </div>
               </div>
             </div>
-            <div className="w-full h-full flex justify-center items-center">
-              <div className="h-full">
-                <button
-                  onMouseEnter={() => setHover(true)}
-                  onMouseLeave={() => setHover(false)}
-                  style={{
-                    backgroundColor: theme,
-                    color: textTheme,
-                  }}
-                  onClick={() => descargar()}
-                  className="flex text-center w-full active:scale-110 border-white border-2 justify-center items-center font-bold text-white p-2 rounded hover:opacity-70"
-                >
-                  <div className="flex flex-col gap-2 items-center justify-center">
-                    <span>DOWNLOAD</span>
-                    <IconDeviceFloppy size={20} />
-                  </div>
-                </button>
-              </div>
+
+            <div className="h-full flex items-center justify-center">
+              <button
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+                style={{
+                  backgroundColor: theme,
+                  color: textTheme,
+                }}
+                onClick={() => descargar()}
+                className="flex text-center w-full active:scale-110 border-white border-2 justify-center items-center font-bold text-white p-2 rounded hover:opacity-70"
+              >
+                <div className="flex flex-col gap-2 items-center justify-center">
+                  <span className="hidden md:block">DOWNLOAD</span>
+                  <IconDeviceFloppy size={20} />
+                </div>
+              </button>
             </div>
           </div>
         )}

@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ImageUpscale, UploadCloud } from "lucide-react";
+import { IconDeviceFloppy } from "@tabler/icons-react";
 
 export default function ImageCropper({
   theme,
@@ -86,7 +87,7 @@ export default function ImageCropper({
   return (
     <div
       style={{ border: `2px solid ${theme}` }}
-      className={`h-full w-full  rounded-xl overflow-hidden`}
+      className={`h-full w-full flex flex-col  rounded-xl overflow-hidden`}
     >
       <div
         style={{
@@ -111,7 +112,7 @@ export default function ImageCropper({
       {!image ? (
         <div
           {...getRootProps()}
-          className="h-full cursor-pointer w-full grid gap-4 items-center grid-rows-[5fr_1fr] justify-center"
+          className="h-full cursor-pointer w-full flex   gap-4 items-center justify-center"
         >
           <div className="h-full w-full flex items-center justify-center font-bold ">
             {isDragActive ? (
@@ -128,10 +129,10 @@ export default function ImageCropper({
           </div>
         </div>
       ) : (
-        <div className="h-full grid md:grid-cols-4 grid-cols-1 grid-rows-[2fr_1fr_1fr] md:grid-rows-[5fr_1fr] items-center justify-center md:gap-4 w-full">
+        <div className="h-full grid md:grid-cols-4 grid-cols-1 grid-rows-[auto_auto] md:grid-rows-1 items-center justify-center md:gap-4 w-full">
           <div className="md:col-span-3 w-full md:h-full flex justify-center items-start md:items-center p-4">
             <ReactCrop
-              className="max-h-40 md:max-h-64 object-contain border rounded"
+              className="max-h-48 md:max-h-64 object-contain border rounded"
               crop={crop}
               onChange={setCrop}
               keepSelection={true}
@@ -145,11 +146,14 @@ export default function ImageCropper({
             </ReactCrop>
           </div>
 
-          <div className="md:col-span-1 flex flex-col gap-4 items-center">
-            <div style={{ color: theme }} className="font-bold text-xl">
+          <div className=" md:col-span-1 flex flex-col gap-4 items-center">
+            <div
+              style={{ color: theme }}
+              className="hidden md:block font-bold text-xl"
+            >
               FORMAT:
             </div>
-            <div className="flex md:flex-col gap-4">
+            <div className="flex md:flex-col gap-4 items-center justify-center">
               <Select value={format} onValueChange={setFormat}>
                 <SelectTrigger style={{ color: theme }} className="w-[120px]">
                   <SelectValue placeholder="Format" />
@@ -166,9 +170,12 @@ export default function ImageCropper({
               <Button
                 style={{ backgroundColor: theme, color: textTheme }}
                 onClick={downloadCroppedImage}
-                className="hover:opacity-80"
+                className="hover:opacity-80 w-full"
               >
-                Download
+                <div className="flex gap-2 items-center justify-center">
+                  <span className="hidden md:block">DOWNLOAD</span>
+                  <IconDeviceFloppy size={20} />
+                </div>
               </Button>
             </div>
           </div>

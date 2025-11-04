@@ -13,7 +13,7 @@ export default function QRGenerator({
   hoverTextTheme,
 }) {
   const canvasRef = useRef(null);
-  const [text, setText] = useState("https://fasttools.vercel.app");
+  const [text, setText] = useState(" ");
   const [size, setSize] = useState(512);
   const [fgColor, setFgColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");
@@ -175,7 +175,7 @@ export default function QRGenerator({
           <Input
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Text or URL"
+            placeholder="https://fasttools.vercel.app"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-1 w-full items-center justify-center">
             <div className=" flex md:grid md:grid-cols-2 md:grid-rows-2 w-full gap-1 md:gap-4 justify-center items-center">
