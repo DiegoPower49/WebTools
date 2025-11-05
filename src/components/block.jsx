@@ -27,7 +27,7 @@ export default function Block({ theme, textTheme, hoverTheme }) {
           style={{ backgroundColor: theme, color: textTheme }}
           className="col-span-2 flex justify-center items-center font-bold "
         >
-          Name:
+          NAME:
         </div>
         <input
           style={{ color: theme }}
@@ -46,7 +46,7 @@ export default function Block({ theme, textTheme, hoverTheme }) {
           className="hover:opacity-60 col-span-3 md:col-span-2 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold cursor-pointer"
         >
           <div className="flex gap-2">
-            <span>Download</span>
+            <span>DOWNLOAD</span>
             <IconDownload />
           </div>
         </div>

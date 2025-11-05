@@ -87,16 +87,15 @@ export default function ImageCropper({
   return (
     <div
       style={{ border: `2px solid ${theme}` }}
-      className={`h-full w-full flex flex-col  rounded-xl overflow-hidden`}
+      className={`flex flex-col h-full border- rounded-xl overflow-hidden`}
     >
       <div
         style={{
           backgroundColor: theme,
-          color: textTheme,
         }}
-        className={`relative  h-14 items-center justify-center md:grid grid-cols-6 md:grid-rows-1 flex w-full`}
+        className={`relative  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full`}
       >
-        <div className="md:col-start-1 md:col-end-5 text-xl  w-full font-bold uppercase flex justify-center items-center">
+        <div className="col-start-1 col-end-6 text-xl  w-full font-bold uppercase flex justify-center items-center">
           IMAGE CROPPER
         </div>
         <div

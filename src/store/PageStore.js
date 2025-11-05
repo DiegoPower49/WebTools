@@ -93,7 +93,6 @@ export const pageStore = createStore(
         const tabList = get().tabs;
         const updatedTabList = { ...tabList, [tab]: !tabList[tab] };
         set({ tabs: updatedTabList });
-        console.log(tab, tabList);
       },
 
       changeColor: (id, text, color) => {

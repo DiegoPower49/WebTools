@@ -60,171 +60,169 @@ export default function Colors({
     }
   }, [editForm]);
   return (
-    <div className="h-full w-full">
+    <div
+      style={{ border: `2px solid ${theme}` }}
+      className={`flex flex-col h-full border- rounded-xl overflow-hidden`}
+    >
       <div
-        style={{ border: `2px solid ${theme}` }}
-        className={`flex flex-col h-full rounded-xl overflow-hidden`}
+        style={{
+          backgroundColor: theme,
+        }}
+        className={`relative  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full`}
       >
-        <div
-          style={{
-            backgroundColor: theme,
-          }}
-          className={`relative  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full`}
-        >
-          <div className="col-start-1 col-end-6 text-xl  w-full font-bold uppercase flex justify-center items-center">
-            Colors
-          </div>
-          <button
-            style={{
-              backgroundColor: !editable ? theme : hoverTheme,
-            }}
-            onClick={() => setEditable(!editable)}
-            className={`col-start-6 col-end-7  flex justify-center w-12 h-5/6 rounded items-center absolute`}
-          >
-            <IconPencil
-              color={!editable ? textTheme : hoverTextTheme}
-              className={editable && styles.pulse}
-              size={40}
-            />
-          </button>
+        <div className="col-start-1 col-end-6 text-xl  w-full font-bold uppercase flex justify-center items-center">
+          Colors
         </div>
-        <div
-          ref={scrollRef}
+        <button
           style={{
-            "--theme": theme,
+            backgroundColor: !editable ? theme : hoverTheme,
           }}
-          className={`w-full flex-1 overflow-x-auto overflow-y-hidden ${styles.scrollContainer}`}
+          onClick={() => setEditable(!editable)}
+          className={`col-start-6 col-end-7  flex justify-center w-12 h-5/6 rounded items-center absolute`}
         >
-          <div className="hidden md:flex gap-6 w-full">
-            {groups.map((group, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-3 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
-              >
-                {group.map((color, i) => (
-                  <div
-                    key={i}
-                    onClick={() => {
-                      if (!editable && color.color) {
-                        handleCopy(color.color);
-                      }
-                      if (editable) {
-                        setId(color.id - 1);
-                        setColor(color.color);
-                        setNombre(color.nombre);
-                        setEditForm(true);
-                      }
-                    }}
-                  >
-                    {(color.color || editable) && (
-                      <Color color={color} editable={editable} theme={theme} />
-                    )}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-          <div className="flex md:hidden gap-6 w-full">
-            {groupsMobile.map((group, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
-              >
-                {group.map((color, i) => (
-                  <div
-                    key={i}
-                    onClick={() => {
-                      if (!editable && color.color) {
-                        handleCopy(color.color);
-                      }
-                      if (editable) {
-                        setId(color.id - 1);
-                        setColor(color.color);
-                        setNombre(color.nombre);
-                        setEditForm(true);
-                      }
-                    }}
-                  >
-                    {(color.color || editable) && (
-                      <Color color={color} editable={editable} theme={theme} />
-                    )}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+          <IconPencil
+            color={!editable ? textTheme : hoverTextTheme}
+            className={editable && styles.pulse}
+            size={40}
+          />
+        </button>
+      </div>
+      <div
+        ref={scrollRef}
+        style={{
+          "--theme": theme,
+        }}
+        className={`w-full flex-1 overflow-x-auto overflow-y-hidden ${styles.scrollContainer}`}
+      >
+        <div className="hidden md:flex gap-6 w-full">
+          {groups.map((group, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-3 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
+            >
+              {group.map((color, i) => (
+                <div
+                  key={i}
+                  onClick={() => {
+                    if (!editable && color.color) {
+                      handleCopy(color.color);
+                    }
+                    if (editable) {
+                      setId(color.id - 1);
+                      setColor(color.color);
+                      setNombre(color.nombre);
+                      setEditForm(true);
+                    }
+                  }}
+                >
+                  {(color.color || editable) && (
+                    <Color color={color} editable={editable} theme={theme} />
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
-        <Dialog onOpenChange={setEditForm} open={editForm}>
-          <DialogContent className="w-full bg-black border-white border-2 text-white overflow-hidden">
-            <DialogTitle className="flex justify-center items-center">
-              Edit Color
-            </DialogTitle>
-            <DialogDescription className="hidden">
-              Cuadro de edicion de color
-            </DialogDescription>
-            <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="nombre">Name</label>
+        <div className="flex md:hidden gap-6 w-full">
+          {groupsMobile.map((group, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
+            >
+              {group.map((color, i) => (
+                <div
+                  key={i}
+                  onClick={() => {
+                    if (!editable && color.color) {
+                      handleCopy(color.color);
+                    }
+                    if (editable) {
+                      setId(color.id - 1);
+                      setColor(color.color);
+                      setNombre(color.nombre);
+                      setEditForm(true);
+                    }
+                  }}
+                >
+                  {(color.color || editable) && (
+                    <Color color={color} editable={editable} theme={theme} />
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <Dialog onOpenChange={setEditForm} open={editForm}>
+        <DialogContent className="w-full bg-black border-white border-2 text-white overflow-hidden">
+          <DialogTitle className="flex justify-center items-center">
+            Edit Color
+          </DialogTitle>
+          <DialogDescription className="hidden">
+            Cuadro de edicion de color
+          </DialogDescription>
+          <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="nombre">Name</label>
+              <input
+                id="nombre"
+                type="text"
+                placeholder={
+                  colors[id].id === 1
+                    ? "theme"
+                    : colors[id].id === 2
+                    ? "text"
+                    : colors[id].id === 3
+                    ? "hover"
+                    : colors[id].id === 4
+                    ? "textHover"
+                    : colors[id].nombre
+                }
+                className="p-2 rounded placeholder:text-gray-500 text-black"
+                value={nombre}
+                onChange={(e) => {
+                  const nombre = e.target.value;
+                  setNombre(nombre);
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="color">Color</label>
+              <div className="w-full h-full flex gap-4">
+                <span className="w-12 flex justify-center items-center text-xl font-bold">
+                  #
+                </span>
                 <input
-                  id="nombre"
+                  id="color"
+                  className="p-2 w-full rounded text-black"
                   type="text"
-                  placeholder={
-                    colors[id].id === 1
-                      ? "theme"
-                      : colors[id].id === 2
-                      ? "text"
-                      : colors[id].id === 3
-                      ? "hover"
-                      : colors[id].id === 4
-                      ? "textHover"
-                      : colors[id].nombre
-                  }
-                  className="p-2 rounded placeholder:text-gray-500 text-black"
-                  value={nombre}
+                  placeholder={colors[id].color || ""}
+                  value={color}
                   onChange={(e) => {
-                    const nombre = e.target.value;
-                    setNombre(nombre);
+                    const color = e.target.value;
+                    setColor(color.toLowerCase());
                   }}
                 />
               </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="color">Color</label>
-                <div className="w-full h-full flex gap-4">
-                  <span className="w-12 flex justify-center items-center text-xl font-bold">
-                    #
-                  </span>
-                  <input
-                    id="color"
-                    className="p-2 w-full rounded text-black"
-                    type="text"
-                    placeholder={colors[id].color || ""}
-                    value={color}
-                    onChange={(e) => {
-                      const color = e.target.value;
-                      setColor(color.toLowerCase());
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="w-full h-full flex justify-center items-center">
-                <button
-                  style={{ backgroundColor: theme, color: textTheme }}
-                  onClick={() => {
-                    changeColor(id, nombre, color);
-                    setEditForm(false);
-                  }}
-                  className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
-                >
-                  <div className="flex gap-2 items-center justify-center">
-                    <span>SAVE</span> <IconDeviceFloppy />
-                  </div>
-                </button>
-              </div>
             </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+
+            <div className="w-full h-full flex justify-center items-center">
+              <button
+                style={{ backgroundColor: theme, color: textTheme }}
+                onClick={() => {
+                  changeColor(id, nombre, color);
+                  setEditForm(false);
+                }}
+                className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
+              >
+                <div className="flex gap-2 items-center justify-center">
+                  <span>SAVE</span> <IconDeviceFloppy />
+                </div>
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -8,12 +8,12 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   IconApi,
   IconBrush,
   IconCalculator,
+  IconCloud,
   IconCrop,
   IconDoor,
   IconHash,
@@ -23,7 +23,6 @@ import {
   IconPhotoEdit,
   IconQrcode,
   IconRocket,
-  IconScissors,
   IconVideoPlus,
 } from "@tabler/icons-react";
 import { usePageStore } from "@/store/PageStore";
@@ -39,9 +38,13 @@ import Image from "next/image";
 import AuthenticateForm from "@/components/authenticateForm";
 import ImageCropper from "@/components/ImageCropper";
 import QRGenerator from "@/components/QRGenerator";
+import AuthProvider from "@/components/AuthProvider";
+import { logout } from "../firebase/auth";
+import { useUserStore } from "@/store/userStore";
 
 export default function Page() {
   const { tabs, setTabs, colors } = usePageStore();
+  const user = useUserStore((s) => s.user);
   const [theme, setTheme] = useState();
   const [authenticate, setAuthenticate] = useState(false);
   const [hoverTheme, setHoverTheme] = useState();
@@ -74,8 +77,19 @@ export default function Page() {
     setLoading(false);
   }, [colors]);
 
+  useEffect(() => {
+    if (user) {
+      setAuthenticate(false);
+    }
+  }, [user]);
+
+  const getOut = () => {
+    logout();
+    toast.success("Session closed");
+  };
+
   return (
-    <>
+    <AuthProvider>
       {!loading && (
         <div
           style={{
@@ -107,14 +121,25 @@ export default function Page() {
                 <div className="flex gap-2 items-center justify-center">
                   FAST TOOLS <IconRocket size={50} />
                 </div>
-                <div
-                  onClick={() => {
-                    setAuthenticate(true);
-                  }}
-                  className="flex justify-end pr-12"
-                >
-                  <IconDoor size={40} />
-                </div>
+                {user ? (
+                  <div
+                    onClick={() => {
+                      getOut();
+                    }}
+                    className="flex justify-end pr-12"
+                  >
+                    <IconDoor size={40} />
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => {
+                      setAuthenticate(true);
+                    }}
+                    className="flex justify-end pr-12"
+                  >
+                    <IconCloud size={40} />
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
@@ -558,11 +583,16 @@ export default function Page() {
         >
           <DialogHeader>
             <DialogTitle className="text-center">
-              Si, puedes guardar tus datos
+              Puedes guardar tus datos
             </DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
-          <AuthenticateForm />
+          <AuthenticateForm
+            theme={theme}
+            textTheme={textTheme}
+            hoverTheme={hoverTheme}
+            hoverTextTheme={hoverTextTheme}
+          />
         </DialogContent>
       </Dialog>
       <Toaster
@@ -597,6 +627,6 @@ export default function Page() {
           },
         }}
       />
-    </>
+    </AuthProvider>
   );
 }
