@@ -112,6 +112,7 @@ export const pageStore = createStore(
     }),
     {
       name: "pagestorage",
+      skipHydration: true,
     }
   )
 );

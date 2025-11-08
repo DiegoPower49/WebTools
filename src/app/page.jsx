@@ -44,7 +44,9 @@ import { useUserStore } from "@/store/userStore";
 
 export default function Page() {
   const { tabs, setTabs, colors } = usePageStore();
+
   const user = useUserStore((s) => s.user);
+
   const [theme, setTheme] = useState();
   const [authenticate, setAuthenticate] = useState(false);
   const [hoverTheme, setHoverTheme] = useState();
@@ -52,7 +54,12 @@ export default function Page() {
   const [hoverTextTheme, setHoverTextTheme] = useState();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const getOut = () => {
+    logout();
+    toast.success("Session closed");
+  };
+
+  const loadThemes = (colors) => {
     const findedColor = colors.find((item) => item.nombre === "theme");
     const newTheme =
       findedColor && findedColor.color ? `#${findedColor.color}` : "#b91c1c";
@@ -74,6 +81,13 @@ export default function Page() {
         ? `#${findedHoverText.color}`
         : "#000000";
     setHoverTextTheme(newHoverThemeText);
+  };
+
+  useEffect(() => {
+    if (!user) {
+      loadThemes(colors);
+    }
+
     setLoading(false);
   }, [colors]);
 
@@ -82,11 +96,6 @@ export default function Page() {
       setAuthenticate(false);
     }
   }, [user]);
-
-  const getOut = () => {
-    logout();
-    toast.success("Session closed");
-  };
 
   return (
     <AuthProvider>

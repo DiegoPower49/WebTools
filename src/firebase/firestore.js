@@ -1,88 +1,55 @@
-// ./firestore.js
-import { doc, onSnapshot, getDoc, setDoc } from "firebase/firestore";
-import debounce from "lodash.debounce";
+// firebase/firestoreSync.js
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { db } from "./config";
+import debounce from "lodash.debounce";
 
-/**
- * Sync a zustand *vanilla* store with Firestore.
- * - store: the vanilla store created by createStore(...) (not the hook)
- * - userId: firestore doc id
- *
- * Returns: an unsubscribe function to stop syncing.
- */
-export const syncStoreWithFirestore = async (store, userId) => {
-  if (!store || !userId) throw new Error("store and userId are required");
+export const startFirestoreSync = async (store, userId) => {
+  const ref = doc(db, "users", userId);
 
-  const ref = doc(db, "stores", userId);
-
-  // 1) read firestore once
+  // 1️⃣ Obtener datos actuales del cloud
   const snap = await getDoc(ref);
-  const firestoreData = snap.exists() ? snap.data() : null;
+  const cloudData = snap.exists() ? snap.data() : null;
 
-  // 2) read localStorage copy (your persist key)
-  let localData = {};
-  try {
-    localData = JSON.parse(localStorage.getItem("pagestorage") || "{}");
-  } catch (e) {
-    localData = {};
-  }
+  // 2️⃣ Obtener datos del localStorage si existen
+  const local = JSON.parse(localStorage.getItem("page-store"))?.state || null;
 
-  // Priority handling: if Firestore empty and local has data -> push local to cloud.
-  if (!firestoreData) {
-    if (Object.keys(localData || {}).length) {
-      console.log(
-        "📤 Firestore empty — uploading local state to Firestore (first login)"
-      );
-      await setDoc(ref, localData);
-      // hydrate store with local (ensure shape)
-      store.setState(localData, false);
+  // ✅ Lógica "first-login-upload"
+  if (!cloudData) {
+    if (local) {
+      console.log("📤 Firestore vacío → Subiendo localStorage");
+      await setDoc(ref, local); // subimos local al cloud
+      store.setState(local); // también lo llevamos al store
     } else {
-      console.log("🔹 Both Firestore and local are empty — keeping defaults");
+      console.log("🔹 Firestore vacío y LocalStorage vacío → Estado inicial");
     }
   } else {
-    console.log("📥 Firestore has data — hydrating store from cloud");
-    store.setState(firestoreData, false);
-    // optionally keep a copy locally
-    localStorage.setItem("pagestorage", JSON.stringify(firestoreData));
+    console.log("📥 Firestore tiene datos → Se usan como verdad absoluta");
+    store.setState(cloudData);
   }
 
-  // 3) subscribe to realtime updates from Firestore -> update store
-  const unsubscribeSnapshot = onSnapshot(ref, (docSnap) => {
-    if (!docSnap.exists()) return;
-    const data = docSnap.data();
-    console.log("🔄 Firestore -> Zustand sync (realtime)");
-    // setState with replace = false? using false to avoid triggering subscribers that write back immediately
-    store.setState(data, false);
-    localStorage.setItem("pagestorage", JSON.stringify(data));
-  });
+  // 🔒 Ya no queremos que Zustand siga guardando en localStorage
+  localStorage.removeItem("page-store");
 
-  // 4) when store changes, save to Firestore (debounced)
-  const debouncedSave = debounce(async (state) => {
-    try {
-      // write whole state; you can change to partial if preferred
-      await setDoc(ref, state, { merge: true });
-      localStorage.setItem("pagestorage", JSON.stringify(state));
-      // console.log("💾 Saved state to Firestore");
-    } catch (err) {
-      console.error("Error saving to Firestore:", err);
+  // 3️⃣ Escuchar Firestore en tiempo real
+  const unsubFirestore = onSnapshot(ref, (docSnap) => {
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      console.log("🔄 Firestore → Zustand sync");
+      store.setState(data);
     }
-  }, 700);
-
-  const unsubStore = store.subscribe((state) => {
-    // note: avoid saving if state is empty or initializing
-    debouncedSave(state);
   });
 
-  // 5) return unified unsubscribe
-  const unsubscribeAll = () => {
-    try {
-      unsubscribeSnapshot();
-    } catch (e) {}
-    try {
-      unsubStore();
-    } catch (e) {}
-    debouncedSave.cancel && debouncedSave.cancel();
-  };
+  // 4️⃣ Guardar Zustand → Firestore (con debounce)
+  const unsubZustand = store.subscribe(
+    debounce((state) => {
+      console.log("💾 Guardando cambios a Firestore");
+      setDoc(ref, state, { merge: true });
+    }, 500),
+    { equalityFn: () => false }
+  );
 
-  return unsubscribeAll;
+  return () => {
+    unsubFirestore();
+    unsubZustand();
+  };
 };

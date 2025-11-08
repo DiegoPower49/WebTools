@@ -1,4 +1,5 @@
-import { useState, useRef, useCallback } from "react";
+"use client";
+import { useState, useRef, useCallback, useEffect } from "react";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { useDropzone } from "react-dropzone";
@@ -10,171 +11,313 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-import { ImageUpscale, UploadCloud } from "lucide-react";
+import { ImageUpscale } from "lucide-react";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 
-export default function ImageCropper({
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
-  const [image, setImage] = useState(null);
-  const [crop, setCrop] = useState({ unit: "%", width: 50, height: 50 });
+export default function ImageCropper({ theme, textTheme }) {
+  const [imageUrl, setImageUrl] = useState(null); // object URL
+  const [imageName, setImageName] = useState("image");
   const [format, setFormat] = useState("png");
-  const imgRef = useRef(null);
+  const [imageReady, setImageReady] = useState(false);
 
-  const reset = () => {
-    setImage(null);
-    setCrop({ unit: "%", width: 50, height: 50 });
-    setFormat("png");
-    imgRef.current = null;
-  };
+  // crop stored in percent by default (unit="%")
+  const [crop, setCrop] = useState({
+    unit: "%",
+    x: 25,
+    y: 25,
+    width: 50,
+    height: 50,
+  });
+
+  const imgRef = useRef(null);
+  const prevObjectUrl = useRef(null);
+
+  // cleanup previous object URL when new file loaded or component unmounts
+  useEffect(() => {
+    return () => {
+      if (prevObjectUrl.current) URL.revokeObjectURL(prevObjectUrl.current);
+    };
+  }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
-    }
+    const file = acceptedFiles?.[0];
+    if (!file) return;
+    const nameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
+    setImageName(nameWithoutExt);
+
+    // revoke previous
+    if (prevObjectUrl.current) URL.revokeObjectURL(prevObjectUrl.current);
+
+    const url = URL.createObjectURL(file);
+    prevObjectUrl.current = url;
+    setImageUrl(url);
+
+    // reset states
+    setImageReady(false);
+    // keep default crop, but ensure x/y exist
+    setCrop((c) => ({
+      unit: c.unit || "%",
+      x: c.x ?? 25,
+      y: c.y ?? 25,
+      width: c.width ?? 50,
+      height: c.height ?? 50,
+    }));
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: { "image/*": [] },
+    maxFiles: 1,
   });
 
-  // 🟢 Exportar recorte en resolución específica
-  const downloadCroppedImage = () => {
-    if (!imgRef.current || !crop.width || !crop.height) return;
+  // Called when <img> finishes loading in the DOM
+  const onImgLoad = (e) => {
+    const img = e.currentTarget;
+    imgRef.current = img;
+    setImageReady(true);
 
-    const scaleX = imgRef.current.naturalWidth / imgRef.current.width;
-    const scaleY = imgRef.current.naturalHeight / imgRef.current.height;
+    // If crop lacks x/y (shouldn't), set sane defaults centered
+    setCrop((prev) => ({
+      unit: prev.unit || "%",
+      x: prev.x ?? 25,
+      y: prev.y ?? 25,
+      width: prev.width ?? 50,
+      height: prev.height ?? 50,
+    }));
+  };
 
-    // ✅ Si el usuario NO define tamaño, tomamos tamaño real del recorte
-    const outputWidth = crop.width * scaleX;
-    const outputHeight = crop.height * scaleY;
+  // convert the current crop to pixel coordinates relative to natural image size
+  const getPixelCrop = (cropObj, image) => {
+    if (!image || !cropObj) return null;
+
+    const naturalWidth = image.naturalWidth;
+    const naturalHeight = image.naturalHeight;
+
+    let x, y, widthPx, heightPx;
+
+    if (cropObj.unit === "%") {
+      x = (cropObj.x / 100) * naturalWidth;
+      y = (cropObj.y / 100) * naturalHeight;
+      widthPx = (cropObj.width / 100) * naturalWidth;
+      heightPx = (cropObj.height / 100) * naturalHeight;
+    } else {
+      // assume px units
+      // If crop coordinates are relative to rendered image, scale them to natural
+      const displayedWidth = image.width || image.naturalWidth;
+      const displayedHeight = image.height || image.naturalHeight;
+      const scaleX = naturalWidth / displayedWidth;
+      const scaleY = naturalHeight / displayedHeight;
+      x = (cropObj.x || 0) * scaleX;
+      y = (cropObj.y || 0) * scaleY;
+      widthPx = (cropObj.width || 0) * scaleX;
+      heightPx = (cropObj.height || 0) * scaleY;
+    }
+
+    // clamp to image bounds
+    x = Math.max(0, Math.min(x, naturalWidth));
+    y = Math.max(0, Math.min(y, naturalHeight));
+    widthPx = Math.max(1, Math.min(widthPx, naturalWidth - x));
+    heightPx = Math.max(1, Math.min(heightPx, naturalHeight - y));
+
+    return {
+      x: Math.round(x),
+      y: Math.round(y),
+      width: Math.round(widthPx),
+      height: Math.round(heightPx),
+    };
+  };
+
+  const canvasToBlob = (canvas, mime, quality) =>
+    new Promise((resolve) => {
+      if (canvas.toBlob) {
+        canvas.toBlob((b) => resolve(b), mime, quality);
+      } else {
+        // fallback
+        const dataUrl = canvas.toDataURL(mime, quality);
+        const byteString = atob(dataUrl.split(",")[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++)
+          ia[i] = byteString.charCodeAt(i);
+        resolve(new Blob([ab], { type: mime }));
+      }
+    });
+
+  const downloadCroppedImage = async (alsoReturnBase64 = false) => {
+    if (!imgRef.current || !crop.width || !crop.height || !imageReady) return;
+
+    const pixelCrop = getPixelCrop(crop, imgRef.current);
+    if (!pixelCrop) return;
 
     const canvas = document.createElement("canvas");
-    canvas.width = outputWidth;
-    canvas.height = outputHeight;
+    canvas.width = pixelCrop.width;
+    canvas.height = pixelCrop.height;
 
     const ctx = canvas.getContext("2d");
-
+    // draw the portion from the natural image
     ctx.drawImage(
       imgRef.current,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
+      pixelCrop.x,
+      pixelCrop.y,
+      pixelCrop.width,
+      pixelCrop.height,
       0,
       0,
-      outputWidth,
-      outputHeight
+      pixelCrop.width,
+      pixelCrop.height
     );
 
-    canvas.toBlob(
-      (blob) => {
-        const link = document.createElement("a");
-        link.download = `crop.${format}`;
-        link.href = URL.createObjectURL(blob);
-        link.click();
-      },
-      `image/${format}`,
-      1
-    );
+    const mime =
+      format === "png"
+        ? "image/png"
+        : format === "webp"
+        ? "image/webp"
+        : "image/jpeg";
+    const blob = await canvasToBlob(canvas, mime, 1);
+
+    // download
+    const link = document.createElement("a");
+    link.download = `${imageName}.${format}`;
+    link.href = URL.createObjectURL(blob);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    // optionally return base64
+    if (alsoReturnBase64) {
+      return canvas.toDataURL(mime);
+    }
+  };
+
+  const reset = () => {
+    if (prevObjectUrl.current) {
+      URL.revokeObjectURL(prevObjectUrl.current);
+      prevObjectUrl.current = null;
+    }
+    setImageUrl(null);
+    setImageName("image");
+    setImageReady(false);
+    setCrop({ unit: "%", x: 25, y: 25, width: 50, height: 50 });
+    imgRef.current = null;
   };
 
   return (
     <div
       style={{ border: `2px solid ${theme}` }}
-      className={`flex flex-col h-full border- rounded-xl overflow-hidden`}
+      className="flex flex-col h-full rounded-xl overflow-hidden"
     >
       <div
-        style={{
-          backgroundColor: theme,
-        }}
-        className={`relative  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full`}
+        style={{ backgroundColor: theme }}
+        className="h-14 flex items-center justify-center"
       >
-        <div className="col-start-1 col-end-6 text-xl  w-full font-bold uppercase flex justify-center items-center">
+        <div
+          className="text-xl font-bold uppercase"
+          style={{ color: textTheme }}
+        >
           IMAGE CROPPER
         </div>
-        <div
-          onClick={() => reset()}
-          style={{ backgroundColor: hoverTheme, color: hoverTextTheme }}
-          className="md:col-start-6 font-bold md:col-end-7 flex justify-center items-center gap-4 p-2 rounded m-4 hover:opacity-80"
-        >
-          CLEAR
-        </div>
       </div>
+
       <input {...getInputProps()} id="ImageToCrop" className="hidden" />
 
-      {!image ? (
+      {!imageUrl ? (
         <div
           {...getRootProps()}
-          className="h-full cursor-pointer w-full flex   gap-4 items-center justify-center"
+          className="h-full cursor-pointer w-full flex gap-4 items-center justify-center"
         >
-          <div className="h-full w-full flex items-center justify-center font-bold ">
+          <div className="h-full w-full flex flex-col items-center justify-center font-bold">
             {isDragActive ? (
               <div className="w-28">
                 <ImageUpscale
                   size={48}
                   style={{ color: theme }}
-                  className={`${isDragActive && "animate-bounce"}`}
+                  className="animate-bounce"
                 />
               </div>
             ) : (
-              "SELECT OR DRAG IMAGE"
+              <div style={{ color: theme }}>SELECT OR DRAG IMAGE</div>
             )}
           </div>
         </div>
       ) : (
-        <div className="h-full grid md:grid-cols-4 grid-cols-1 grid-rows-[auto_auto] md:grid-rows-1 items-center justify-center md:gap-4 w-full">
-          <div className="md:col-span-3 w-full md:h-full flex justify-center items-start md:items-center p-4">
-            <ReactCrop
-              className="max-h-48 md:max-h-64 object-contain border rounded"
-              crop={crop}
-              onChange={setCrop}
-              keepSelection={true}
-            >
-              <img
-                style={{ border: `2px solid ${theme}` }}
-                ref={imgRef}
-                src={image}
-                alt="to crop"
-              />
-            </ReactCrop>
+        <div className="h-full grid md:grid-cols-4 grid-cols-1 grid-rows-[auto_auto] md:grid-rows-1 items-start gap-4 p-4">
+          <div className="md:col-span-3 w-full flex justify-center items-start">
+            <div className="w-full max-w-full">
+              <ReactCrop
+                crop={crop}
+                onChange={(c) => setCrop(c)}
+                onComplete={(c) => setCrop(c)}
+                keepSelection={true}
+                className="max-h-96 object-contain border rounded"
+                style={{ width: "100%" }}
+              >
+                <img
+                  src={imageUrl}
+                  alt="to crop"
+                  ref={imgRef}
+                  onLoad={onImgLoad}
+                  style={{ maxWidth: "100%", display: "block" }}
+                />
+              </ReactCrop>
+            </div>
           </div>
 
-          <div className=" md:col-span-1 flex flex-col gap-4 items-center">
-            <div
-              style={{ color: theme }}
-              className="hidden md:block font-bold text-xl"
-            >
-              FORMAT:
+          <div className="md:col-span-1 flex flex-col gap-4 items-center">
+            <div style={{ color: theme }} className="font-bold text-lg">
+              FORMAT
             </div>
-            <div className="flex md:flex-col gap-4 items-center justify-center">
-              <Select value={format} onValueChange={setFormat}>
-                <SelectTrigger style={{ color: theme }} className="w-[120px]">
-                  <SelectValue placeholder="Format" />
-                </SelectTrigger>
-                <SelectContent
-                  style={{ color: theme, backgroundColor: "black" }}
-                >
-                  <SelectItem value="png">PNG</SelectItem>
-                  <SelectItem value="jpeg">JPG</SelectItem>
-                  <SelectItem value="webp">WEBP</SelectItem>
-                </SelectContent>
-              </Select>
 
+            <Select value={format} onValueChange={(v) => setFormat(v)}>
+              <SelectTrigger style={{ color: theme }} className="w-[120px]">
+                <SelectValue placeholder="Format" />
+              </SelectTrigger>
+              <SelectContent style={{ color: theme, backgroundColor: "black" }}>
+                <SelectItem value="png">PNG</SelectItem>
+                <SelectItem value="jpeg">JPG</SelectItem>
+                <SelectItem value="webp">WEBP</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <div className="w-full flex flex-col gap-2">
               <Button
                 style={{ backgroundColor: theme, color: textTheme }}
-                onClick={downloadCroppedImage}
+                disabled={!imageReady}
+                onClick={() => downloadCroppedImage(false)}
                 className="hover:opacity-80 w-full"
               >
                 <div className="flex gap-2 items-center justify-center">
                   <span className="hidden md:block">DOWNLOAD</span>
-                  <IconDeviceFloppy size={20} />
+                  <IconDeviceFloppy size={18} />
                 </div>
+              </Button>
+
+              <Button
+                style={{ backgroundColor: theme, color: textTheme }}
+                onClick={async () => {
+                  // get base64 and show / copy (example)
+                  const base64 = await downloadCroppedImage(true);
+                  if (base64) {
+                    // copy to clipboard (try)
+                    try {
+                      await navigator.clipboard.writeText(base64);
+                      alert("Base64 copied to clipboard");
+                    } catch {
+                      alert("Base64 generated");
+                    }
+                  }
+                }}
+                disabled={!imageReady}
+                className="w-full"
+              >
+                COPY BASE64
+              </Button>
+
+              <Button
+                style={{ backgroundColor: theme, color: textTheme }}
+                onClick={reset}
+                className="w-full"
+              >
+                CLEAR
               </Button>
             </div>
           </div>

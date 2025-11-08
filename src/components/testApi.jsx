@@ -139,7 +139,22 @@ export default function ApiTester({
         options.body = body ? JSON.stringify(JSON.parse(body)) : undefined;
       }
 
-      const res = await fetch(url, options);
+      async function fetchWithTimeout(
+        resource,
+        options = {},
+        timeout = 600000
+      ) {
+        // 10 min
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        const response = await fetch(resource, {
+          ...options,
+          signal: controller.signal,
+        });
+        clearTimeout(id);
+        return response;
+      }
+      const res = await fetchWithTimeout(url, options, 600000);
       const contentType = res.headers.get("content-type");
       const data = contentType?.includes("application/json")
         ? await res.json()

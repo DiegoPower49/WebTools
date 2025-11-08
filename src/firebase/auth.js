@@ -11,29 +11,9 @@ import {
 import { app } from "./config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./config";
-import { syncStoreWithFirestore } from "./firestore";
-import { pageStore } from "@/store/PageStore";
 
 const googleProvider = new GoogleAuthProvider();
 export const auth = getAuth(app);
-
-export const handleLoginSuccess = async () => {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  try {
-    if (window.__UNSUB_FIRESTORE__) {
-      window.__UNSUB_FIRESTORE__();
-      delete window.__UNSUB_FIRESTORE__;
-    }
-
-    const unsub = await syncStoreWithFirestore(pageStore, user.uid);
-
-    window.__UNSUB_FIRESTORE__ = unsub;
-  } catch (err) {
-    console.error("Failed to start Firestore sync:", err);
-  }
-};
 
 export const login = async (email, password, callback) => {
   try {
@@ -43,16 +23,20 @@ export const login = async (email, password, callback) => {
       password
     );
 
-    await handleLoginSuccess();
-
     callback({ success: true, user: userCredential.user });
   } catch (error) {
     callback({ success: false, error });
   }
 };
 
-export const register = (email, password) => {
-  return createUserWithEmailAndPassword(auth, email, password);
+export const register = async (email, password) => {
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    await handleLoginSuccess();
+    return;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const loginWithGoogle = async (callback) => {

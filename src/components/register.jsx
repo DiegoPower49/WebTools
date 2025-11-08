@@ -14,7 +14,7 @@ export default function Register({ theme, textTheme }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    register(username, password);
+    register(email, password);
   };
 
   return (
