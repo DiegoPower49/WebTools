@@ -38,12 +38,11 @@ import AuthenticateForm from "@/components/authenticateForm";
 import ImageCropper from "@/components/ImageCropper";
 import QRGenerator from "@/components/QRGenerator";
 import { usePageStore } from "@/store/PageStore";
-import { getAuth } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import useUserStore from "@/store/userStore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function Page() {
-  const user = getAuth().currentUser;
-  const router = useRouter();
   const {
     tabs,
     colors,
@@ -64,6 +63,9 @@ export default function Page() {
   const [textTheme, setTextTheme] = useState();
   const [hoverTextTheme, setHoverTextTheme] = useState();
   const [loading, setLoading] = useState(true);
+  const [checking, setChecking] = useState(true);
+  const router = useRouter();
+  const { setUser } = useUserStore();
 
   const loadThemes = (colors) => {
     const findedColor = colors.find((item) => item.nombre === "theme");
@@ -88,15 +90,39 @@ export default function Page() {
         : "#000000";
     setHoverTextTheme(newHoverThemeText);
   };
+
   useEffect(() => {
-    if (user) {
-      router.push("/welcome");
-    }
-  }, []);
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser);
+
+        router.replace("/welcome");
+        setChecking(false);
+      } else {
+        setUser(null);
+        router.replace("/");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router, setUser]);
   useEffect(() => {
     loadThemes(colors);
     setLoading(false);
   }, [colors]);
+
+  if (checking)
+    return (
+      <div className="flex flex-col items-center justify-center h-screen  text-white">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+          className="w-14 h-14 border-4 border-t-transparent border-white rounded-full"
+        />
+        <p className="mt-4 text-gray-400 text-lg"></p>
+      </div>
+    );
 
   return (
     <>
