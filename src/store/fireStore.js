@@ -95,7 +95,7 @@ export const fireStore = createStore((set, get) => ({
     qr: false,
   },
   api: "http://localhost:3000",
-  loading: false,
+  loading: true,
   error: null,
 
   /** Cargar datos desde Firestore según el UID del usuario */
@@ -103,7 +103,6 @@ export const fireStore = createStore((set, get) => ({
     if (!uid) {
       return;
     }
-    set({ loading: true, uid });
 
     const userDoc = doc(db, "stores", uid);
     const unsubscribe = onSnapshot(
