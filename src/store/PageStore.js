@@ -5,7 +5,7 @@ import { useStore } from "zustand";
 export const pageStore = createStore(
   persist(
     (set, get) => ({
-      colors: [
+      localColors: [
         { id: 1, nombre: "theme", color: "b91c1c" },
         { id: 2, nombre: "text", color: "fafafa" },
         { id: 3, nombre: "", color: "" },
@@ -31,7 +31,7 @@ export const pageStore = createStore(
         { id: 23, nombre: "", color: "" },
         { id: 24, nombre: "", color: "" },
       ],
-      links: [
+      localLinks: [
         {
           id: 1,
           nombre: "Generador links Whatsapp",
@@ -71,9 +71,9 @@ export const pageStore = createStore(
         { id: 15, nombre: "", link: "", icono: "" },
         { id: 16, nombre: "", link: "", icono: "" },
       ],
-      text: "",
-      title: "",
-      tabs: {
+      localText: "",
+      localTitle: "",
+      localTabs: {
         header: true,
         calculator: false,
         recorder: false,
@@ -86,33 +86,34 @@ export const pageStore = createStore(
         editor: false,
         qr: false,
       },
-      setText: (text) => set({ text: text }),
-      setTitle: (title) => set({ title: title }),
+      localApi: "http://localhost:3000",
+      setLocalApi: (api) => set({ localApi: api }),
+      setLocalText: (text) => set({ localText: text }),
+      setLocalTitle: (title) => set({ localTitle: title }),
 
-      setTabs: (tab) => {
-        const tabList = get().tabs;
+      setLocalTabs: (tab) => {
+        const tabList = get().localTabs;
         const updatedTabList = { ...tabList, [tab]: !tabList[tab] };
-        set({ tabs: updatedTabList });
+        set({ localTabs: updatedTabList });
       },
 
-      changeColor: (id, text, color) => {
-        const colors = get().colors;
+      setLocalColors: (id, text, color) => {
+        const colors = get().localColors;
         const updatedColors = colors.map((c, i) =>
           i === id ? { ...c, nombre: text, color: color } : c
         );
-        set({ colors: updatedColors });
+        set({ localColors: updatedColors });
       },
-      changeLink: (id, text, link, icono) => {
-        const links = get().links;
+      setLocalLinks: (id, text, link, icono) => {
+        const links = get().localLinks;
         const updatedLinks = links.map((c, i) =>
           i === id ? { ...c, nombre: text, link: link, icono: icono } : c
         );
-        set({ links: updatedLinks });
+        set({ localLinks: updatedLinks });
       },
     }),
     {
       name: "pagestorage",
-      skipHydration: true,
     }
   )
 );

@@ -16,16 +16,15 @@ import {
 } from "@tabler/icons-react";
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
-import { usePageStore } from "@/store/PageStore";
-import { div } from "framer-motion/client";
 
 export default function Links({
+  links,
+  setLinks,
   theme,
   textTheme,
   hoverTheme,
   hoverTextTheme,
 }) {
-  const { links, changeLink } = usePageStore();
   const scrollRef = useRef(null);
   const [editable, setEditable] = useState(false);
   const [editForm, setEditForm] = useState(false);
@@ -238,7 +237,7 @@ export default function Links({
               <button
                 style={{ backgroundColor: theme, color: textTheme }}
                 onClick={() => {
-                  changeLink(id, nombre, link, icono);
+                  setLinks(id, nombre, link, icono);
                   setEditForm(false);
                 }}
                 className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"

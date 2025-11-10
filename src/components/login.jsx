@@ -2,14 +2,13 @@
 import React, { useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { login, register, logout, loginWithGoogle } from "../firebase/auth";
+import { login } from "../firebase/auth";
 import Image from "next/image";
 import toast from "react-hot-toast";
 
 export default function Login({ theme, textTheme }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const handleSubmit = (e) => {
     e.preventDefault();
     login(email, password, async (res, msg) => {

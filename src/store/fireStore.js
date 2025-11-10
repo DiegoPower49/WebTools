@@ -1,7 +1,18 @@
 import { createStore } from "zustand/vanilla";
-
 import { useStore } from "zustand";
-export const pageStore = createStore((set, get) => ({
+import {
+  getFirestore,
+  doc,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { app } from "@/firebase/config";
+
+const db = getFirestore(app);
+
+export const fireStore = createStore((set, get) => ({
+  uid: null,
   colors: [
     { id: 1, nombre: "theme", color: "b91c1c" },
     { id: 2, nombre: "text", color: "fafafa" },
@@ -83,28 +94,98 @@ export const pageStore = createStore((set, get) => ({
     editor: false,
     qr: false,
   },
-  setText: (text) => set({ text: text }),
-  setTitle: (title) => set({ title: title }),
-  setTabs: (tab) => {
-    const tabList = get().tabs;
-    const updatedTabList = { ...tabList, [tab]: !tabList[tab] };
-    set({ tabs: updatedTabList });
+  api: "http://localhost:3000",
+  loading: false,
+  error: null,
+
+  /** Cargar datos desde Firestore según el UID del usuario */
+  loadUserData: (uid) => {
+    if (!uid) {
+      return;
+    }
+    set({ loading: true, uid });
+
+    const userDoc = doc(db, "stores", uid);
+    const unsubscribe = onSnapshot(
+      userDoc,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          set({ ...snapshot.data(), loading: false });
+        } else {
+          // Crear documento inicial limpio (sin funciones)
+          const initialData = Object.fromEntries(
+            Object.entries(get()).filter(([_, v]) => typeof v !== "function")
+          );
+          setDoc(userDoc, initialData);
+          set({ loading: false });
+        }
+      },
+      (error) => {
+        console.error("Error al cargar datos:", error);
+        set({ error: error.message, loading: false });
+      }
+    );
+
+    return unsubscribe;
   },
 
-  changeColor: (id, text, color) => {
-    const colors = get().colors;
+  /** Guardar cambios en Firestore (merge) */
+  saveToFirestore: async () => {
+    const { uid, ...state } = get();
+    if (!uid) return;
+
+    // Filtrar funciones y valores no serializables
+    const data = Object.fromEntries(
+      Object.entries(state).filter(([_, v]) => typeof v !== "function")
+    );
+
+    try {
+      await updateDoc(doc(db, "stores", uid), data);
+    } catch (err) {
+      console.error("Error guardando datos:", err);
+    }
+  },
+
+  /** Métodos para modificar el estado */
+  setApi: (api) => {
+    set({ api });
+    get().saveToFirestore();
+  },
+
+  setText: (text) => {
+    set({ text });
+    get().saveToFirestore();
+  },
+
+  setTitle: (title) => {
+    set({ title });
+    get().saveToFirestore();
+  },
+
+  setTabs: (tab) => {
+    const tabList = get().tabs || {};
+    const updatedTabList = { ...tabList, [tab]: !tabList[tab] };
+    set({ tabs: updatedTabList });
+    get().saveToFirestore();
+  },
+
+  setColors: (id, text, color) => {
+    const colors = get().colors || [];
     const updatedColors = colors.map((c, i) =>
-      i === id ? { ...c, nombre: text, color: color } : c
+      i === id ? { ...c, nombre: text, color } : c
     );
     set({ colors: updatedColors });
+    get().saveToFirestore();
   },
-  changeLink: (id, text, link, icono) => {
-    const links = get().links;
+
+  setLinks: (id, text, link, icono) => {
+    const links = get().links || [];
     const updatedLinks = links.map((c, i) =>
-      i === id ? { ...c, nombre: text, link: link, icono: icono } : c
+      i === id ? { ...c, nombre: text, link, icono } : c
     );
     set({ links: updatedLinks });
+    get().saveToFirestore();
   },
 }));
 
-export const usePageStore = () => useStore(pageStore);
+export const useFireStore = () => useStore(fireStore);

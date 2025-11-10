@@ -16,8 +16,9 @@ export default function ApiTester({
   textTheme,
   hoverTheme,
   hoverTextTheme,
+  api,
+  setApi,
 }) {
-  const [url, setUrl] = useState("http://localhost:");
   const [method, setMethod] = useState("GET");
   const [headers, setHeaders] = useState("");
   const [body, setBody] = useState("{}");
@@ -116,7 +117,7 @@ export default function ApiTester({
 
   // 🚀 Enviar solicitud
   const handleSend = async () => {
-    if (!url)
+    if (!api)
       return toast.error("Please enter a URL", {
         style: {
           border: "1px solid #713200",
@@ -154,7 +155,7 @@ export default function ApiTester({
         clearTimeout(id);
         return response;
       }
-      const res = await fetchWithTimeout(url, options, 600000);
+      const res = await fetchWithTimeout(api, options, 600000);
       const contentType = res.headers.get("content-type");
       const data = contentType?.includes("application/json")
         ? await res.json()
@@ -222,9 +223,9 @@ export default function ApiTester({
             </select>
             <input
               type="text"
-              value={url}
+              value={api}
               style={{ color: textTheme, border: `1px solid ${theme}` }}
-              onChange={(e) => setUrl(e.target.value)}
+              onChange={(e) => setApi(e.target.value)}
               placeholder="Enter API URL..."
               className="w-full font-bold bg-transparent h-10 p-2 rounded outline-none"
             />

@@ -1,11 +1,16 @@
 "use client";
 import { IconDownload } from "@tabler/icons-react";
 import styles from "./enlaces.module.css";
-import { usePageStore } from "@/store/PageStore";
 
-export default function Block({ theme, textTheme, hoverTheme }) {
-  const { text, setText, title, setTitle } = usePageStore();
-
+export default function Block({
+  theme,
+  textTheme,
+  hoverTheme,
+  text,
+  title,
+  setText,
+  setTitle,
+}) {
   const exportToTextFile = () => {
     const blob = new Blob([text], { type: "text/plain" });
     const link = document.createElement("a");

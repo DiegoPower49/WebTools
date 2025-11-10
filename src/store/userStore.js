@@ -1,7 +1,22 @@
 import { create } from "zustand";
+import { onAuthChange, logout } from "@/firebase/auth";
 
-export const useUserStore = create((set) => ({
+const useUserStore = create((set) => ({
   user: null,
+  loadingUser: true,
+
   setUser: (user) => set({ user }),
-  logoutUser: () => set({ user: null }),
+  logout: async () => {
+    await logout();
+    set({ user: null });
+  },
+
+  // Inicia el listener de Firebase Auth
+  listenToAuth: () => {
+    onAuthChange((user) => {
+      set({ user, loadingUser: false });
+    });
+  },
 }));
+
+export default useUserStore;

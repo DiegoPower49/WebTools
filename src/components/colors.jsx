@@ -10,15 +10,15 @@ import {
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
-import { usePageStore } from "@/store/PageStore";
 
 export default function Colors({
+  colors,
+  setColors,
   theme,
   textTheme,
   hoverTheme,
   hoverTextTheme,
 }) {
-  const { colors, changeColor } = usePageStore();
   const scrollRef = useRef(null);
   const [editable, setEditable] = useState(false);
   const [editForm, setEditForm] = useState(false);
@@ -210,7 +210,7 @@ export default function Colors({
               <button
                 style={{ backgroundColor: theme, color: textTheme }}
                 onClick={() => {
-                  changeColor(id, nombre, color);
+                  setColors(id, nombre, color);
                   setEditForm(false);
                 }}
                 className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
