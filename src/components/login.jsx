@@ -5,15 +5,18 @@ import { Button } from "./ui/button";
 import { login } from "../firebase/auth";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function Login({ theme, textTheme }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
     login(email, password, async (res, msg) => {
       if (res.success) {
         toast.success("Login successful");
+        router.push("/welcome");
         if (msg === "LOGGED IN") {
           await handleLoginSuccess();
         }

@@ -40,9 +40,9 @@ import QRGenerator from "@/components/QRGenerator";
 import useUserStore from "@/store/userStore";
 import { useFireStore } from "@/store/fireStore";
 import { getAuth } from "firebase/auth";
+import { usePageStore } from "@/store/PageStore";
 
 export default function Table() {
-  const { logout } = useUserStore();
   const {
     tabs,
     colors,
@@ -56,19 +56,13 @@ export default function Table() {
     setColors,
     setLinks,
     setTabs,
-    loadUserData,
-  } = useFireStore();
+  } = usePageStore();
   const [theme, setTheme] = useState();
   const [authenticate, setAuthenticate] = useState(false);
   const [hoverTheme, setHoverTheme] = useState();
   const [textTheme, setTextTheme] = useState();
   const [hoverTextTheme, setHoverTextTheme] = useState();
   const [loading, setLoading] = useState(true);
-  const user = getAuth().currentUser;
-  const getOut = () => {
-    logout();
-    toast.success("Session closed");
-  };
 
   const loadThemes = (colors) => {
     const findedColor = colors.find((item) => item.nombre === "theme");
@@ -95,15 +89,9 @@ export default function Table() {
   };
 
   useEffect(() => {
-    loadUserData(user.uid);
     loadThemes(colors);
     setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    loadThemes(colors);
   }, [colors]);
-
   return (
     <>
       {!loading && (
@@ -140,25 +128,15 @@ export default function Table() {
                 >
                   FAST TOOLS <IconRocket size={50} />
                 </div>
-                {user ? (
-                  <div
-                    onClick={() => {
-                      getOut();
-                    }}
-                    className="flex justify-end pr-12"
-                  >
-                    <IconDoor size={40} />
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => {
-                      setAuthenticate(true);
-                    }}
-                    className="flex justify-end pr-12"
-                  >
-                    <IconCloud size={40} />
-                  </div>
-                )}
+
+                <div
+                  onClick={() => {
+                    setAuthenticate(true);
+                  }}
+                  className="flex justify-end pr-12"
+                >
+                  <IconCloud size={40} />
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

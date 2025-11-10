@@ -5,7 +5,7 @@ import { useStore } from "zustand";
 export const pageStore = createStore(
   persist(
     (set, get) => ({
-      localColors: [
+      colors: [
         { id: 1, nombre: "theme", color: "b91c1c" },
         { id: 2, nombre: "text", color: "fafafa" },
         { id: 3, nombre: "", color: "" },
@@ -31,7 +31,7 @@ export const pageStore = createStore(
         { id: 23, nombre: "", color: "" },
         { id: 24, nombre: "", color: "" },
       ],
-      localLinks: [
+      links: [
         {
           id: 1,
           nombre: "Generador links Whatsapp",
@@ -71,9 +71,9 @@ export const pageStore = createStore(
         { id: 15, nombre: "", link: "", icono: "" },
         { id: 16, nombre: "", link: "", icono: "" },
       ],
-      localText: "",
-      localTitle: "",
-      localTabs: {
+      text: "",
+      title: "",
+      tabs: {
         header: true,
         calculator: false,
         recorder: false,
@@ -86,30 +86,30 @@ export const pageStore = createStore(
         editor: false,
         qr: false,
       },
-      localApi: "http://localhost:3000",
-      setLocalApi: (api) => set({ localApi: api }),
-      setLocalText: (text) => set({ localText: text }),
-      setLocalTitle: (title) => set({ localTitle: title }),
+      api: "http://localhost:3000",
+      setApi: (api) => set({ api: api }),
+      setText: (text) => set({ text: text }),
+      setTitle: (title) => set({ title: title }),
 
-      setLocalTabs: (tab) => {
-        const tabList = get().localTabs;
+      setTabs: (tab) => {
+        const tabList = get().tabs;
         const updatedTabList = { ...tabList, [tab]: !tabList[tab] };
-        set({ localTabs: updatedTabList });
+        set({ tabs: updatedTabList });
       },
 
-      setLocalColors: (id, text, color) => {
-        const colors = get().localColors;
+      setColors: (id, text, color) => {
+        const colors = get().colors;
         const updatedColors = colors.map((c, i) =>
           i === id ? { ...c, nombre: text, color: color } : c
         );
-        set({ localColors: updatedColors });
+        set({ colors: updatedColors });
       },
-      setLocalLinks: (id, text, link, icono) => {
-        const links = get().localLinks;
+      setLinks: (id, text, link, icono) => {
+        const links = get().links;
         const updatedLinks = links.map((c, i) =>
           i === id ? { ...c, nombre: text, link: link, icono: icono } : c
         );
-        set({ localLinks: updatedLinks });
+        set({ links: updatedLinks });
       },
     }),
     {
