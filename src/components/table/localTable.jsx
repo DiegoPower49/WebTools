@@ -402,8 +402,8 @@ export default function LocalTable() {
                     <Block
                       text={localText}
                       title={localTitle}
-                      setLocal={setLocalTitle}
-                      setLocalText={setLocalText}
+                      setTitle={setLocalTitle}
+                      setText={setLocalText}
                       theme={theme}
                       textTheme={textTheme}
                       hoverTheme={hoverTheme}

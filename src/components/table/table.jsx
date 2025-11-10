@@ -39,9 +39,10 @@ import ImageCropper from "@/components/ImageCropper";
 import QRGenerator from "@/components/QRGenerator";
 import useUserStore from "@/store/userStore";
 import { useFireStore } from "@/store/fireStore";
+import { getAuth } from "firebase/auth";
 
 export default function Table() {
-  const { logout, user } = useUserStore();
+  const { logout } = useUserStore();
   const {
     tabs,
     colors,
@@ -63,6 +64,7 @@ export default function Table() {
   const [textTheme, setTextTheme] = useState();
   const [hoverTextTheme, setHoverTextTheme] = useState();
   const [loading, setLoading] = useState(true);
+  const user = getAuth().currentUser;
   const getOut = () => {
     logout();
     toast.success("Session closed");
@@ -93,6 +95,7 @@ export default function Table() {
   };
 
   useEffect(() => {
+    loadUserData(user.uid);
     loadThemes(colors);
     setLoading(false);
   }, []);

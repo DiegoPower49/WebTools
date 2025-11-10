@@ -10,7 +10,6 @@ export default function Page() {
   const user = getAuth().currentUser;
   const [loading, setLoading] = useState(true);
   const { setUser, listenToAuth } = useUserStore();
-  const { loadUserData } = useFireStore();
 
   useEffect(() => {
     const auth = getAuth();
@@ -18,23 +17,15 @@ export default function Page() {
       if (firebaseUser) {
         console.log("Usuario autenticado:", firebaseUser.uid);
         setUser(firebaseUser);
-        loadUserData(firebaseUser.uid);
       } else {
         console.log("No hay usuario autenticado");
         setUser(null);
       }
       setLoading(false);
     });
-
-    unsubscribe();
-  }, [setUser, loadUserData]);
-
-  useEffect(() => {
     listenToAuth();
+    return () => unsubscribe();
   }, [listenToAuth]);
-  useEffect(() => {
-    setLoading(false);
-  }, []);
 
   return <>{!loading && (user ? <Table /> : <LocalTable />)}</>;
 }
