@@ -100,6 +100,10 @@ export default function Table() {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    loadThemes(colors);
+  }, [colors]);
+
   return (
     <>
       {!loading && (

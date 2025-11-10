@@ -97,6 +97,10 @@ export default function LocalTable() {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    loadThemes(localColors);
+  }, [localColors]);
+
   return (
     <>
       {!loading && (
