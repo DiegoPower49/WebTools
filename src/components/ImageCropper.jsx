@@ -14,7 +14,12 @@ import {
 import { ImageUpscale } from "lucide-react";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 
-export default function ImageCropper({ theme, textTheme }) {
+export default function ImageCropper({
+  theme,
+  textTheme,
+  hoverTheme,
+  hoverTextTheme,
+}) {
   const [imageUrl, setImageUrl] = useState(null); // object URL
   const [imageName, setImageName] = useState("image");
   const [format, setFormat] = useState("png");
@@ -207,14 +212,20 @@ export default function ImageCropper({ theme, textTheme }) {
       className="flex flex-col h-full rounded-xl overflow-hidden"
     >
       <div
-        style={{ backgroundColor: theme }}
-        className="h-14 flex items-center justify-center"
+        style={{
+          backgroundColor: theme,
+        }}
+        className={`relative  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full`}
       >
-        <div
-          className="text-xl font-bold uppercase"
-          style={{ color: textTheme }}
-        >
+        <div className="col-start-1 col-end-6 text-xl  w-full font-bold uppercase flex justify-center items-center">
           IMAGE CROPPER
+        </div>
+        <div
+          onClick={() => reset()}
+          style={{ backgroundColor: hoverTheme, color: hoverTextTheme }}
+          className="md:col-start-6 font-bold md:col-end-7 flex justify-center items-center gap-4 p-2 rounded md:m-4 hover:opacity-80"
+        >
+          CLEAR
         </div>
       </div>
 
@@ -240,7 +251,7 @@ export default function ImageCropper({ theme, textTheme }) {
           </div>
         </div>
       ) : (
-        <div className="h-full grid md:grid-cols-4 grid-cols-1 grid-rows-[auto_auto] md:grid-rows-1 items-start gap-4 p-4">
+        <div className="h-full grid md:grid-cols-4 grid-cols-1 grid-rows-[auto_auto] md:grid-rows-1 items-center gap-4 p-4">
           <div className="md:col-span-3 w-full flex justify-center items-start">
             <div className="w-full max-w-full">
               <ReactCrop
@@ -262,35 +273,26 @@ export default function ImageCropper({ theme, textTheme }) {
             </div>
           </div>
 
-          <div className="md:col-span-1 flex flex-col gap-4 items-center">
-            <div style={{ color: theme }} className="font-bold text-lg">
-              FORMAT
+          <div className="md:col-span-1 flex md:flex-col gap-4 items-center">
+            <div>
+              <div style={{ color: theme }} className="font-bold text-lg">
+                FORMAT
+              </div>
+
+              <Select value={format} onValueChange={(v) => setFormat(v)}>
+                <SelectTrigger style={{ color: theme }} className="w-[120px]">
+                  <SelectValue placeholder="Format" />
+                </SelectTrigger>
+                <SelectContent
+                  style={{ color: theme, backgroundColor: "black" }}
+                >
+                  <SelectItem value="png">PNG</SelectItem>
+                  <SelectItem value="jpeg">JPG</SelectItem>
+                  <SelectItem value="webp">WEBP</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-
-            <Select value={format} onValueChange={(v) => setFormat(v)}>
-              <SelectTrigger style={{ color: theme }} className="w-[120px]">
-                <SelectValue placeholder="Format" />
-              </SelectTrigger>
-              <SelectContent style={{ color: theme, backgroundColor: "black" }}>
-                <SelectItem value="png">PNG</SelectItem>
-                <SelectItem value="jpeg">JPG</SelectItem>
-                <SelectItem value="webp">WEBP</SelectItem>
-              </SelectContent>
-            </Select>
-
             <div className="w-full flex flex-col gap-2">
-              <Button
-                style={{ backgroundColor: theme, color: textTheme }}
-                disabled={!imageReady}
-                onClick={() => downloadCroppedImage(false)}
-                className="hover:opacity-80 w-full"
-              >
-                <div className="flex gap-2 items-center justify-center">
-                  <span className="hidden md:block">DOWNLOAD</span>
-                  <IconDeviceFloppy size={18} />
-                </div>
-              </Button>
-
               <Button
                 style={{ backgroundColor: theme, color: textTheme }}
                 onClick={async () => {
@@ -310,14 +312,17 @@ export default function ImageCropper({ theme, textTheme }) {
                 className="w-full"
               >
                 COPY BASE64
-              </Button>
-
+              </Button>{" "}
               <Button
                 style={{ backgroundColor: theme, color: textTheme }}
-                onClick={reset}
-                className="w-full"
+                disabled={!imageReady}
+                onClick={() => downloadCroppedImage(false)}
+                className="hover:opacity-80 w-full"
               >
-                CLEAR
+                <div className="flex gap-2 items-center justify-center">
+                  <span className="">DOWNLOAD</span>
+                  <IconDeviceFloppy size={18} />
+                </div>
               </Button>
             </div>
           </div>

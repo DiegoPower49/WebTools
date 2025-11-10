@@ -30,7 +30,7 @@ export default function Block({
       >
         <div
           style={{ backgroundColor: theme, color: textTheme }}
-          className="col-span-2 flex justify-center items-center font-bold "
+          className="col-span-2 flex justify-center items-center font-bold text-xs md:text-md"
         >
           NAME:
         </div>
@@ -51,7 +51,7 @@ export default function Block({
           className="hover:opacity-60 col-span-3 md:col-span-2 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold cursor-pointer"
         >
           <div className="flex gap-2">
-            <span>DOWNLOAD</span>
+            <span className="text-xs md:text-md">DOWNLOAD</span>
             <IconDownload />
           </div>
         </div>

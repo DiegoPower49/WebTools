@@ -159,14 +159,10 @@ export default function Page() {
                     backgroundColor: theme,
                     color: textTheme,
                   }}
-                  className={`font-bold w-screen grid grid-cols-3 gap-4 text-4xl h-16 justify-center items-center text-center`}
+                  className={`font-bold w-screen grid grid-cols-3 gap-4 text-xl md:text-4xl h-16 justify-center items-center text-center`}
                 >
-                  <div></div>
-                  <div
-                    onClick={() => console.log(store)}
-                    className="flex gap-2 items-center justify-center"
-                  >
-                    FAST TOOLS <IconRocket size={50} />
+                  <div className="col-start-1 col-end-3 md:col-start-2 md:col-end-3 flex gap-2 items-center justify-center">
+                    <IconRocket size={50} /> FAST TOOLS
                   </div>
 
                   <div
