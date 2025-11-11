@@ -215,7 +215,9 @@ export default function Conversor({
                 />
               </div>
             ) : (
-              <div style={{ color: theme }}>SELECT OR DRAG IMAGE</div>
+              <div className="font-bold" style={{ color: theme }}>
+                SELECT OR DRAG IMAGE
+              </div>
             )}
           </label>
           <input
