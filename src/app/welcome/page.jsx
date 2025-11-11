@@ -163,8 +163,26 @@ export default function Page() {
                   }}
                   className={`font-bold w-screen grid grid-cols-3 gap-4 text-xl md:text-4xl h-16 justify-center items-center text-center`}
                 >
-                  <div className="col-start-1 col-end-3 md:col-start-2 md:col-end-3 flex gap-2 items-center justify-center">
-                    <IconRocket size={50} /> FAST TOOLS
+                  <div className=" col-start-1 col-end-3 md:col-start-2 md:col-end-3 flex gap-2 items-center justify-center">
+                    <motion.div
+                      animate={{
+                        x: [1, -1, 1, -1, 1, 0],
+                        y: [0, -1, 1, -1, 1, 0],
+                      }}
+                      transition={{
+                        duration: 0.1,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      style={{
+                        borderRadius: "100%",
+                        boxShadow: "0px 0px 10px 8px white",
+                      }}
+                      className="inline-block "
+                    >
+                      <IconRocket size={50} />
+                    </motion.div>
+                    FAST TOOLS
                   </div>
 
                   <div

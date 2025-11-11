@@ -41,7 +41,7 @@ export default function Conversor({
   const handleImage = (file) => {
     if (!file || !file.type.startsWith("image/")) return;
     if (file.name.endsWith(".ico")) {
-      toast.error("format ICO cant be converted");
+      toast.error("Format ICO can't be converted");
       return;
     }
 
