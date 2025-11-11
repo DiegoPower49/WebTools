@@ -44,7 +44,6 @@ export default function ImageColorPicker({
   };
   const downloadImage = () => {};
 
-  // --- Cargar imagen desde el portapapeles ---
   useEffect(() => {
     const handlePaste = (e) => {
       const items = e.clipboardData.items;
@@ -61,7 +60,6 @@ export default function ImageColorPicker({
     return () => window.removeEventListener("paste", handlePaste);
   }, []);
 
-  // --- Dibujar imagen en el canvas principal ---
   useEffect(() => {
     if (image && canvasRef.current) {
       const canvas = canvasRef.current;
@@ -72,7 +70,6 @@ export default function ImageColorPicker({
     }
   }, [image]);
 
-  // --- Actualizar lupa en movimiento ---
   const handleMouseMove = (e) => {
     if (!canvasRef.current || !zoomCanvasRef.current) return;
 
@@ -147,7 +144,6 @@ export default function ImageColorPicker({
     setColor(hex);
   };
 
-  // --- Controlar zoom con la rueda del mouse ---
   const handleWheel = (e) => {
     setZoom((prevZoom) => {
       let newZoom = prevZoom + (e.deltaY < 0 ? 0.5 : -0.5);
@@ -290,8 +286,6 @@ export default function ImageColorPicker({
                     <SelectItem value="webp">WEBP</SelectItem>
                     <SelectItem value="jpeg">JPEG</SelectItem>
                     <SelectItem value="png">PNG</SelectItem>
-                    <SelectItem value="bmp">BMP</SelectItem>
-                    <SelectItem value="avif">AVIF</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button

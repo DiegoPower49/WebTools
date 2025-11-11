@@ -1,7 +1,6 @@
 "use client";
 
 import { IconDeviceFloppy } from "@tabler/icons-react";
-import { text } from "framer-motion/client";
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -19,7 +18,6 @@ export default function Conversor({
   hoverTextTheme,
 }) {
   const canvasRef = useRef();
-  const [hover, setHover] = useState(false);
   const [preview, setPreview] = useState(null);
   const [webUrl, setWebpUrl] = useState(null);
   const [filename, setFilename] = useState("");
@@ -42,10 +40,13 @@ export default function Conversor({
 
   const handleImage = (file) => {
     if (!file || !file.type.startsWith("image/")) return;
+    if (file.name.endsWith(".ico")) {
+      toast.error("format ICO cant be converted");
+      return;
+    }
 
     const nameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
     setFilename(nameWithoutExt);
-
     const reader = new FileReader();
     reader.onload = (event) => {
       const img = new Image();
@@ -56,6 +57,7 @@ export default function Conversor({
         setWidth(img.width);
         setHeight(img.height);
       };
+
       img.src = event.target.result;
     };
     reader.readAsDataURL(file);
@@ -96,7 +98,7 @@ export default function Conversor({
     handleImage(file);
   };
 
-  const descargar = () => {
+  const descargar = async () => {
     if (
       !width ||
       !height ||
@@ -106,7 +108,51 @@ export default function Conversor({
       toast.error("Por favor ingresa una resolución válida.");
       return;
     }
+
     const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    if (format === "ico") {
+      // Convertimos el canvas a un PNG primero
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          toast.error("Error al generar el icono ICO.");
+          return;
+        }
+
+        // Convertimos el PNG en un DataURL base64
+        const pngArrayBuffer = await blob.arrayBuffer();
+        const header = new ArrayBuffer(6);
+        const dv = new DataView(header);
+        dv.setUint16(0, 0, true); // reserved
+        dv.setUint16(2, 1, true); // type: icon
+        dv.setUint16(4, 1, true); // count
+
+        const entry = new ArrayBuffer(16);
+        const de = new DataView(entry);
+        de.setUint8(0, parseInt(width)); // width
+        de.setUint8(1, parseInt(height)); // height
+        de.setUint8(2, 0); // colors
+        de.setUint8(3, 0); // reserved
+        de.setUint16(4, 1, true); // planes
+        de.setUint16(6, 32, true); // bits per pixel
+        de.setUint32(8, pngArrayBuffer.byteLength, true); // image size
+        de.setUint32(12, header.byteLength + entry.byteLength, true); // offset
+
+        // Unimos todo
+        const blobICO = new Blob([header, entry, pngArrayBuffer], {
+          type: "image/x-icon",
+        });
+
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blobICO);
+        link.download = `${filename}.ico`;
+        link.click();
+      }, "image/png");
+      return;
+    }
+
+    // Otros formatos normales
     const mimeType = `image/${format}`;
     canvas.toBlob((blob) => {
       if (!blob) {
@@ -201,7 +247,7 @@ export default function Conversor({
                     <SelectItem value="webp">WEBP</SelectItem>
                     <SelectItem value="jpeg">JPEG</SelectItem>
                     <SelectItem value="png">PNG</SelectItem>
-                    <SelectItem value="bmp">BMP</SelectItem>
+                    <SelectItem value="ico">ICO</SelectItem>
                     <SelectItem value="avif">AVIF</SelectItem>
                   </SelectContent>
                 </Select>
@@ -246,8 +292,6 @@ export default function Conversor({
 
             <div className="h-full flex items-center justify-center">
               <button
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
                 style={{
                   backgroundColor: theme,
                   color: textTheme,
