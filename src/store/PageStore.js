@@ -85,6 +85,7 @@ export const pageStore = createStore(
         jwt: false,
         editor: false,
         qr: false,
+        picker: false,
       },
       api: "http://localhost:3000",
       setApi: (api) => set({ api: api }),

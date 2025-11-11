@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Dialog,
@@ -14,6 +14,7 @@ import {
   IconBrush,
   IconCalculator,
   IconCloud,
+  IconColorPicker,
   IconCrop,
   IconDoor,
   IconHash,
@@ -39,8 +40,8 @@ import ImageCropper from "@/components/ImageCropper";
 import QRGenerator from "@/components/QRGenerator";
 import { usePageStore } from "@/store/PageStore";
 import { useRouter } from "next/navigation";
-import useUserStore from "@/store/userStore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import ImageColorPicker from "@/components/colorPicker";
 
 export default function Page() {
   const {
@@ -63,7 +64,6 @@ export default function Page() {
   const [textTheme, setTextTheme] = useState();
   const [hoverTextTheme, setHoverTextTheme] = useState();
   const router = useRouter();
-  const { setUser } = useUserStore();
 
   const loadThemes = (colors) => {
     const findedColor = colors.find((item) => item.nombre === "theme");
@@ -92,16 +92,10 @@ export default function Page() {
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        setUser(firebaseUser);
-        router.replace("/welcome");
-      } else {
-        setUser(null);
-      }
+      if (firebaseUser) router.replace("/welcome");
     });
-
     return () => unsubscribe();
-  }, [router, setUser]);
+  }, []);
 
   useEffect(() => {
     loadThemes(colors);
@@ -151,7 +145,7 @@ export default function Page() {
           )}
         </AnimatePresence>
         <div className="w-screen bg-black py-2  flex justify-center items-center gap-2">
-          <div className="grid grid-cols-5 sm:grid-cols-11 h-full justify-center items-center gap-2">
+          <div className="grid grid-cols-5 sm:grid-cols-12 h-full justify-center items-center gap-2">
             <button
               aria-label="Show Header"
               style={{
@@ -316,6 +310,20 @@ export default function Page() {
             >
               <IconQrcode size={40} />
             </button>
+            <button
+              aria-label="Show Color Picker"
+              style={{
+                backgroundColor: !tabs.picker ? theme : hoverTheme,
+                color: !tabs.picker ? textTheme : hoverTextTheme,
+                boxShadow: tabs.picker && `0px 0px 5px 1px ${theme}`,
+              }}
+              className={`h-14 w-14 p-2 rounded hidden md:block`}
+              onClick={() => {
+                setTabs("picker");
+              }}
+            >
+              <IconColorPicker size={40} />
+            </button>
           </div>
         </div>
         <div className="relative w-full flex-1 flex flex-col justify-center items-center">
@@ -370,7 +378,7 @@ export default function Page() {
                     duration: 0.4,
                     ease: "easeInOut",
                   }}
-                  className={`h-[350px]`}
+                  className={`h-[350px] hidden md:block`}
                 >
                   <Recorder
                     theme={theme}
@@ -560,6 +568,28 @@ export default function Page() {
                   className={`h-[350px]`}
                 >
                   <QRGenerator
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </motion.div>
+              )}
+              {tabs.picker && (
+                <motion.div
+                  key="colorpicker"
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{
+                    layout: { type: "spring", stiffness: 300, damping: 25 },
+                    duration: 0.4,
+                    ease: "easeInOut",
+                  }}
+                  className={`h-[350px] hidden md:block`}
+                >
+                  <ImageColorPicker
                     theme={theme}
                     textTheme={textTheme}
                     hoverTheme={hoverTheme}

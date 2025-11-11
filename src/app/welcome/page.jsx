@@ -14,6 +14,7 @@ import {
   IconBrush,
   IconCalculator,
   IconCloud,
+  IconColorPicker,
   IconCrop,
   IconDoor,
   IconHash,
@@ -41,6 +42,7 @@ import useUserStore from "@/store/userStore";
 import { useFireStore } from "@/store/fireStore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import ImageColorPicker from "@/components/colorPicker";
 
 export default function Page() {
   const { logout, listenToAuth, setUser } = useUserStore();
@@ -177,7 +179,7 @@ export default function Page() {
               )}
             </AnimatePresence>
             <div className="w-screen bg-black py-2  flex justify-center items-center gap-2">
-              <div className="grid grid-cols-5 sm:grid-cols-11 h-full justify-center items-center gap-2">
+              <div className="grid grid-cols-5 sm:grid-cols-12 h-full justify-center items-center gap-2">
                 <button
                   aria-label="Show Header"
                   style={{
@@ -342,6 +344,20 @@ export default function Page() {
                 >
                   <IconQrcode size={40} />
                 </button>
+                <button
+                  aria-label="Show Color Picker"
+                  style={{
+                    backgroundColor: !tabs.picker ? theme : hoverTheme,
+                    color: !tabs.picker ? textTheme : hoverTextTheme,
+                    boxShadow: tabs.picker && `0px 0px 5px 1px ${theme}`,
+                  }}
+                  className={`h-14 w-14 p-2 rounded hidden md:block`}
+                  onClick={() => {
+                    setTabs("picker");
+                  }}
+                >
+                  <IconColorPicker size={40} />
+                </button>
               </div>
             </div>
             <div className="relative w-full flex-1 flex flex-col justify-center items-center">
@@ -396,7 +412,7 @@ export default function Page() {
                         duration: 0.4,
                         ease: "easeInOut",
                       }}
-                      className={`h-[350px]`}
+                      className={`h-[350px] hidden md:block`}
                     >
                       <Recorder
                         theme={theme}
@@ -586,6 +602,28 @@ export default function Page() {
                       className={`h-[350px]`}
                     >
                       <QRGenerator
+                        theme={theme}
+                        textTheme={textTheme}
+                        hoverTheme={hoverTheme}
+                        hoverTextTheme={hoverTextTheme}
+                      />
+                    </motion.div>
+                  )}
+                  {tabs.picker && (
+                    <motion.div
+                      key="colorpicker"
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{
+                        layout: { type: "spring", stiffness: 300, damping: 25 },
+                        duration: 0.4,
+                        ease: "easeInOut",
+                      }}
+                      className={`h-[350px] hidden md:block`}
+                    >
+                      <ImageColorPicker
                         theme={theme}
                         textTheme={textTheme}
                         hoverTheme={hoverTheme}

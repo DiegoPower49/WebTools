@@ -93,6 +93,7 @@ export const fireStore = createStore((set, get) => ({
     jwt: false,
     editor: false,
     qr: false,
+    picker: false,
   },
   api: "http://localhost:3000",
   loading: true,
