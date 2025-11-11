@@ -63,7 +63,6 @@ export default function Page() {
   const [textTheme, setTextTheme] = useState();
   const [hoverTextTheme, setHoverTextTheme] = useState();
   const [loading, setLoading] = useState(true);
-  const [checking, setChecking] = useState(true);
   const router = useRouter();
   const { setUser } = useUserStore();
 
@@ -96,33 +95,19 @@ export default function Page() {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
-
         router.replace("/welcome");
-        setChecking(false);
       } else {
         setUser(null);
-        router.replace("/");
       }
     });
 
     return () => unsubscribe();
   }, [router, setUser]);
+
   useEffect(() => {
     loadThemes(colors);
     setLoading(false);
   }, [colors]);
-
-  if (checking)
-    return (
-      <div className="flex flex-col items-center justify-center h-screen  text-white">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-          className="w-14 h-14 border-4 border-t-transparent border-white rounded-full"
-        />
-        <p className="mt-4 text-gray-400 text-lg"></p>
-      </div>
-    );
 
   return (
     <>
