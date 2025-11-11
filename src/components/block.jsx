@@ -50,7 +50,7 @@ export default function Block({
           onClick={exportToTextFile}
           className="hover:opacity-60 col-span-3 md:col-span-2 flex p-2  active:scale-110 duration-300 hover:text-white items-center justify-center font-bold cursor-pointer"
         >
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center justify-center">
             <span className="text-xs md:text-md">DOWNLOAD</span>
             <IconDownload />
           </div>

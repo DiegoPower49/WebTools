@@ -650,7 +650,7 @@ export default function Page() {
                   className="flex font-bold justify-end items-center pr-20"
                 >
                   <a href="https://diegotorres-portfoliodev.vercel.app">
-                    Web created by: Diego Torres
+                    Website created by: Diego Torres
                   </a>
                 </motion.div>
               )}
