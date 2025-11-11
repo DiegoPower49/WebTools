@@ -302,7 +302,7 @@ export default function ImageColorPicker({
             </div>
           </div>
         ) : (
-          <p className="text-gray-500">Paste an image here</p>
+          <div style={{ color: theme }}>PASTE AN IMAGE HERE!</div>
         )}
       </div>
     </div>
