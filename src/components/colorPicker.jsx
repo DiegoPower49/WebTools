@@ -18,13 +18,13 @@ export default function ImageColorPicker({
 }) {
   const canvasRef = useRef(null);
   const zoomCanvasRef = useRef(null);
+  const wheelBlockRef = useRef(null);
   const [image, setImage] = useState(null);
   const [format, setFormat] = useState("webp");
   const [color, setColor] = useState(null);
   const [zoom, setZoom] = useState(3);
   const [showZoom, setShowZoom] = useState(false);
   const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
-
   const reset = () => {
     setImage(null);
     setColor(null);
@@ -42,7 +42,6 @@ export default function ImageColorPicker({
     ));
     navigator.clipboard.writeText(color);
   };
-  const downloadImage = () => {};
 
   useEffect(() => {
     const handlePaste = (e) => {
@@ -69,7 +68,28 @@ export default function ImageColorPicker({
       ctx.drawImage(image, 0, 0);
     }
   }, [image]);
+  const wheelPreventDefault = (e) => {
+    e.preventDefault();
+  };
 
+  // attach / detach que usan la misma referencia de función
+  const attachWheelBlock = () => {
+    if (wheelBlockRef.current) return; // ya está puesto
+    wheelBlockRef.current = wheelPreventDefault;
+    // registrar en window con passive: false para que preventDefault funcione
+    window.addEventListener("wheel", wheelBlockRef.current, {
+      passive: false,
+      capture: true,
+    });
+  };
+
+  const detachWheelBlock = () => {
+    if (!wheelBlockRef.current) return;
+    window.removeEventListener("wheel", wheelBlockRef.current, {
+      capture: true,
+    });
+    wheelBlockRef.current = null;
+  };
   const handleMouseMove = (e) => {
     if (!canvasRef.current || !zoomCanvasRef.current) return;
 
@@ -145,6 +165,7 @@ export default function ImageColorPicker({
   };
 
   const handleWheel = (e) => {
+    e.preventDefault();
     setZoom((prevZoom) => {
       let newZoom = prevZoom + (e.deltaY < 0 ? 0.5 : -0.5);
       return Math.min(Math.max(newZoom, 1), 20); // límites entre 1x y 20x
@@ -195,7 +216,15 @@ export default function ImageColorPicker({
                     setShowZoom(true);
                     handleMouseMove(e);
                   }}
-                  onMouseLeave={() => setShowZoom(false)}
+                  onMouseLeave={() => {
+                    setShowZoom(false);
+                    // quitamos el bloqueo de rueda cuando el mouse sale
+                    detachWheelBlock();
+                  }}
+                  onMouseEnter={(e) => {
+                    // añadimos bloqueo de scroll globalmente (no deja scrollear la página)
+                    attachWheelBlock();
+                  }}
                   onClick={handleMouseClick}
                   onWheel={handleWheel}
                   className="max-w-[400px] max-h-[250px]"
@@ -210,7 +239,7 @@ export default function ImageColorPicker({
                     ref={zoomCanvasRef}
                     style={{
                       position: "absolute",
-                      top: zoomPos.y + 20,
+                      top: zoomPos.y - 50,
                       left: zoomPos.x + 20,
                       border: "2px solid black",
                       width: 100,
