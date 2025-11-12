@@ -3,7 +3,7 @@
     "title": "Fast Tools",
     "description": "Sitio web con herramientas utiles para el desarrollo",
     "icons": {
-      "icon": "/favicon.png"
+      "icon": "/favicon.ico"
     },
     "authors": [
       {
@@ -18,7 +18,7 @@
       "siteName": "Fast Tools",
       "images": [
         {
-          "url": "/icono.png",
+          "url": "/favicon.ico",
           "width": 630,
           "height": 630,
           "alt": "logo"
