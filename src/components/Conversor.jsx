@@ -247,7 +247,7 @@ export default function Conversor({
   return (
     <div
       style={{ border: `2px solid ${theme}` }}
-      className="flex flex-col h-screen rounded-xl overflow-hidden bg-black"
+      className="flex flex-col h-full rounded-xl overflow-hidden"
     >
       {toast && (
         <Toast
@@ -322,7 +322,7 @@ export default function Conversor({
             }}
             className="md:p-4 flex md:flex-col gap-2 h-full p-4"
           >
-            <div className="flex h-full gap-4 md:flex-col md:py-2">
+            <div className="flex flex h-full gap-4 md:flex-col md:py-2">
               <div className="w-full flex flex-col items-center justify-center md:items-start">
                 <p className="text-xl font-bold mb-2 hidden md:block">
                   FORMAT:
@@ -397,7 +397,7 @@ export default function Conversor({
                 className="flex text-center w-full active:scale-95 transition-transform border-white border-2 justify-center items-center font-bold p-3 rounded hover:opacity-80"
               >
                 <div className="flex flex-col md:flex-row gap-2 items-center justify-center">
-                  <span className="text-lg">DOWNLOAD</span>
+                  <span className="text-lg hidden md:block">DOWNLOAD</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
