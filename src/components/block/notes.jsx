@@ -5,7 +5,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import {
   IconBrandSkype,
   IconBrandSpeedtest,
@@ -19,7 +19,6 @@ import {
 import styles from "../enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
-import { div } from "framer-motion/client";
 import { Button } from "../ui/button";
 
 export default function Notes({
@@ -177,7 +176,7 @@ export default function Notes({
         </div>
       </div>
       <Dialog onOpenChange={setEditForm} open={editForm}>
-        <DialogContent className="w-full  bg-black border-white border-2 text-white overflow-hidden gap-2">
+        <DialogContent className="w-full min-h-[70vh] bg-black border-white border-2 text-white overflow-hidden gap-2">
           <DialogTitle
             style={{ color: theme }}
             className="flex justify-center items-center"
@@ -214,11 +213,11 @@ export default function Notes({
               </label>
               <div className="w-full h-full flex">
                 <Textarea
-                  rows={5}
+                  rows={10}
                   disabled={!editable}
                   id="content"
                   style={{ color: theme }}
-                  className="text-white disabled:cursor-text disabled:select-text resize-none p-2 w-full rounded "
+                  className={`text-white disabled:cursor-text disabled:select-text resize-none p-2 w-full rounded ${styles.scrollContainer}`}
                   placeholder={content || ""}
                   value={content}
                   onChange={(e) => {
