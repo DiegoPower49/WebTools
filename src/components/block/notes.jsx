@@ -12,6 +12,7 @@ import {
   IconBrandWhatsapp,
   IconDeviceFloppy,
   IconDownload,
+  IconEraser,
   IconIcons,
   IconNote,
   IconPencil,
@@ -239,19 +240,32 @@ export default function Notes({
                     onChange={(e) => setBgColor(e.target.value)}
                   />
                 </div>
-                <button
-                  disabled={!editable}
-                  style={{ backgroundColor: theme, color: textTheme }}
-                  onClick={() => {
-                    setNotes(id, title, content, bgColor);
-                    setEditForm(false);
-                  }}
-                  className="hover:opacity-60  w-3/4 p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
-                >
-                  <div className="flex gap-2 items-center justify-center">
-                    <span>SAVE</span> <IconDeviceFloppy />
-                  </div>
-                </button>
+                <div className="flex w-full h-full items-center justify-center gap-4">
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      setNotes(id, "", "", "#000000");
+                      setEditForm(false);
+                    }}
+                    className="hover:opacity-60  w-3/4 p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
+                  >
+                    DELETE <IconEraser />
+                  </Button>
+
+                  <button
+                    disabled={!editable}
+                    style={{ backgroundColor: theme, color: textTheme }}
+                    onClick={() => {
+                      setNotes(id, title, content, bgColor);
+                      setEditForm(false);
+                    }}
+                    className="hover:opacity-60  w-3/4 p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
+                  >
+                    <div className="flex gap-2 items-center justify-center">
+                      <span>SAVE</span> <IconDeviceFloppy />
+                    </div>
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="w-full h-full mt-4 flex justify-center md:justify-end">
