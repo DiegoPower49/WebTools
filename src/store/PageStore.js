@@ -126,12 +126,13 @@ export const pageStore = createStore(
         { id: 5, label: "conversor" },
         { id: 6, label: "links" },
         { id: 7, label: "colors" },
-        { id: 8, label: "apiTester" },
-        { id: 9, label: "jwt" },
         { id: 10, label: "editor" },
         { id: 11, label: "qr" },
       ],
-      headerArea: [],
+      headerArea: [
+        { id: 8, label: "apiTester" },
+        { id: 9, label: "jwt" },
+      ],
       setHeaderArea: (updater) => {
         set((state) => ({
           headerArea:
