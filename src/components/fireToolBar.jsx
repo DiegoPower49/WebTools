@@ -298,70 +298,34 @@ export default function FireToolBar({
       {/* HEADER AREA */}
       {tabs.header && (
         <AnimatePresence mode="popLayout">
-          <div
+          <motion.div
+            key="headerBar"
+            layout
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{
+              layout: { type: "spring", stiffness: 300, damping: 25 },
+              duration: 0.4,
+              ease: "easeInOut",
+            }}
             style={{
               backgroundColor: theme,
               color: textTheme,
             }}
-            className=" w-screen justify-between"
+            className=" w-screen flex flex-col items-center justify-center"
           >
-            <motion.div
-              key="headerBar"
-              layout
-              className="font-bold flex w-full gap-4 text-xl md:text-4xl h-20 justify-between items-center text-center px-2"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{
-                layout: { type: "spring", stiffness: 300, damping: 25 },
-                duration: 0.4,
-                ease: "easeInOut",
-              }}
-            >
-              <IconTool
-                className="hover:scale-125 duration-300"
-                size={50}
-                onClick={() => setShowTools(!showTools)}
-              />
-              <span>FAST TOOLS</span>
+            <span className="text-5xl font-bold">FAST TOOLS</span>
 
-              <div
-                onClick={() => {
-                  getOut();
-                }}
-                className="flex justify-end pr-4 cursor-pointer"
-              >
-                <IconDoor size={40} />
-              </div>
-            </motion.div>
-            {showTools && (
-              <motion.div
-                key="header"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                style={{ backgroundColor: theme, color: textTheme }}
-                className="font-bold w-full gap-4 text-xl md:text-4xl h-20 justify-center items-center text-center px-2"
-              >
-                <motion.div
-                  key="header"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="w-full flex items-center justify-center"
-                >
-                  <DroppableArea
-                    id="headerArea"
-                    items={headerArea}
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </motion.div>
-              </motion.div>
-            )}
-          </div>
+            <DroppableArea
+              id="headerArea"
+              items={headerArea}
+              theme={theme}
+              textTheme={textTheme}
+              hoverTheme={hoverTheme}
+              hoverTextTheme={hoverTextTheme}
+            />
+          </motion.div>
         </AnimatePresence>
       )}
 
@@ -389,7 +353,6 @@ export default function FireToolBar({
         >
           <IconRocket size={40} />
         </motion.div>
-
         <div className="flex-1">
           <DroppableArea
             id="toolbarArea"
@@ -399,6 +362,14 @@ export default function FireToolBar({
             hoverTheme={hoverTheme}
             hoverTextTheme={hoverTextTheme}
           />
+        </div>
+        <div
+          onClick={() => {
+            getOut();
+          }}
+          className="hover:scale-125 duration-300 flex justify-end pr-4 cursor-pointer"
+        >
+          <IconDoor color={theme} size={40} />
         </div>
       </div>
 
