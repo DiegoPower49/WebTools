@@ -73,7 +73,7 @@ export default function Links({
         className={`relative  h-14 items-center justify-center grid grid-cols-6 grid-rows-1 w-full`}
       >
         <div className="col-start-1 col-end-6 text-xl  w-full font-bold uppercase flex justify-center items-center">
-          Enlaces
+          LINKS
         </div>
         <button
           style={{
@@ -182,7 +182,7 @@ export default function Links({
       <Dialog onOpenChange={setEditForm} open={editForm}>
         <DialogContent className="w-full bg-black border-white border-2 text-white overflow-hidden">
           <DialogTitle className="flex justify-center items-center">
-            Edit Links
+            EDIT LINKS
           </DialogTitle>
           <DialogDescription className="hidden">
             Cuadro de edicion de Links

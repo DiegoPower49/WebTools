@@ -27,7 +27,7 @@ import {
   IconVideoPlus,
 } from "@tabler/icons-react";
 import Recorder from "@/components/recorder";
-import Block from "@/components/block";
+import Block from "@/components/block/block";
 import Calculator from "@/components/calculator";
 import Conversor from "@/components/Conversor";
 import Links from "@/components/enlaces";
@@ -43,6 +43,7 @@ import { useFireStore } from "@/store/fireStore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import ImageColorPicker from "@/components/colorPicker";
+import Notes from "@/components/block/notes";
 
 export default function Page() {
   const { logout, listenToAuth, setUser } = useUserStore();
@@ -51,10 +52,8 @@ export default function Page() {
     colors,
     links,
     api,
-    title,
-    text,
-    setTitle,
-    setText,
+    notes,
+    setNotes,
     setApi,
     setColors,
     setLinks,
@@ -454,11 +453,9 @@ export default function Page() {
                       }}
                       className={`h-[350px]`}
                     >
-                      <Block
-                        text={text}
-                        setText={setText}
-                        title={title}
-                        setTitle={setTitle}
+                      <Notes
+                        notes={notes}
+                        setNotes={setNotes}
                         theme={theme}
                         textTheme={textTheme}
                         hoverTheme={hoverTheme}

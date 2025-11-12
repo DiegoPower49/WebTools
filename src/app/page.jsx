@@ -27,7 +27,6 @@ import {
   IconVideoPlus,
 } from "@tabler/icons-react";
 import Recorder from "@/components/recorder";
-import Block from "@/components/block";
 import Calculator from "@/components/calculator";
 import Conversor from "@/components/Conversor";
 import Links from "@/components/enlaces";
@@ -42,6 +41,7 @@ import { usePageStore } from "@/store/PageStore";
 import { useRouter } from "next/navigation";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ImageColorPicker from "@/components/colorPicker";
+import Notes from "@/components/block/notes";
 
 export default function Page() {
   const {
@@ -57,6 +57,8 @@ export default function Page() {
     setColors,
     setLinks,
     setTabs,
+    notes,
+    setNotes,
   } = usePageStore();
   const [theme, setTheme] = useState();
   const [authenticate, setAuthenticate] = useState(false);
@@ -388,32 +390,6 @@ export default function Page() {
                   />
                 </motion.div>
               )}
-              {tabs.notes && (
-                <motion.div
-                  key="notes"
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{
-                    layout: { type: "spring", stiffness: 300, damping: 25 },
-                    duration: 0.4,
-                    ease: "easeInOut",
-                  }}
-                  className={`h-[350px]`}
-                >
-                  <Block
-                    text={text}
-                    setText={setText}
-                    title={title}
-                    setTitle={setTitle}
-                    theme={theme}
-                    textTheme={textTheme}
-                    hoverTheme={hoverTheme}
-                    hoverTextTheme={hoverTextTheme}
-                  />
-                </motion.div>
-              )}
               {tabs.calculator && (
                 <motion.div
                   key="calculator"
@@ -590,6 +566,30 @@ export default function Page() {
                   className={`h-[350px] hidden md:block`}
                 >
                   <ImageColorPicker
+                    theme={theme}
+                    textTheme={textTheme}
+                    hoverTheme={hoverTheme}
+                    hoverTextTheme={hoverTextTheme}
+                  />
+                </motion.div>
+              )}
+              {tabs.notes && (
+                <motion.div
+                  key="notes"
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{
+                    layout: { type: "spring", stiffness: 300, damping: 25 },
+                    duration: 0.4,
+                    ease: "easeInOut",
+                  }}
+                  className={`h-[350px]`}
+                >
+                  <Notes
+                    notes={notes}
+                    setNotes={setNotes}
                     theme={theme}
                     textTheme={textTheme}
                     hoverTheme={hoverTheme}

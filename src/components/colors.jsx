@@ -156,14 +156,14 @@ export default function Colors({
       <Dialog onOpenChange={setEditForm} open={editForm}>
         <DialogContent className="w-full bg-black border-white border-2 text-white overflow-hidden">
           <DialogTitle className="flex justify-center items-center">
-            Edit Color
+            EDIT COLOR
           </DialogTitle>
           <DialogDescription className="hidden">
             Cuadro de edicion de color
           </DialogDescription>
           <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
             <div className="flex flex-col gap-2">
-              <label htmlFor="nombre">Name</label>
+              <label htmlFor="nombre">NAME</label>
               <input
                 id="nombre"
                 type="text"
@@ -187,7 +187,7 @@ export default function Colors({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="color">Color</label>
+              <label htmlFor="color">COLOR</label>
               <div className="w-full h-full flex gap-4">
                 <span className="w-12 flex justify-center items-center text-xl font-bold">
                   #
@@ -197,7 +197,7 @@ export default function Colors({
                   className="p-2 w-full rounded text-black"
                   type="text"
                   placeholder={colors[id].color || ""}
-                  value={color}
+                  value={color.toUpperCase()}
                   onChange={(e) => {
                     const color = e.target.value;
                     setColor(color.toLowerCase());

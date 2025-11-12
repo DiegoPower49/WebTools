@@ -95,6 +95,44 @@ export const fireStore = createStore((set, get) => ({
     qr: false,
     picker: false,
   },
+  notes: [
+    {
+      id: 1,
+      title: "",
+      content: "",
+      color: "#000000",
+    },
+    {
+      id: 2,
+      title: "",
+      content: "",
+      color: "#000000",
+    },
+    {
+      id: 3,
+      title: "",
+      content: "",
+      color: "#000000",
+    },
+    {
+      id: 4,
+      title: "",
+      content: "",
+      color: "#000000",
+    },
+    { id: 5, title: "", content: "", color: "#000000" },
+    { id: 6, title: "", content: "", color: "#000000" },
+    { id: 7, title: "", content: "", color: "#000000" },
+    { id: 8, title: "", content: "", color: "#000000" },
+    { id: 9, title: "", content: "", color: "#000000" },
+    { id: 10, title: "", content: "", color: "#000000" },
+    { id: 11, title: "", content: "", color: "#000000" },
+    { id: 12, title: "", content: "", color: "#000000" },
+    { id: 13, title: "", content: "", color: "#000000" },
+    { id: 14, title: "", content: "", color: "#000000" },
+    { id: 15, title: "", content: "", color: "#000000" },
+    { id: 16, title: "", content: "", color: "#000000" },
+  ],
   api: "http://localhost:3000",
   loading: true,
   error: null,
@@ -184,6 +222,14 @@ export const fireStore = createStore((set, get) => ({
       i === id ? { ...c, nombre: text, link, icono } : c
     );
     set({ links: updatedLinks });
+    get().saveToFirestore();
+  },
+  setNotes: (id, title, content, color) => {
+    const notes = get().notes;
+    const updateNotes = notes.map((c, i) =>
+      i === id ? { ...c, title: title, content: content, color: color } : c
+    );
+    set({ notes: updateNotes });
     get().saveToFirestore();
   },
 }));
