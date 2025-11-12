@@ -205,7 +205,7 @@ export default function ApiTester({
           <div className="flex w-full gap-4">
             <select
               value={method}
-              style={{ color: textTheme, border: `1px solid ${theme}` }}
+              style={{ color: theme, backgroundColor: "black" }}
               onChange={(e) => setMethod(e.target.value)}
               className=" rounded h-10 bg-transparent"
             >

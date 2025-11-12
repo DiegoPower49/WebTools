@@ -133,6 +133,24 @@ export const fireStore = createStore((set, get) => ({
     { id: 15, title: "", content: "", color: "#000000" },
     { id: 16, title: "", content: "", color: "#000000" },
   ],
+
+  // === NUEVAS PROPIEDADES PARA DRAG AND DROP ===
+  toolbarArea: [
+    { id: 1, label: "notes" },
+    { id: 2, label: "calculator" },
+  ],
+  headerArea: [
+    { id: 3, label: "recorder" },
+    { id: 4, label: "picker" },
+    { id: 5, label: "conversor" },
+    { id: 6, label: "links" },
+    { id: 7, label: "colors" },
+    { id: 8, label: "apiTester" },
+    { id: 9, label: "jwt" },
+    { id: 10, label: "editor" },
+    { id: 11, label: "qr" },
+  ],
+
   api: "http://localhost:3000",
   loading: true,
   error: null,
@@ -224,12 +242,50 @@ export const fireStore = createStore((set, get) => ({
     set({ links: updatedLinks });
     get().saveToFirestore();
   },
+
   setNotes: (id, title, content, color) => {
     const notes = get().notes;
     const updateNotes = notes.map((c, i) =>
       i === id ? { ...c, title: title, content: content, color: color } : c
     );
     set({ notes: updateNotes });
+    get().saveToFirestore();
+  },
+
+  // === NUEVOS MÉTODOS PARA DRAG AND DROP ===
+
+  setHeaderArea: (updater) => {
+    const currentHeaderArea = get().headerArea;
+    const newHeaderArea =
+      typeof updater === "function" ? updater(currentHeaderArea) : updater;
+
+    set({ headerArea: newHeaderArea });
+    get().saveToFirestore();
+  },
+
+  setToolbarArea: (updater) => {
+    const currentToolbarArea = get().toolbarArea;
+    const newToolbarArea =
+      typeof updater === "function" ? updater(currentToolbarArea) : updater;
+
+    set({ toolbarArea: newToolbarArea });
+    get().saveToFirestore();
+  },
+
+  moveButton: (id, from, to) => {
+    if (from === to) return;
+
+    const source = get()[from];
+    const target = get()[to];
+    const item = source.find((b) => b.id === id);
+
+    if (!item) return;
+
+    set({
+      [from]: source.filter((b) => b.id !== id),
+      [to]: [...target, item],
+    });
+
     get().saveToFirestore();
   },
 }));

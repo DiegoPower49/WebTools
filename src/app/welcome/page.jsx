@@ -44,6 +44,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import ImageColorPicker from "@/components/colorPicker";
 import Notes from "@/components/block/notes";
+import FireToolBar from "@/components/fireToolBar";
 
 export default function Page() {
   const { logout, listenToAuth, setUser } = useUserStore();
@@ -55,18 +56,23 @@ export default function Page() {
     notes,
     setNotes,
     setApi,
+    toolbarArea,
     setColors,
     setLinks,
-    setTabs,
     loadUserData,
     loading,
   } = useFireStore();
   const [theme, setTheme] = useState(null);
-  const [authenticate, setAuthenticate] = useState(false);
   const [hoverTheme, setHoverTheme] = useState();
   const [textTheme, setTextTheme] = useState();
   const [hoverTextTheme, setHoverTextTheme] = useState();
-
+  const isActive = (component) => {
+    if (toolbarArea.find((tool) => tool.label === component)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   const router = useRouter();
   const getOut = () => {
     logout();
@@ -144,239 +150,13 @@ export default function Page() {
           </div>
         ) : (
           <>
-            <AnimatePresence mode="popLayout">
-              {tabs.header && (
-                <motion.div
-                  key="header"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{
-                    layout: { type: "spring", stiffness: 300, damping: 25 },
-                    duration: 0.4,
-                    ease: "easeInOut",
-                  }}
-                  style={{
-                    backgroundColor: theme,
-                    color: textTheme,
-                  }}
-                  className={`font-bold w-screen grid grid-cols-3 gap-4 text-xl md:text-4xl h-16 justify-center items-center text-center`}
-                >
-                  <div className=" col-start-1 col-end-3 md:col-start-2 md:col-end-3 flex gap-2 items-center justify-center">
-                    <motion.div
-                      animate={{
-                        x: [1, -1, 1, -1, 1, 0],
-                        y: [0, -1, 1, -1, 1, 0],
-                      }}
-                      transition={{
-                        duration: 0.1,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      style={{
-                        borderRadius: "100%",
-                        boxShadow: "0px 0px 10px 8px white",
-                      }}
-                      className="inline-block "
-                    >
-                      <IconRocket size={50} />
-                    </motion.div>
-                    FAST TOOLS
-                  </div>
-
-                  <div
-                    onClick={() => {
-                      getOut();
-                    }}
-                    className="flex justify-end pr-12"
-                  >
-                    <IconDoor size={40} />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-            <div className="w-screen bg-black py-2  flex justify-center items-center gap-2">
-              <div className="grid grid-cols-5 sm:grid-cols-12 h-full justify-center items-center gap-2">
-                <button
-                  aria-label="Show Header"
-                  style={{
-                    backgroundColor: !tabs.header ? theme : hoverTheme,
-                    color: !tabs.header ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.header && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded 
-                 
-                  `}
-                  onClick={() => {
-                    setTabs("header");
-                  }}
-                >
-                  <IconLayoutNavbar size={40} />
-                </button>
-
-                <button
-                  aria-label="Show Calculator"
-                  style={{
-                    backgroundColor: !tabs.calculator ? theme : hoverTheme,
-                    color: !tabs.calculator ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.calculator && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded `}
-                  onClick={() => {
-                    setTabs("calculator");
-                  }}
-                >
-                  <IconCalculator size={40} />
-                </button>
-
-                <button
-                  aria-label="Show Recorder"
-                  style={{
-                    backgroundColor: !tabs.recorder ? theme : hoverTheme,
-                    color: !tabs.recorder ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.recorder && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded hidden md:block`}
-                  onClick={() => {
-                    setTabs("recorder");
-                  }}
-                >
-                  <IconVideoPlus size={40} />
-                </button>
-
-                <button
-                  aria-label="Show Notes"
-                  style={{
-                    backgroundColor: !tabs.notes ? theme : hoverTheme,
-                    color: !tabs.notes ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.notes && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded `}
-                  onClick={() => {
-                    setTabs("notes");
-                  }}
-                >
-                  <IconNote size={40} />
-                </button>
-
-                <button
-                  aria-label="Show Conversor"
-                  style={{
-                    backgroundColor: !tabs.conversor ? theme : hoverTheme,
-                    color: !tabs.conversor ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.conversor && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded `}
-                  onClick={() => {
-                    setTabs("conversor");
-                  }}
-                >
-                  <IconPhotoEdit size={40} />
-                </button>
-
-                <button
-                  aria-label="Show Links"
-                  style={{
-                    backgroundColor: !tabs.links ? theme : hoverTheme,
-                    color: !tabs.links ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.links && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded `}
-                  onClick={() => {
-                    setTabs("links");
-                  }}
-                >
-                  <IconLink size={40} />
-                </button>
-
-                <button
-                  aria-label="Show Colors"
-                  style={{
-                    backgroundColor: !tabs.colors ? theme : hoverTheme,
-                    color: !tabs.colors ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.colors && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded`}
-                  onClick={() => {
-                    setTabs("colors");
-                  }}
-                >
-                  <IconBrush size={40} />
-                </button>
-
-                <button
-                  aria-label="Show Api Tester"
-                  style={{
-                    backgroundColor: !tabs.apiTester ? theme : hoverTheme,
-                    color: !tabs.apiTester ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.apiTester && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded`}
-                  onClick={() => {
-                    setTabs("apiTester");
-                  }}
-                >
-                  <IconApi size={40} />
-                </button>
-
-                <button
-                  aria-label="Show Hasher"
-                  style={{
-                    backgroundColor: !tabs.jwt ? theme : hoverTheme,
-                    color: !tabs.jwt ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.jwt && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded`}
-                  onClick={() => {
-                    setTabs("jwt");
-                  }}
-                >
-                  <IconHash size={40} />
-                </button>
-                <button
-                  aria-label="Show Image Editor"
-                  style={{
-                    backgroundColor: !tabs.editor ? theme : hoverTheme,
-                    color: !tabs.editor ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.editor && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded `}
-                  onClick={() => {
-                    setTabs("editor");
-                  }}
-                >
-                  <IconCrop size={40} />
-                </button>
-                <button
-                  aria-label="Show QR Generator"
-                  style={{
-                    backgroundColor: !tabs.qr ? theme : hoverTheme,
-                    color: !tabs.qr ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.qr && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded `}
-                  onClick={() => {
-                    setTabs("qr");
-                  }}
-                >
-                  <IconQrcode size={40} />
-                </button>
-                <button
-                  aria-label="Show Color Picker"
-                  style={{
-                    backgroundColor: !tabs.picker ? theme : hoverTheme,
-                    color: !tabs.picker ? textTheme : hoverTextTheme,
-                    boxShadow: tabs.picker && `0px 0px 5px 1px ${theme}`,
-                  }}
-                  className={`h-14 w-14 p-2 rounded hidden md:block`}
-                  onClick={() => {
-                    setTabs("picker");
-                  }}
-                >
-                  <IconColorPicker size={40} />
-                </button>
-              </div>
-            </div>
+            <FireToolBar
+              getOut={getOut}
+              theme={theme}
+              textTheme={textTheme}
+              hoverTheme={hoverTheme}
+              hoverTextTheme={hoverTextTheme}
+            />
             <div className="relative w-full flex-1 flex flex-col justify-center items-center">
               <div className="w-screen h-screen absolute bg-black inset-0 flex justify-center items-center -z-10">
                 <Image
@@ -395,7 +175,7 @@ export default function Page() {
                 className="2xl:w-9/12 w-full py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 "
               >
                 <AnimatePresence mode="popLayout">
-                  {tabs.conversor && (
+                  {isActive("conversor") && (
                     <motion.div
                       key="conversor"
                       layout
@@ -417,7 +197,7 @@ export default function Page() {
                       />
                     </motion.div>
                   )}
-                  {tabs.recorder && (
+                  {isActive("recorder") && (
                     <motion.div
                       key="recorder"
                       layout
@@ -439,7 +219,7 @@ export default function Page() {
                       />
                     </motion.div>
                   )}
-                  {tabs.notes && (
+                  {isActive("notes") && (
                     <motion.div
                       key="notes"
                       layout
@@ -463,7 +243,7 @@ export default function Page() {
                       />
                     </motion.div>
                   )}
-                  {tabs.calculator && (
+                  {isActive("calculator") && (
                     <motion.div
                       key="calculator"
                       layout
@@ -485,7 +265,7 @@ export default function Page() {
                       />
                     </motion.div>
                   )}
-                  {tabs.links && (
+                  {isActive("links") && (
                     <motion.div
                       key="links"
                       layout
@@ -509,7 +289,7 @@ export default function Page() {
                       />
                     </motion.div>
                   )}
-                  {tabs.colors && (
+                  {isActive("colors") && (
                     <motion.div
                       key="colors"
                       layout
@@ -533,7 +313,7 @@ export default function Page() {
                       />
                     </motion.div>
                   )}
-                  {tabs.apiTester && (
+                  {isActive("apiTester") && (
                     <motion.div
                       key="apitester"
                       layout
@@ -557,7 +337,7 @@ export default function Page() {
                       />
                     </motion.div>
                   )}
-                  {tabs.jwt && (
+                  {isActive("jwt") && (
                     <motion.div
                       key="jwt"
                       layout
@@ -579,7 +359,7 @@ export default function Page() {
                       />
                     </motion.div>
                   )}
-                  {tabs.editor && (
+                  {isActive("editor") && (
                     <motion.div
                       key="editor"
                       layout
@@ -602,7 +382,7 @@ export default function Page() {
                     </motion.div>
                   )}
                   ;
-                  {tabs.qr && (
+                  {isActive("qr") && (
                     <motion.div
                       key="qr"
                       layout
@@ -624,7 +404,7 @@ export default function Page() {
                       />
                     </motion.div>
                   )}
-                  {tabs.picker && (
+                  {isActive("picker") && (
                     <motion.div
                       key="colorpicker"
                       layout
@@ -673,25 +453,7 @@ export default function Page() {
           </>
         )}
       </div>
-      <Dialog onOpenChange={setAuthenticate} open={authenticate}>
-        <DialogContent
-          style={{ color: theme, border: `1px solid ${theme}` }}
-          className="bg-black flex flex-col w-full justify-center items-center"
-        >
-          <DialogHeader>
-            <DialogTitle className="text-center">
-              Puedes guardar tus datos
-            </DialogTitle>
-            <DialogDescription></DialogDescription>
-          </DialogHeader>
-          <AuthenticateForm
-            theme={theme}
-            textTheme={textTheme}
-            hoverTheme={hoverTheme}
-            hoverTextTheme={hoverTextTheme}
-          />
-        </DialogContent>
-      </Dialog>
+
       <Toaster
         toastOptions={{
           // Estilo general

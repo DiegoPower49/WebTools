@@ -2,6 +2,15 @@ import { createStore } from "zustand/vanilla";
 import { persist } from "zustand/middleware";
 
 import { useStore } from "zustand";
+import { label } from "framer-motion/client";
+
+function arrayMove(arr, fromIndex, toIndex) {
+  const newArr = arr.slice();
+  const [item] = newArr.splice(fromIndex, 1);
+  newArr.splice(toIndex, 0, item);
+  return newArr;
+}
+
 export const pageStore = createStore(
   persist(
     (set, get) => ({
@@ -109,21 +118,53 @@ export const pageStore = createStore(
         { id: 15, title: "", content: "", color: "#000000" },
         { id: 16, title: "", content: "", color: "#000000" },
       ],
+      toolbarArea: [
+        { id: 1, label: "notes" },
+        { id: 2, label: "calculator" },
+      ],
+      headerArea: [
+        { id: 3, label: "recorder" },
+        { id: 4, label: "picker" },
+        { id: 5, label: "conversor" },
+        { id: 6, label: "links" },
+        { id: 7, label: "colors" },
+        { id: 8, label: "apiTester" },
+        { id: 9, label: "jwt" },
+        { id: 10, label: "editor" },
+        { id: 11, label: "qr" },
+      ],
+      setHeaderArea: (updater) => {
+        set((state) => ({
+          headerArea:
+            typeof updater === "function" ? updater(state.headerArea) : updater,
+        }));
+      },
+      setToolbarArea: (updater) => {
+        set((state) => ({
+          toolbarArea:
+            typeof updater === "function"
+              ? updater(state.toolbarArea)
+              : updater,
+        }));
+      },
+
+      // Función de traslado (ya la tenías)
+      moveButton: (id, from, to) => {
+        if (from === to) return;
+        const source = get()[from];
+        const target = get()[to];
+        const item = source.find((b) => b.id === id);
+        if (!item) return;
+        set({
+          [from]: source.filter((b) => b.id !== id),
+          [to]: [...target, item], // Simplemente se agrega al final del nuevo contenedor
+        });
+      },
+
       text: "",
       title: "",
       tabs: {
         header: true,
-        calculator: false,
-        recorder: false,
-        notes: false,
-        conversor: false,
-        links: false,
-        colors: false,
-        apiTester: false,
-        jwt: false,
-        editor: false,
-        qr: false,
-        picker: false,
       },
       api: "http://localhost:3000",
       setApi: (api) => set({ api: api }),
