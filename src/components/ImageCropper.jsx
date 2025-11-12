@@ -251,23 +251,22 @@ export default function ImageCropper({
           </div>
         </div>
       ) : (
-        <div className="h-full grid md:grid-cols-4 grid-cols-1 grid-rows-[auto_auto] md:grid-rows-1 items-center gap-4 p-4">
-          <div className="md:col-span-3 w-full flex justify-center items-start">
-            <div className="w-full max-w-full">
+        <div className="h-full grid md:grid-cols-4 grid-cols-1 grid-rows-[auto_auto] md:grid-rows-1 justify-center items-center gap-4 p-4">
+          <div className="md:col-span-3 w-full flex justify-center items-start h-full">
+            <div className="w-full max-w-full flex items-center justify-center h-full">
               <ReactCrop
                 crop={crop}
                 onChange={(c) => setCrop(c)}
                 onComplete={(c) => setCrop(c)}
                 keepSelection={true}
-                className="max-h-96 object-contain border rounded"
-                style={{ width: "100%" }}
+                className="max-h-64 object-contain border rounded"
               >
                 <img
                   src={imageUrl}
                   alt="to crop"
                   ref={imgRef}
                   onLoad={onImgLoad}
-                  style={{ maxWidth: "100%", display: "block" }}
+                  className="h-full w-full "
                 />
               </ReactCrop>
             </div>
