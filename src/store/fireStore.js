@@ -138,8 +138,6 @@ export const fireStore = createStore((set, get) => ({
   toolbarArea: [
     { id: 1, label: "notes" },
     { id: 2, label: "calculator" },
-  ],
-  headerArea: [
     { id: 3, label: "recorder" },
     { id: 4, label: "picker" },
     { id: 5, label: "conversor" },
@@ -150,6 +148,7 @@ export const fireStore = createStore((set, get) => ({
     { id: 10, label: "editor" },
     { id: 11, label: "qr" },
   ],
+  headerArea: [],
 
   api: "http://localhost:3000",
   loading: true,

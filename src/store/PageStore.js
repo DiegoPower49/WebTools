@@ -121,8 +121,6 @@ export const pageStore = createStore(
       toolbarArea: [
         { id: 1, label: "notes" },
         { id: 2, label: "calculator" },
-      ],
-      headerArea: [
         { id: 3, label: "recorder" },
         { id: 4, label: "picker" },
         { id: 5, label: "conversor" },
@@ -133,6 +131,7 @@ export const pageStore = createStore(
         { id: 10, label: "editor" },
         { id: 11, label: "qr" },
       ],
+      headerArea: [],
       setHeaderArea: (updater) => {
         set((state) => ({
           headerArea:
