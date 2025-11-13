@@ -11,7 +11,6 @@ import {
   useDroppable,
   rectIntersection,
   pointerWithin,
-  getFirstCollision,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -83,7 +82,7 @@ function SortableButton({ id, label, theme, textTheme }) {
       {...listeners}
       {...attributes}
       className={`relative h-14 w-14 p-2 border-2 border-black rounded flex justify-center items-center cursor-grab active:cursor-grabbing touch-none ${
-        label === "recorder" ? "sm:block hidden" : ""
+        label === "recorder" || label === "picker" ? "sm:block hidden" : ""
       }`}
     >
       <Icon size={40} />
@@ -109,14 +108,7 @@ function ButtonOverlay({ label, theme, textTheme }) {
 }
 
 // === Droppable Area ===
-function DroppableArea({
-  id,
-  items,
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+function DroppableArea({ id, items, theme, textTheme, hoverTheme }) {
   const { setNodeRef, isOver } = useDroppable({
     id,
     data: {
@@ -184,7 +176,6 @@ export default function FireToolBar({
       },
     })
   );
-  const [showTools, setShowTools] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [activeId, setActiveId] = useState(null);
 

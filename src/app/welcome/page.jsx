@@ -20,8 +20,22 @@ import ImageColorPicker from "@/components/colorPicker";
 import Notes from "@/components/block/notes";
 import FireToolBar from "@/components/fireToolBar";
 
+const componentMap = {
+  notes: Notes,
+  calculator: Calculator,
+  recorder: Recorder,
+  picker: ImageColorPicker,
+  conversor: Conversor,
+  links: Links,
+  colors: Colors,
+  editor: ImageCropper,
+  qr: QRGenerator,
+  apiTester: ApiTester,
+  jwt: Hasher,
+};
+
 export default function Page() {
-  const { logout, setUser, listenToAuth } = useUserStore();
+  const { logout, setUser } = useUserStore();
   const {
     tabs,
     colors,
@@ -40,13 +54,12 @@ export default function Page() {
   const [hoverTheme, setHoverTheme] = useState();
   const [textTheme, setTextTheme] = useState();
   const [hoverTextTheme, setHoverTextTheme] = useState();
-  const isActive = (component) => {
-    if (toolbarArea.find((tool) => tool.label === component)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+
+  const componentsArray = toolbarArea.map((item) => ({
+    id: item.id,
+    label: item.label,
+    Component: componentMap[item.label],
+  }));
   const router = useRouter();
   const getOut = () => {
     logout();
@@ -168,9 +181,9 @@ export default function Page() {
                 className="2xl:w-9/12 w-full py-4 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-y-4 md:gap-5 p-4 "
               >
                 <AnimatePresence mode="popLayout">
-                  {isActive("conversor") && (
+                  {componentsArray.map((component, i) => (
                     <motion.div
-                      key="conversor"
+                      key={component.label}
                       layout
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -180,245 +193,34 @@ export default function Page() {
                         duration: 0.4,
                         ease: "easeInOut",
                       }}
-                      className={`h-[350px]`}
+                      className={`${
+                        component.label === "apiTester" ||
+                        component.label === "jwt"
+                          ? "h-[500px]"
+                          : "h-[350px]"
+                      } ${
+                        component.label === "recorder" ||
+                        component.label === "picker"
+                          ? "hidden md:block"
+                          : ""
+                      }`}
                     >
-                      <Conversor
+                      <component.Component
                         theme={theme}
                         textTheme={textTheme}
                         hoverTheme={hoverTheme}
                         hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
-                  {isActive("recorder") && (
-                    <motion.div
-                      key="recorder"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[350px] hidden md:block`}
-                    >
-                      <Recorder
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
-                  {isActive("notes") && (
-                    <motion.div
-                      key="notes"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[350px]`}
-                    >
-                      <Notes
                         notes={notes}
                         setNotes={setNotes}
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
-                  {isActive("calculator") && (
-                    <motion.div
-                      key="calculator"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[350px]`}
-                    >
-                      <Calculator
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
-                  {isActive("links") && (
-                    <motion.div
-                      key="links"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[350px]`}
-                    >
-                      <Links
-                        links={links}
-                        setLinks={setLinks}
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
-                  {isActive("colors") && (
-                    <motion.div
-                      key="colors"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[350px]`}
-                    >
-                      <Colors
                         colors={colors}
                         setColors={setColors}
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
-                  {isActive("apiTester") && (
-                    <motion.div
-                      key="apitester"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[500px]`}
-                    >
-                      <ApiTester
+                        links={links}
+                        setLinks={setLinks}
                         api={api}
                         setApi={setApi}
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
                       />
                     </motion.div>
-                  )}
-                  {isActive("jwt") && (
-                    <motion.div
-                      key="jwt"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[500px] `}
-                    >
-                      <Hasher
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
-                  {isActive("editor") && (
-                    <motion.div
-                      key="editor"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[350px]`}
-                    >
-                      <ImageCropper
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
-                  ;
-                  {isActive("qr") && (
-                    <motion.div
-                      key="qr"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[350px]`}
-                    >
-                      <QRGenerator
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
-                  {isActive("picker") && (
-                    <motion.div
-                      key="colorpicker"
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 300, damping: 25 },
-                        duration: 0.4,
-                        ease: "easeInOut",
-                      }}
-                      className={`h-[350px] hidden md:block`}
-                    >
-                      <ImageColorPicker
-                        theme={theme}
-                        textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
-                      />
-                    </motion.div>
-                  )}
+                  ))}
                 </AnimatePresence>
               </motion.div>
             </div>
