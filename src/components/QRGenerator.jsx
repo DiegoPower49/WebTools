@@ -14,7 +14,7 @@ export default function QRGenerator({
   hoverTextTheme,
 }) {
   const canvasRef = useRef(null);
-  const [text, setText] = useState("");
+  const [text, setText] = useState("https://fasttools.vercel.app");
   const [size, setSize] = useState(512);
   const [fgColor, setFgColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");

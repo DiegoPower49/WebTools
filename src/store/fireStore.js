@@ -8,7 +8,6 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { app } from "@/firebase/config";
-
 const db = getFirestore(app);
 
 export const fireStore = createStore((set, get) => ({
@@ -166,7 +165,6 @@ export const fireStore = createStore((set, get) => ({
     { id: 32, title: "", content: "", color: "#000000" },
   ],
 
-  // === NUEVAS PROPIEDADES PARA DRAG AND DROP ===
   toolbarArea: [
     { id: 1, label: "notes" },
     { id: 2, label: "calculator" },
@@ -182,30 +180,29 @@ export const fireStore = createStore((set, get) => ({
     { id: 8, label: "apiTester" },
     { id: 9, label: "jwt" },
   ],
-
+  setUid: (uid) => {
+    set({ uid });
+  },
   api: "http://localhost:3000",
   loading: true,
   error: null,
-
-  /** Cargar datos desde Firestore según el UID del usuario */
   loadUserData: (uid) => {
     if (!uid) {
       return;
     }
-
+    set({ uid: uid });
     const userDoc = doc(db, "stores", uid);
     const unsubscribe = onSnapshot(
       userDoc,
       (snapshot) => {
         if (snapshot.exists()) {
-          set({ ...snapshot.data(), loading: false });
+          set({ ...snapshot.data(), uid: uid, loading: false });
         } else {
           // Crear documento inicial limpio (sin funciones)
           const initialData = Object.fromEntries(
             Object.entries(get()).filter(([_, v]) => typeof v !== "function")
           );
           setDoc(userDoc, initialData);
-          set({ loading: false });
         }
       },
       (error) => {
@@ -217,24 +214,28 @@ export const fireStore = createStore((set, get) => ({
     return unsubscribe;
   },
 
-  /** Guardar cambios en Firestore (merge) */
   saveToFirestore: async () => {
-    const { uid, ...state } = get();
-    if (!uid) return;
+    const state = get();
+    const uid = state.uid;
+    if (!uid) {
+      console.error("❌ No hay UID en el store");
 
-    // Filtrar funciones y valores no serializables
+      return;
+    }
+
     const data = Object.fromEntries(
-      Object.entries(state).filter(([_, v]) => typeof v !== "function")
+      Object.entries(state).filter(
+        ([key, value]) => key !== "uid" && typeof value !== "function"
+      )
     );
 
     try {
       await updateDoc(doc(db, "stores", uid), data);
+      console.log("✅ Guardado exitoso");
     } catch (err) {
-      console.error("Error guardando datos:", err);
+      console.error("❌ Error guardando:", err);
     }
   },
-
-  /** Métodos para modificar el estado */
   setApi: (api) => {
     set({ api });
     get().saveToFirestore();
@@ -317,7 +318,6 @@ export const fireStore = createStore((set, get) => ({
       [from]: source.filter((b) => b.id !== id),
       [to]: [...target, item],
     });
-
     get().saveToFirestore();
   },
 }));

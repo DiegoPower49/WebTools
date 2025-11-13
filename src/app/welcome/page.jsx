@@ -21,7 +21,7 @@ import Notes from "@/components/block/notes";
 import FireToolBar from "@/components/fireToolBar";
 
 export default function Page() {
-  const { logout, listenToAuth, setUser } = useUserStore();
+  const { logout, setUser, listenToAuth } = useUserStore();
   const {
     tabs,
     colors,
@@ -85,24 +85,42 @@ export default function Page() {
       if (firebaseUser) {
         console.log("Usuario autenticado:", firebaseUser.uid);
         setUser(firebaseUser);
-        loadUserData(auth.currentUser.uid);
+
+        // ✅ Establece UID y carga datos en un solo paso
+
+        const unsubFirestore = loadUserData(firebaseUser.uid);
+
+        window.__UNSUB_FIRESTORE__ = unsubFirestore;
       } else {
         console.log("No hay usuario autenticado");
+
+        // Limpiar todo
+
         setUser(null);
+
+        if (window.__UNSUB_FIRESTORE__) {
+          window.__UNSUB_FIRESTORE__();
+          delete window.__UNSUB_FIRESTORE__;
+        }
+
         router.push("/");
       }
     });
-    loadThemes(colors);
-    listenToAuth();
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      if (window.__UNSUB_FIRESTORE__) {
+        window.__UNSUB_FIRESTORE__();
+        delete window.__UNSUB_FIRESTORE__;
+      }
+    };
   }, []);
 
   useEffect(() => {
     if (!loading) {
       loadThemes(colors);
     }
-  }, [colors]);
+  }, [colors, loading]);
 
   return (
     <>

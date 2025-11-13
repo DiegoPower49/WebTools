@@ -14,6 +14,7 @@ const useUserStore = create((set) => ({
   // Inicia el listener de Firebase Auth
   listenToAuth: () => {
     onAuthChange((user) => {
+      console.log(user);
       set({ user, loadingUser: false });
     });
   },

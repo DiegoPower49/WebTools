@@ -28,7 +28,6 @@ export const login = async (email, password, callback) => {
 export const register = async (email, password) => {
   try {
     await createUserWithEmailAndPassword(auth, email, password);
-    await handleLoginSuccess();
     return;
   } catch (error) {
     console.log(error);
@@ -52,8 +51,6 @@ export const loginWithGoogle = async (callback) => {
         createdAt: Date.now(),
       });
     }
-
-    await handleLoginSuccess();
 
     callback({ success: true, user });
   } catch (error) {
