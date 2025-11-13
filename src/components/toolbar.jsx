@@ -1,6 +1,6 @@
 "use client";
 
-import { useFireStore } from "@/store/fireStore";
+import { usePageStore } from "@/store/PageStore";
 import {
   DndContext,
   PointerSensor,
@@ -170,7 +170,7 @@ export default function FireToolBar({
     setTabs,
     setHeaderArea,
     setToolbarArea,
-  } = useFireStore();
+  } = usePageStore();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
