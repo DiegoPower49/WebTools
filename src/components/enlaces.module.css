@@ -2,9 +2,8 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   scrollbar-gutter: stable both-edges;
-
   scrollbar-width: thin;
-  scrollbar-color: var(--theme) #1e1e1e;
+  scrollbar-color: var(--theme) transparent;
 }
 
 .notes:focus {
@@ -17,7 +16,7 @@
 }
 
 .scrollContainer::-webkit-scrollbar-track {
-  background: #1e1e1e; /* fondo del track */
+  background: transparent;
   border-radius: 10px;
 }
 
