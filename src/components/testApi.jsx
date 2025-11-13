@@ -358,8 +358,12 @@ export default function ApiTester({
                     </button>
                   </div>
                   <pre
-                    style={{ border: `1px solid ${theme}`, "--theme": theme }}
-                    className={`text-white overflow-scroll 2xl:w-[25vw]  w-[85vw] md:w-[35vw] p-3 rounded text-sm h-[350px] ${
+                    style={{
+                      border: `1px solid ${theme}`,
+                      "--theme": theme,
+                      color: textTheme,
+                    }}
+                    className={` overflow-scroll 2xl:w-[25vw]  w-[85vw] md:w-[35vw] p-3 rounded text-sm h-[350px] ${
                       styles.scrollContainer
                     } ${
                       wrap
@@ -370,7 +374,7 @@ export default function ApiTester({
                     {response
                       ? JSON.stringify(response, null, 2)
                       : loading && (
-                          <div style={{ color: textTheme }}>
+                          <div>
                             Loading{" "}
                             <motion.span
                               key={dotCount}

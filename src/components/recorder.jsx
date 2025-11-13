@@ -137,12 +137,12 @@ export default function Recorder({
           <div className="flex items-center justify-center">
             <div
               style={{
-                backgroundColor: hoverAudio ? hoverTheme : theme,
+                backgroundColor: theme,
               }}
               onMouseEnter={() => setHoverAudio(true)}
               onMouseLeave={() => setHoverAudio(false)}
               onClick={videoRecorder}
-              className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105 hover:bg-red-600 hover:text-white text-black ${grabando}`}
+              className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105  hover:text-white text-black hover:opacity-70 ${grabando}`}
             >
               <div className="bg-white rounded-full p-2">
                 <IconScreenShare
@@ -152,7 +152,7 @@ export default function Recorder({
                 />
               </div>
               {grabando && (
-                <div className="text-center">
+                <div className="text-center" style={{ color: textTheme }}>
                   Recording{" "}
                   <motion.span
                     key={dotCount}
@@ -170,12 +170,12 @@ export default function Recorder({
           <div className="flex items-center justify-center">
             <div
               style={{
-                backgroundColor: hoverVideo ? hoverTheme : theme,
+                backgroundColor: theme,
               }}
               onMouseEnter={() => setHoverVideo(true)}
               onMouseLeave={() => setHoverVideo(false)}
               onClick={videoAndAudioRecorder}
-              className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105 hover:bg-red-600 hover:text-white text-black ${filmando}`}
+              className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105  hover:text-white hover:opacity-70 text-black ${filmando}`}
             >
               <div className="flex items-center gap-2 bg-white rounded-full p-2">
                 <IconScreenShare
@@ -187,7 +187,7 @@ export default function Recorder({
                 <IconVolume className="h-10 w-10" color="black" stroke={2} />
               </div>
               {filmando && (
-                <div className="text-center">
+                <div className="text-center" style={{ color: textTheme }}>
                   Recording{" "}
                   <motion.span
                     key={dotCount}
@@ -207,7 +207,8 @@ export default function Recorder({
           <div className="p-4 flex justify-center">
             <button
               onClick={stopRecording}
-              className="bg-black text-white px-6 py-2 rounded-lg flex items-center gap-2 transform duration-300 hover:bg-red-700"
+              style={{ backgroundColor: theme, color: textTheme }}
+              className="px-6 py-2 rounded-lg flex items-center gap-2 transform duration-300 hover:opacity-70"
             >
               <IconPlayerStop className="w-6 h-6" /> Detener grabación
             </button>

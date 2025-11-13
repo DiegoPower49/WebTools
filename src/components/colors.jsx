@@ -169,7 +169,7 @@ export default function Colors({
           style={{ color: textTheme }}
           className="w-full bg-black border-white border-2 overflow-hidden"
         >
-          <DialogTitle className="flex justify-center items-center">
+          <DialogTitle className="flex justify-center items-center font-bold">
             EDIT COLOR
           </DialogTitle>
           <DialogDescription className="hidden">

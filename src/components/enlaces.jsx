@@ -178,7 +178,7 @@ export default function Links({
           style={{ color: textTheme }}
           className="w-full bg-black border-white border-2 text-white overflow-hidden"
         >
-          <DialogTitle className="flex justify-center items-center">
+          <DialogTitle className="font-bold flex justify-center items-center">
             EDIT LINKS
           </DialogTitle>
           <DialogDescription className="hidden">
@@ -186,7 +186,9 @@ export default function Links({
           </DialogDescription>
           <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
             <div className="flex flex-col gap-2">
-              <label htmlFor="icono">Icon</label>
+              <label className="font-bold" htmlFor="icono">
+                ICON
+              </label>
               <Input
                 id="icono"
                 type="text"
@@ -200,7 +202,9 @@ export default function Links({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="nombre">Name</label>
+              <label className="font-bold" htmlFor="nombre">
+                NAME
+              </label>
               <Input
                 id="nombre"
                 type="text"
@@ -214,7 +218,9 @@ export default function Links({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="color">Link</label>
+              <label className="font-bold" htmlFor="color">
+                LINK
+              </label>
               <div className="w-full h-full flex gap-4">
                 <Input
                   id="link"

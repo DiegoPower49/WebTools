@@ -333,7 +333,7 @@ export default function ImageColorPicker({
             </div>
           </div>
         ) : (
-          <div className="font-bold" style={{ color: theme }}>
+          <div className="font-bold" style={{ color: textTheme }}>
             PASTE AN IMAGE HERE!
           </div>
         )}

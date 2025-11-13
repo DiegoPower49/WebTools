@@ -176,7 +176,7 @@ export default function Notes({
         <DialogContent className="w-full min-h-[70vh] bg-black border-white border-2 text-white overflow-hidden gap-2">
           <DialogTitle
             style={{ color: textTheme }}
-            className="flex justify-center items-center"
+            className="flex justify-center items-center font-bold"
           >
             {editable ? "EDIT NOTE" : title.toUpperCase()}
           </DialogTitle>
@@ -187,7 +187,9 @@ export default function Notes({
             <div className="flex flex-col gap-2">
               {editable && (
                 <>
-                  <label htmlFor="title">TITLE</label>
+                  <label className="font-bold" htmlFor="title">
+                    TITLE
+                  </label>
                   <input
                     style={{ backgroundColor: bgColor, color: textTheme }}
                     disabled={!editable}
@@ -205,7 +207,10 @@ export default function Notes({
               )}
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="content" className={!editable ? "hidden" : ""}>
+              <label
+                htmlFor="content"
+                className={!editable ? "hidden" : "font-bold"}
+              >
                 CONTENT
               </label>
               <div className="w-full h-full flex">
@@ -227,7 +232,9 @@ export default function Notes({
             {editable ? (
               <div className="w-full h-full flex flex-col justify-between items-center gap-4">
                 <div className="flex items-center gap-2">
-                  <label htmlFor="color">Color:</label>
+                  <label htmlFor="color" className="font-bold">
+                    Color:
+                  </label>
                   <input
                     type="color"
                     id="color"

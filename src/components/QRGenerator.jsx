@@ -187,8 +187,7 @@ export default function QRGenerator({
         </div>
         <div
           onClick={() => reset()}
-          style={{ backgroundColor: hoverTheme, color: textTheme }}
-          className="md:col-start-6 font-bold md:col-end-7 col-span-2 flex justify-center items-center gap-4 p-2 rounded  md:m-4 hover:opacity-80"
+          className="md:col-start-6 border-2 border-black bg-white text-black font-bold md:col-end-7 col-span-2 flex justify-center items-center gap-4 p-2 rounded  md:m-4 hover:opacity-80"
         >
           CLEAR
         </div>
