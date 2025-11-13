@@ -11,6 +11,7 @@ import {
   rectIntersection,
   pointerWithin,
   getFirstCollision,
+  TouchSensor,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -173,6 +174,12 @@ export default function Toolbar({
     useSensor(PointerSensor, {
       activationConstraint: {
         distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 200,
+        tolerance: 8,
       },
     })
   );

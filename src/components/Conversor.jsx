@@ -322,7 +322,7 @@ export default function Conversor({
             }}
             className="md:p-4 flex md:flex-col gap-2 h-full p-4"
           >
-            <div className="flex flex h-full gap-4 md:flex-col md:py-2">
+            <div className="flex h-full gap-4 md:flex-col md:py-2">
               <div className="w-full flex flex-col items-center justify-center md:items-start">
                 <p className="text-xl font-bold mb-2 hidden md:block">
                   FORMAT:
