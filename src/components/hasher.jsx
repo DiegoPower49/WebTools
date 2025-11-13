@@ -13,12 +13,7 @@ import { IconHash, IconZoomCode } from "@tabler/icons-react";
  * Requisitos: npm i jose react-hot-toast
  */
 
-export default function Hasher({
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function Hasher({ theme, textTheme }) {
   const [action, setAction] = useState("hash");
 
   return (
@@ -39,9 +34,9 @@ export default function Hasher({
           <div className="md:col-start-4 md:col-end-7 flex justify-center items-center gap-4">
             <div
               style={{
-                backgroundColor: action === "hash" && hoverTheme,
+                backgroundColor: action === "hash" && "white",
                 color: textTheme,
-                boxShadow: action === "hash" && `0px 0px 5px 1px ${hoverTheme}`,
+                boxShadow: action === "hash" && `0px 0px 5px 1px white`,
               }}
               className={`flex p-2 rounded ${
                 action != "hash" ? "border-white" : "border-black"
@@ -52,10 +47,9 @@ export default function Hasher({
             </div>
             <div
               style={{
-                backgroundColor: action === "verify" && hoverTheme,
+                backgroundColor: action === "verify" && "white",
                 color: textTheme,
-                boxShadow:
-                  action === "verify" && `0px 0px 5px 1px ${hoverTheme}`,
+                boxShadow: action === "verify" && `0px 0px 5px 1px white  `,
               }}
               className={`flex p-2 rounded font-bold  ${
                 action != "verify" ? "border-white" : "border-black"
@@ -71,19 +65,9 @@ export default function Hasher({
         {/* Payload */}
         <div className="p-4">
           {action === "hash" ? (
-            <JWTGenerator
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
+            <JWTGenerator theme={theme} textTheme={textTheme} />
           ) : (
-            <JWTVerifier
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
+            <JWTVerifier theme={theme} textTheme={textTheme} />
           )}
         </div>
       </div>

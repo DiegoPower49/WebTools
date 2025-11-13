@@ -10,13 +10,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-import { text } from "framer-motion/client";
-export default function ImageColorPicker({
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function ImageColorPicker({ theme, textTheme }) {
   const canvasRef = useRef(null);
   const zoomCanvasRef = useRef(null);
   const wheelBlockRef = useRef(null);

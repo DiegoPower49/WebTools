@@ -12,14 +12,7 @@ import { useRef, useEffect, useState } from "react";
 import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
 import { Input } from "./ui/input";
 
-export default function Colors({
-  colors,
-  setColors,
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function Colors({ colors, setColors, theme, textTheme }) {
   const scrollRef = useRef(null);
   const [editable, setEditable] = useState(false);
   const [editForm, setEditForm] = useState(false);

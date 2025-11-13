@@ -8,12 +8,7 @@ import {
   IconPlayerStop,
 } from "@tabler/icons-react";
 
-export default function Recorder({
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function Recorder({ theme, textTheme }) {
   const [hoverAudio, setHoverAudio] = useState(false);
   const [hoverVideo, setHoverVideo] = useState(false);
   const [filmando, setFilmando] = useState("");

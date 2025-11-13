@@ -5,20 +5,13 @@ import toast, { Toaster } from "react-hot-toast";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
-export default function ApiTester({
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-  api,
-  setApi,
-}) {
+import { text } from "framer-motion/client";
+export default function ApiTester({ theme, textTheme, api, setApi }) {
   const [method, setMethod] = useState("GET");
   const [headers, setHeaders] = useState("");
   const [body, setBody] = useState("{}");
@@ -121,9 +114,9 @@ export default function ApiTester({
       return toast.error("Please enter a URL", {
         style: {
           border: "1px solid #713200",
-          backgroundColor: hoverTheme,
+          backgroundColor: "black",
           padding: "16px",
-          color: hoverTextTheme,
+          color: theme,
         },
       });
     setLoading(true);
@@ -213,7 +206,6 @@ export default function ApiTester({
                 <option
                   style={{
                     backgroundColor: "black",
-                    text: hoverTextTheme,
                   }}
                   key={m}
                 >
@@ -243,7 +235,6 @@ export default function ApiTester({
                 rows={4}
                 style={{
                   color: textTheme,
-                  outlineColor: hoverTheme,
                   border: `1px solid ${theme}`,
                   "--theme": theme,
                 }}
@@ -290,7 +281,6 @@ export default function ApiTester({
                 value={body}
                 style={{
                   color: textTheme,
-                  outlineColor: hoverTheme,
                   border: `1px solid ${theme}`,
                   "--theme": theme,
                 }}
@@ -339,7 +329,10 @@ export default function ApiTester({
               </DialogTrigger>
               <DialogContent className="w-[100vw] rounded 2xl:h-[70vh] h-[85vh] bg-black border-white border-2 text-white overflow-hidden">
                 <DialogHeader>
-                  <DialogTitle className="text-center" style={{ color: theme }}>
+                  <DialogTitle
+                    className="text-center font-black"
+                    style={{ color: textTheme }}
+                  >
                     Response
                   </DialogTitle>
                 </DialogHeader>
@@ -348,11 +341,13 @@ export default function ApiTester({
                     <button
                       onClick={toggleWrap}
                       style={{
-                        backgroundColor: !wrap ? theme : hoverTheme,
-                        color: !wrap ? textTheme : hoverTextTheme,
+                        backgroundColor: theme,
+                        color: textTheme,
                         boxShadow: wrap && `0px 0px 5px 1px ${theme}`,
                       }}
-                      className={`self-start font-bold  px-3 py-1 rounded hover:bg-slate-600`}
+                      className={`self-start font-bold  px-3 py-1 rounded hover:bg-slate-600 ${
+                        wrap ? "opacity-70" : ""
+                      }`}
                     >
                       Wrap
                     </button>

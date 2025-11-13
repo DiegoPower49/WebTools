@@ -5,14 +5,8 @@ import QRSVG from "qrcode-svg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { color } from "framer-motion";
 
-export default function QRGenerator({
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function QRGenerator({ theme, textTheme }) {
   const canvasRef = useRef(null);
   const [text, setText] = useState("https://fasttools.vercel.app");
   const [size, setSize] = useState(512);
@@ -199,7 +193,7 @@ export default function QRGenerator({
             style={{
               color: textTheme,
               border: `1px solid ${theme}`,
-              placeholder: hoverTextTheme,
+              placeholderTextColor: "red",
             }}
             value={text}
             onChange={(e) => setText(e.target.value)}

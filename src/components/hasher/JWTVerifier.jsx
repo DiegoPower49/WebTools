@@ -13,12 +13,7 @@ import * as jose from "jose";
 import styles from "../enlaces.module.css";
 import { DialogClose } from "@radix-ui/react-dialog";
 
-export default function JWTVerifier({
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function JWTVerifier({ theme, textTheme }) {
   const [verifySecret, setVerifySecret] = useState("");
   const [verifyAlgorithm, setVerifyAlgorithm] = useState("HS256");
   const [verifyToken, setVerifyToken] = useState("");

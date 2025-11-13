@@ -14,12 +14,7 @@ import {
 import { ImageUpscale } from "lucide-react";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 
-export default function ImageCropper({
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function ImageCropper({ theme, textTheme }) {
   const [imageUrl, setImageUrl] = useState(null); // object URL
   const [imageName, setImageName] = useState("image");
   const [format, setFormat] = useState("png");

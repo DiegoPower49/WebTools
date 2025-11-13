@@ -108,7 +108,7 @@ function ButtonOverlay({ label, theme, textTheme }) {
 }
 
 // === Droppable Area ===
-function DroppableArea({ id, items, theme, textTheme, hoverTheme }) {
+function DroppableArea({ id, items, theme, textTheme }) {
   const { setNodeRef, isOver } = useDroppable({
     id,
     data: {
@@ -122,10 +122,13 @@ function DroppableArea({ id, items, theme, textTheme, hoverTheme }) {
       ref={setNodeRef}
       className="flex flex-wrap gap-2 justify-center items-center min-h-[60px] transition-colors px-4 py-2"
       style={{
-        border: isOver ? `2px dotted hoverTheme}` : "",
         borderRadius: "8px",
         width: "100%",
-        backgroundColor: isOver ? `${hoverTheme}20` : "transparent",
+        backgroundColor: isOver
+          ? id != "headerArea"
+            ? `${theme}40`
+            : `${textTheme}40`
+          : "transparent",
       }}
     >
       <SortableContext
@@ -146,13 +149,7 @@ function DroppableArea({ id, items, theme, textTheme, hoverTheme }) {
   );
 }
 
-export default function FireToolBar({
-  theme,
-  getOut,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function FireToolBar({ theme, getOut, textTheme }) {
   const {
     headerArea,
     toolbarArea,
@@ -319,8 +316,6 @@ export default function FireToolBar({
               items={headerArea}
               theme={theme}
               textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
             />
           </motion.div>
         </AnimatePresence>
@@ -358,8 +353,6 @@ export default function FireToolBar({
             items={toolbarArea}
             theme={theme}
             textTheme={textTheme}
-            hoverTheme={hoverTheme}
-            hoverTextTheme={hoverTextTheme}
           />
         </div>
         <div

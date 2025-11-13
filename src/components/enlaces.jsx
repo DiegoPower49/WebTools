@@ -11,14 +11,7 @@ import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { Input } from "./ui/input";
 
-export default function Links({
-  links,
-  setLinks,
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function Links({ links, setLinks, theme, textTheme }) {
   const scrollRef = useRef(null);
   const [editable, setEditable] = useState(false);
   const [editForm, setEditForm] = useState(false);
@@ -117,8 +110,6 @@ export default function Links({
                           theme={theme}
                           editable={editable}
                           textTheme={textTheme}
-                          hoverTheme={hoverTheme}
-                          hoverTextTheme={hoverTextTheme}
                         />
                       </a>
                     )}
@@ -158,8 +149,6 @@ export default function Links({
                           theme={theme}
                           editable={editable}
                           textTheme={textTheme}
-                          hoverTheme={hoverTheme}
-                          hoverTextTheme={hoverTextTheme}
                         />
                       </a>
                     )}

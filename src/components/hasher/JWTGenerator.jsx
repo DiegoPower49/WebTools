@@ -12,12 +12,7 @@ import toast from "react-hot-toast";
 import * as jose from "jose";
 import styles from "../enlaces.module.css";
 
-export default function JWTGenerator({
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function JWTGenerator({ theme, textTheme }) {
   const [rsa, setRsa] = useState(false);
   const [payload, setPayload] = useState("");
   const [secret, setSecret] = useState("");
@@ -154,7 +149,6 @@ export default function JWTGenerator({
         <textarea
           style={{
             color: textTheme,
-            outlineColor: hoverTheme,
             border: `1px solid ${theme}`,
             "--theme": theme,
           }}
@@ -176,7 +170,6 @@ export default function JWTGenerator({
               <option
                 style={{
                   backgroundColor: "black",
-                  text: hoverTextTheme,
                 }}
                 value="HS256"
               >
@@ -185,7 +178,6 @@ export default function JWTGenerator({
               <option
                 style={{
                   backgroundColor: "black",
-                  text: hoverTextTheme,
                 }}
                 value="HS384"
               >
@@ -194,7 +186,6 @@ export default function JWTGenerator({
               <option
                 style={{
                   backgroundColor: "black",
-                  text: hoverTextTheme,
                 }}
                 value="HS512"
               >
@@ -203,7 +194,6 @@ export default function JWTGenerator({
               <option
                 style={{
                   backgroundColor: "black",
-                  text: hoverTextTheme,
                 }}
                 value="RS256"
               >

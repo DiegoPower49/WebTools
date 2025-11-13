@@ -33,12 +33,7 @@ const Toast = ({ message, type, onClose }) => {
   );
 };
 
-export default function Conversor({
-  theme = "#3b82f6",
-  textTheme = "#ffffff",
-  hoverTheme = "#2563eb",
-  hoverTextTheme = "#ffffff",
-}) {
+export default function Conversor({ theme, textTheme }) {
   const canvasRef = useRef();
   const [preview, setPreview] = useState(null);
   const [webUrl, setWebpUrl] = useState(null);
