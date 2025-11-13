@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Input } from "./ui/input";
 
-const Calculator = ({ theme, textTheme, hoverTheme, hoverTextTheme }) => {
+const Calculator = ({ theme, textTheme }) => {
   const [input, setInput] = useState(""); // Estado para el input del usuario
   const [result, setResult] = useState("");
   const [hover, setHover] = useState(false);
@@ -89,14 +89,12 @@ const Calculator = ({ theme, textTheme, hoverTheme, hoverTextTheme }) => {
             ))}
           </div>
           <button
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
             style={{
-              backgroundColor: hover ? hoverTheme : theme,
-              color: hover ? hoverTextTheme : textTheme,
+              backgroundColor: theme,
+              color: textTheme,
             }}
             onClick={clearInput}
-            className="m-2 p-2 text-white rounded font-bold"
+            className="m-2 p-2 text-white rounded font-bold hover:opacity-70"
           >
             CLEAR
           </button>

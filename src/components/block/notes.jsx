@@ -30,14 +30,7 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-export default function Notes({
-  notes,
-  setNotes,
-  theme,
-  textTheme,
-  hoverTheme,
-  hoverTextTheme,
-}) {
+export default function Notes({ notes, setNotes, theme, textTheme }) {
   const [bgColor, setBgColor] = useState("#ffffff");
   const scrollRef = useRef(null);
   const [editable, setEditable] = useState(false);
@@ -135,8 +128,6 @@ export default function Notes({
                           theme={theme}
                           editable={editable}
                           textTheme={textTheme}
-                          hoverTheme={hoverTheme}
-                          hoverTextTheme={hoverTextTheme}
                         />
                       </div>
                     )}
@@ -169,8 +160,6 @@ export default function Notes({
                           theme={theme}
                           editable={editable}
                           textTheme={textTheme}
-                          hoverTheme={hoverTheme}
-                          hoverTextTheme={hoverTextTheme}
                         />
                       </div>
                     )}

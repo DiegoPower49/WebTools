@@ -51,9 +51,7 @@ export default function Page() {
     loading,
   } = useFireStore();
   const [theme, setTheme] = useState(null);
-  const [hoverTheme, setHoverTheme] = useState();
   const [textTheme, setTextTheme] = useState();
-  const [hoverTextTheme, setHoverTextTheme] = useState();
 
   const componentsArray = toolbarArea.map((item) => ({
     id: item.id,
@@ -73,22 +71,10 @@ export default function Page() {
       findedColor && findedColor.color ? `#${findedColor.color}` : "#b91c1c";
     setTheme(newTheme);
 
-    const findedHover = colors.find((item) => item.nombre === "hover");
-    const newHoverTheme =
-      findedHover && findedHover.color ? `#${findedHover.color}` : "#fafafa";
-    setHoverTheme(newHoverTheme);
-
     const findedText = colors.find((item) => item.nombre === "text");
     const newTextTheme =
       findedText && findedText.color ? `#${findedText.color}` : "#fafafa";
     setTextTheme(newTextTheme);
-
-    const findedHoverText = colors.find((item) => item.nombre === "textHover");
-    const newHoverThemeText =
-      findedHoverText && findedHoverText.color
-        ? `#${findedHoverText.color}`
-        : "#000000";
-    setHoverTextTheme(newHoverThemeText);
   };
 
   useEffect(() => {
@@ -156,13 +142,7 @@ export default function Page() {
           </div>
         ) : (
           <>
-            <FireToolBar
-              getOut={getOut}
-              theme={theme}
-              textTheme={textTheme}
-              hoverTheme={hoverTheme}
-              hoverTextTheme={hoverTextTheme}
-            />
+            <FireToolBar getOut={getOut} theme={theme} textTheme={textTheme} />
             <div className="relative w-full flex-1 flex flex-col justify-center items-center">
               <div className="w-screen h-screen absolute bg-black inset-0 flex justify-center items-center -z-10">
                 <Image
@@ -208,8 +188,6 @@ export default function Page() {
                       <component.Component
                         theme={theme}
                         textTheme={textTheme}
-                        hoverTheme={hoverTheme}
-                        hoverTextTheme={hoverTextTheme}
                         notes={notes}
                         setNotes={setNotes}
                         colors={colors}

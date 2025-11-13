@@ -177,10 +177,6 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
                     ? "theme"
                     : colors[id].id === 2
                     ? "text"
-                    : colors[id].id === 3
-                    ? "hover"
-                    : colors[id].id === 4
-                    ? "textHover"
                     : colors[id].nombre
                 }
                 className="p-2 rounded placeholder:text-gray-500"
