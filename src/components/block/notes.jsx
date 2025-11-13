@@ -1,5 +1,16 @@
 "use client";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -17,6 +28,7 @@ import styles from "../enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export default function Notes({
   notes,
@@ -186,13 +198,13 @@ export default function Notes({
                   <label className="font-bold" htmlFor="title">
                     TITLE
                   </label>
-                  <input
-                    style={{ backgroundColor: bgColor, color: textTheme }}
+                  <Input
+                    style={{ color: textTheme }}
                     disabled={!editable}
                     id="title"
                     type="text"
                     placeholder={notes[id].title || ""}
-                    className="p-2 rounded placeholder:text-gray-500 text-black"
+                    className="p-2 rounded placeholder:text-gray-500"
                     value={title}
                     onChange={(e) => {
                       const title = e.target.value;
@@ -240,16 +252,44 @@ export default function Notes({
                   />
                 </div>
                 <div className="flex w-full h-full items-center justify-center gap-4">
-                  <Button
-                    variant="destructive"
-                    onClick={() => {
-                      setNotes(id, "", "", "#000000");
-                      setEditForm(false);
-                    }}
-                    className="hover:opacity-60  w-3/4 p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
-                  >
-                    DELETE <IconEraser />
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger className="flex gap-2">
+                      <Button
+                        variant="destructive"
+                        className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
+                      >
+                        DELETE <IconEraser />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent
+                      style={{ color: textTheme }}
+                      className="bg-black"
+                    >
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete from our servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel className="text-black">
+                          Cancel
+                        </AlertDialogCancel>
+                        <Button
+                          variant="destructive"
+                          onClick={() => {
+                            setNotes(id, "", "", "#000000");
+                            setEditForm(false);
+                          }}
+                        >
+                          DELETE
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
 
                   <button
                     disabled={!editable}
