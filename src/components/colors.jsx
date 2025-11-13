@@ -27,7 +27,13 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
   for (let i = 0; i < colors.length; i += 8) {
     groupsMobile.push(colors.slice(i, i + 8));
   }
-
+  const manageFormat = (color) => {
+    if (color[0] === "#") {
+      console.log(color.slice(1, color.length));
+      return color.slice(1, color.length);
+    }
+    return color;
+  };
   const handleCopy = (text) => {
     navigator.clipboard.writeText("#" + text);
     toast.success("Copied!");
@@ -213,7 +219,7 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
               <button
                 style={{ backgroundColor: theme, color: textTheme }}
                 onClick={() => {
-                  setColors(id, nombre, color);
+                  setColors(id, nombre, manageFormat(color));
                   setEditForm(false);
                 }}
                 className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
