@@ -211,7 +211,7 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
                 </span>
                 <Input
                   id="color"
-                  maxLength={7}
+                  maxLength={9}
                   className="p-2 w-40 rounded "
                   type="text"
                   placeholder={colors[id].color || ""}
@@ -278,7 +278,7 @@ function Color({ color, theme, editable, textTheme }) {
       <div
         style={{
           backgroundColor:
-            color.color && color.color.length === 6
+            color.color && color.color.length === 9
               ? `#${color.color}`
               : "transparent",
           border: color.color || editable ? `1px solid ${theme}` : "none",

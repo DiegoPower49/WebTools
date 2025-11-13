@@ -307,7 +307,7 @@ export default function FireToolBar({ theme, setAuthenticate, textTheme }) {
             className=" w-screen flex flex-col items-center justify-center"
           >
             <span
-              style={{ boxShadow: `0px 0px 15px 5px ${textTheme}` }}
+              style={{ textShadow: `0 0 15px ${textTheme}` }}
               className="text-5xl font-bold"
             >
               FAST TOOLS
