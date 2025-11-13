@@ -85,7 +85,9 @@ function SortableButton({ id, label, theme, textTheme }) {
       style={style}
       {...listeners}
       {...attributes}
-      className="relative h-14 w-14 p-2 border-2 border-black rounded flex justify-center items-center cursor-grab active:cursor-grabbing"
+      className={`relative h-14 w-14 p-2 border-2 border-black rounded flex justify-center items-center cursor-grab active:cursor-grabbing touch-none ${
+        label === "recorder" ? "sm:block hidden" : ""
+      }`}
     >
       <Icon size={40} />
     </div>
