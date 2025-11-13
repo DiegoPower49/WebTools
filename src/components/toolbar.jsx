@@ -334,16 +334,7 @@ export default function FireToolBar({
 
       {/* TOOLBAR AREA */}
       <div className="w-screen flex justify-center items-center gap-2 py-2 px-2">
-        <motion.div
-          animate={{
-            x: [1, -1, 1, -1, 1, 0],
-            y: [0, -1, 1, -1, 1, 0],
-          }}
-          transition={{
-            duration: 0.1,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        <div
           style={{
             backgroundColor: !tabs.header ? theme : hoverTheme,
             color: !tabs.header ? textTheme : hoverTextTheme,
@@ -355,7 +346,7 @@ export default function FireToolBar({
           className="h-14 w-14 p-2 rounded flex-shrink-0"
         >
           <IconRocket size={40} />
-        </motion.div>
+        </div>
         <div className="flex-1">
           <DroppableArea
             id="toolbarArea"
