@@ -309,7 +309,12 @@ export default function FireToolBar({ theme, getOut, textTheme }) {
             }}
             className=" w-screen flex flex-col items-center justify-center"
           >
-            <span className="text-5xl font-bold">FAST TOOLS</span>
+            <span
+              style={{ boxShadow: `0px 0px 15px 5px ${textTheme}` }}
+              className="text-5xl font-bold"
+            >
+              FAST TOOLS
+            </span>
 
             <DroppableArea
               id="headerArea"
