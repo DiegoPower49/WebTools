@@ -74,7 +74,7 @@ export default function JWTVerifier({
             <label className="text-sm">Verify JWT</label>
             <input
               type="text"
-              style={{ color: theme, border: `1px solid ${theme}` }}
+              style={{ color: textTheme, border: `1px solid ${theme}` }}
               value={verifyToken}
               onChange={(e) => setVerifyToken(e.target.value)}
               className="p-2 rounded bg-transparent font-mono text-sm w-full"
@@ -92,7 +92,6 @@ export default function JWTVerifier({
               <option
                 style={{
                   backgroundColor: "black",
-                  text: hoverTextTheme,
                 }}
                 value="HS256"
               >
@@ -101,7 +100,6 @@ export default function JWTVerifier({
               <option
                 style={{
                   backgroundColor: "black",
-                  text: hoverTextTheme,
                 }}
                 value="HS384"
               >
@@ -110,7 +108,6 @@ export default function JWTVerifier({
               <option
                 style={{
                   backgroundColor: "black",
-                  text: hoverTextTheme,
                 }}
                 value="HS512"
               >
@@ -119,7 +116,6 @@ export default function JWTVerifier({
               <option
                 style={{
                   backgroundColor: "black",
-                  text: hoverTextTheme,
                 }}
                 value="RS256"
               >
@@ -134,7 +130,7 @@ export default function JWTVerifier({
             <label className="text-sm">Secret key</label>
             <input
               type="text"
-              style={{ color: theme, border: `1px solid ${theme}` }}
+              style={{ color: textTheme, border: `1px solid ${theme}` }}
               value={verifySecret}
               onChange={(e) => setVerifySecret(e.target.value)}
               className="p-2 rounded bg-transparent w-full"
@@ -157,20 +153,26 @@ export default function JWTVerifier({
                 </DialogTrigger>
                 <DialogContent className="flex flex-col  justify-center gap-2 w-full md:w-80 h-[80vh] 2xl:h-[60vh] 2xl:w-[90vw] bg-black border-white border-2 text-white overflow-hidden">
                   <DialogHeader></DialogHeader>
-                  <DialogTitle className="text-center" style={{ color: theme }}>
+                  <DialogTitle
+                    className="text-center"
+                    style={{ color: textTheme }}
+                  >
                     Public Key
                   </DialogTitle>
-                  <div className="flex flex-col gap-4">
+                  <div
+                    style={{ color: textTheme }}
+                    className="flex flex-col gap-4"
+                  >
                     <textarea
-                      style={{ border: `1px solid ${theme}`, color: theme }}
+                      style={{ border: `1px solid ${theme}` }}
                       placeholder={`-----BEGIN PUBLIC KEY-----\n\n\n\n........\n\n\n\n\n\n\n-----END PUBLIC KEY-----`}
                       value={verifyPublicKey}
                       onChange={(e) => setVerifyPublicKey(e.target.value)}
                       className=" p-2 rounded bg-black font-mono text-xs w-full h-80 resize-none"
                     />
                     <DialogClose
-                      style={{ backgroundColor: theme, color: textTheme }}
-                      className="flex w-full items-center justify-center hover:opacity-80 duration-300 p-2 rounded"
+                      style={{ backgroundColor: theme }}
+                      className="flex w-full font-bold items-center justify-center hover:opacity-80 duration-300 p-2 rounded"
                     >
                       Close
                     </DialogClose>
@@ -196,7 +198,7 @@ export default function JWTVerifier({
           style={{
             "--theme": theme,
             border: `1px solid ${theme}`,
-            color: theme,
+            color: textTheme,
           }}
           className={`bg-black/50 p-2 rounded overflow-auto text-xs break-all h-40 ${styles.scrollContainer}`}
         >

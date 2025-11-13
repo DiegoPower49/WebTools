@@ -10,6 +10,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { text } from "framer-motion/client";
 export default function ImageColorPicker({
   theme,
   textTheme,
@@ -275,14 +276,16 @@ export default function ImageColorPicker({
                 className=" h-full w-full flex flex-col items-center justify-center gap-4"
               >
                 <h1>
-                  <b>COLOR</b>
+                  <b style={{ color: textTheme }}>COLOR</b>
                 </h1>
                 <div className="flex items-center justify-center w-full gap-4">
                   <div
                     className="w-8 h-8 border"
                     style={{ backgroundColor: color }}
                   ></div>
-                  <p className="font-mono">{color ? color : " ------- "}</p>
+                  <p style={{ color: textTheme }} className="font-mono">
+                    {color ? color : " ------- "}
+                  </p>
                 </div>
 
                 <div>
@@ -310,7 +313,7 @@ export default function ImageColorPicker({
                     <SelectValue placeholder="Format" />
                   </SelectTrigger>
                   <SelectContent
-                    style={{ color: theme, backgroundColor: "black" }}
+                    style={{ color: textTheme, backgroundColor: "black" }}
                   >
                     <SelectItem value="webp">WEBP</SelectItem>
                     <SelectItem value="jpeg">JPEG</SelectItem>

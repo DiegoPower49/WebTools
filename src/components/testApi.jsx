@@ -205,7 +205,7 @@ export default function ApiTester({
           <div className="flex w-full gap-4">
             <select
               value={method}
-              style={{ color: theme, backgroundColor: "black" }}
+              style={{ color: textTheme, backgroundColor: "black" }}
               onChange={(e) => setMethod(e.target.value)}
               className=" rounded h-10 bg-transparent"
             >
@@ -333,7 +333,7 @@ export default function ApiTester({
                   backgroundColor: theme,
                   color: textTheme,
                 }}
-                className="flex-1 hover:opacity-80 p-2 rounded font-semibold disabled:opacity-50"
+                className="flex-1 hover:opacity-80 p-2 rounded font-bold disabled:opacity-50"
               >
                 Send Request
               </DialogTrigger>
@@ -370,7 +370,7 @@ export default function ApiTester({
                     {response
                       ? JSON.stringify(response, null, 2)
                       : loading && (
-                          <div>
+                          <div style={{ color: textTheme }}>
                             Loading{" "}
                             <motion.span
                               key={dotCount}

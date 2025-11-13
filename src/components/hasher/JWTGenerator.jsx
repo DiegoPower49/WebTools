@@ -153,7 +153,7 @@ export default function JWTGenerator({
       <div className="">
         <textarea
           style={{
-            color: theme,
+            color: textTheme,
             outlineColor: hoverTheme,
             border: `1px solid ${theme}`,
             "--theme": theme,
@@ -241,8 +241,7 @@ export default function JWTGenerator({
             type="text"
             value={secret}
             style={{
-              color: theme,
-
+              color: textTheme,
               border: `1px solid ${theme}`,
               "--theme": theme,
             }}
@@ -283,7 +282,7 @@ export default function JWTGenerator({
             style={{
               "--theme": theme,
               border: `1px solid ${theme}`,
-              color: theme,
+              color: textTheme,
             }}
             className={`bg-black font-bold p-2 w-full h-12 items-center rounded overflow-auto text-xs break-all ${styles.scrollContainer}`}
           >
@@ -302,7 +301,7 @@ export default function JWTGenerator({
       <Dialog open={rsa} onOpenChange={setRsa}>
         <DialogContent className=" md:w-[60vw] 2xl:h-[70vh] h-[85vh] bg-black border-white border-2 text-white overflow-hidden">
           <DialogHeader>
-            <DialogTitle className="text-center" style={{ color: theme }}>
+            <DialogTitle className="text-center" style={{ color: textTheme }}>
               RSA KEYS
             </DialogTitle>
             <div className="py-3 w-full flex justify-center items-center gap-4">
@@ -337,7 +336,7 @@ export default function JWTGenerator({
                   <button
                     onClick={handleCopyPublic}
                     style={{ backgroundColor: theme, color: textTheme }}
-                    className="p-2 text-xs w-3/4 rounded hover:opacity-80"
+                    className="p-2 font-bold w-3/4 rounded hover:opacity-80"
                   >
                     Copy
                   </button>
@@ -355,7 +354,7 @@ export default function JWTGenerator({
                   <button
                     onClick={handlePrivate}
                     style={{ backgroundColor: theme, color: textTheme }}
-                    className="p-2 w-3/4 text-xs rounded hover:opacity-80"
+                    className="p-2 w-3/4 font-bold  rounded hover:opacity-80"
                   >
                     Copy
                   </button>

@@ -246,7 +246,7 @@ export default function ImageCropper({
                 />
               </div>
             ) : (
-              <div style={{ color: theme }}>SELECT OR DRAG IMAGE</div>
+              <div style={{ color: textTheme }}>SELECT OR DRAG IMAGE</div>
             )}
           </div>
         </div>
@@ -272,25 +272,23 @@ export default function ImageCropper({
             </div>
           </div>
 
-          <div className="md:col-span-1 flex md:flex-col gap-4 items-center">
-            <div>
-              <div style={{ color: theme }} className="font-bold text-lg">
-                FORMAT
-              </div>
+          <div
+            style={{ color: textTheme }}
+            className="md:col-span-1 flex md:flex-col gap-4 items-center"
+          >
+            <div className="font-bold text-lg">FORMAT</div>
 
-              <Select value={format} onValueChange={(v) => setFormat(v)}>
-                <SelectTrigger style={{ color: theme }} className="w-[120px]">
-                  <SelectValue placeholder="Format" />
-                </SelectTrigger>
-                <SelectContent
-                  style={{ color: theme, backgroundColor: "black" }}
-                >
-                  <SelectItem value="png">PNG</SelectItem>
-                  <SelectItem value="jpeg">JPG</SelectItem>
-                  <SelectItem value="webp">WEBP</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            <Select value={format} onValueChange={(v) => setFormat(v)}>
+              <SelectTrigger style={{ color: theme }} className="w-[120px]">
+                <SelectValue placeholder="Format" />
+              </SelectTrigger>
+              <SelectContent style={{ color: theme, backgroundColor: "black" }}>
+                <SelectItem value="png">PNG</SelectItem>
+                <SelectItem value="jpeg">JPG</SelectItem>
+                <SelectItem value="webp">WEBP</SelectItem>
+              </SelectContent>
+            </Select>
+
             <div className="w-full flex flex-col gap-2">
               <Button
                 style={{ backgroundColor: theme, color: textTheme }}

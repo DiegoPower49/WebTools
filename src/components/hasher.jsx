@@ -40,7 +40,7 @@ export default function Hasher({
             <div
               style={{
                 backgroundColor: action === "hash" && hoverTheme,
-                color: hoverTextTheme,
+                color: textTheme,
                 boxShadow: action === "hash" && `0px 0px 5px 1px ${hoverTheme}`,
               }}
               className={`flex p-2 rounded ${
@@ -53,7 +53,7 @@ export default function Hasher({
             <div
               style={{
                 backgroundColor: action === "verify" && hoverTheme,
-                color: hoverTextTheme,
+                color: textTheme,
                 boxShadow:
                   action === "verify" && `0px 0px 5px 1px ${hoverTheme}`,
               }}

@@ -239,7 +239,7 @@ function Color({ color, theme, editable }) {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        color: theme,
+        color: textTheme,
         border: borderStyle,
       }}
       className={`${

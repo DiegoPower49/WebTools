@@ -301,7 +301,7 @@ export default function Conversor({
                 />
               </div>
             ) : (
-              <div className="font-bold text-2xl" style={{ color: theme }}>
+              <div className="font-bold " style={{ color: textTheme }}>
                 SELECT OR DRAG IMAGE
               </div>
             )}
@@ -322,7 +322,10 @@ export default function Conversor({
             }}
             className="md:p-4 flex md:flex-col gap-2 h-full p-4"
           >
-            <div className="flex h-full gap-4 md:flex-col md:py-2">
+            <div
+              style={{ color: textTheme }}
+              className="flex h-full gap-4 md:flex-col md:py-2"
+            >
               <div className="w-full flex flex-col items-center justify-center md:items-start">
                 <p className="text-xl font-bold mb-2 hidden md:block">
                   FORMAT:
@@ -346,11 +349,7 @@ export default function Conversor({
                 <p className="text-xl font-bold mb-2 hidden md:block">
                   {format === "ico" ? "MAIN SIZE:" : "RESOLUTION:"}
                 </p>
-                {format === "ico" && (
-                  <p className="text-xs text-gray-400 mb-2 hidden md:block">
-                    (Will generate multiple sizes)
-                  </p>
-                )}
+
                 <div className="flex w-full gap-2 text-center items-center">
                   <Input
                     name="width"

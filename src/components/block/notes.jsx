@@ -179,7 +179,7 @@ export default function Notes({
       <Dialog onOpenChange={setEditForm} open={editForm}>
         <DialogContent className="w-full min-h-[70vh] bg-black border-white border-2 text-white overflow-hidden gap-2">
           <DialogTitle
-            style={{ color: theme }}
+            style={{ color: textTheme }}
             className="flex justify-center items-center"
           >
             {editable ? "EDIT NOTE" : title.toUpperCase()}
@@ -187,7 +187,7 @@ export default function Notes({
           <DialogDescription className="hidden">
             Cuadro de notas
           </DialogDescription>
-          <div style={{ color: theme }} className="flex flex-col gap-4 p-4">
+          <div style={{ color: textTheme }} className="flex flex-col gap-4 p-4">
             <div className="flex flex-col gap-2">
               {editable && (
                 <>
@@ -272,7 +272,7 @@ export default function Notes({
                 <Button
                   onClick={exportToTextFile}
                   style={{ backgroundColor: theme, color: textTheme }}
-                  className="w-3/4 md:w-4/12 flex justify-center hover:opacity-70"
+                  className="font-bold w-3/4 md:w-4/12 flex justify-center hover:opacity-70"
                 >
                   DOWNLOAD <IconDownload />
                 </Button>
@@ -286,7 +286,7 @@ export default function Notes({
   );
 }
 
-function NoteItem({ note, theme, editable }) {
+function NoteItem({ note, theme, textTheme, editable }) {
   const [hover, setHover] = useState(false);
   const borderStyle =
     editable || (hover && note.title)
@@ -297,7 +297,7 @@ function NoteItem({ note, theme, editable }) {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        color: theme,
+        color: textTheme,
         border: borderStyle,
         backgroundColor: note.color,
       }}

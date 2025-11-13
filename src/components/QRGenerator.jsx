@@ -187,7 +187,7 @@ export default function QRGenerator({
         </div>
         <div
           onClick={() => reset()}
-          style={{ backgroundColor: hoverTheme, color: hoverTextTheme }}
+          style={{ backgroundColor: hoverTheme, color: textTheme }}
           className="md:col-start-6 font-bold md:col-end-7 col-span-2 flex justify-center items-center gap-4 p-2 rounded  md:m-4 hover:opacity-80"
         >
           CLEAR
@@ -198,7 +198,7 @@ export default function QRGenerator({
           <label className="font-bold">Text or URL</label>
           <Input
             style={{
-              color: theme,
+              color: textTheme,
               border: `1px solid ${theme}`,
               placeholder: hoverTextTheme,
             }}
@@ -212,7 +212,7 @@ export default function QRGenerator({
               <Input
                 type="text"
                 style={{
-                  color: theme,
+                  color: textTheme,
                   border: `1px solid ${theme}`,
                 }}
                 value={size}
@@ -258,7 +258,6 @@ export default function QRGenerator({
                     <img
                       src={logo.preview}
                       style={{
-                        color: theme,
                         border: `1px solid ${theme}`,
                       }}
                       className="w-12 h-12 rounded border object-cover"
@@ -266,7 +265,7 @@ export default function QRGenerator({
                   ) : (
                     <div
                       style={{
-                        color: theme,
+                        color: textTheme,
                         border: `1px solid ${theme}`,
                       }}
                       className="h-12 w-12 flex justify-center items-center p-4 text-xs border-2 rounded"

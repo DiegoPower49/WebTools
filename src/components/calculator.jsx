@@ -104,9 +104,9 @@ const Calculator = ({ theme, textTheme, hoverTheme, hoverTextTheme }) => {
               color: hover ? hoverTextTheme : textTheme,
             }}
             onClick={clearInput}
-            className="m-2 p-2 text-white rounded"
+            className="m-2 p-2 text-white rounded font-bold"
           >
-            Clear
+            CLEAR
           </button>
         </div>
       </div>

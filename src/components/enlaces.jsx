@@ -187,7 +187,10 @@ export default function Links({
           <DialogDescription className="hidden">
             Cuadro de edicion de Links
           </DialogDescription>
-          <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
+          <div
+            style={{ color: textTheme }}
+            className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full"
+          >
             <div className="flex flex-col gap-2">
               <label htmlFor="icono">Icon</label>
               <input
@@ -255,7 +258,7 @@ export default function Links({
   );
 }
 
-function LinkItem({ link, theme, editable }) {
+function LinkItem({ link, theme, textTheme, editable }) {
   const [hover, setHover] = useState(false);
   const borderStyle =
     editable || (hover && link.link)
@@ -265,7 +268,7 @@ function LinkItem({ link, theme, editable }) {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      style={{ color: theme, border: borderStyle }}
+      style={{ color: textTheme, border: borderStyle }}
       target="_blank"
       rel="noopener noreferrer"
       className="w-full h-12 flex bg-black items-center gap-4 rounded-xl duration-200"
