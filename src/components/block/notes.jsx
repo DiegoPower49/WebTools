@@ -87,13 +87,9 @@ export default function Notes({
             boxShadow: editable ? `0px 0px 5px 2px white` : "",
           }}
           onClick={() => setEditable(!editable)}
-          className={`col-start-6 col-end-7 bg-white  flex justify-center w-12 h-5/6 rounded items-center absolute`}
+          className={`col-start-6 col-end-7 bg-white text-black  flex justify-center w-12 h-5/6 rounded items-center absolute`}
         >
-          <IconPencil
-            color={!editable ? textTheme : "black"}
-            className={editable && styles.pulse}
-            size={40}
-          />
+          <IconPencil className={editable && styles.pulse} size={40} />
         </button>
       </div>
       <div
