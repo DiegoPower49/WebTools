@@ -56,7 +56,8 @@ export default function Page() {
 
   const loadThemes = (colors) => {
     const findedColor = colors.find((item) => item.nombre === "theme");
-    const newTheme = `#${findedColor.color}`;
+    const newTheme =
+      findedColor && findedColor.color ? `#${findedColor.color}` : "#b91c1c";
     setTheme(newTheme);
 
     const findedHover = colors.find((item) => item.nombre === "hover");
