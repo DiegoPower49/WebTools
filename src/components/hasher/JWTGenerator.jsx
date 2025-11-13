@@ -223,7 +223,7 @@ export default function JWTGenerator({
             <input
               type="number"
               min={0}
-              style={{ color: theme, border: `1px solid ${theme}` }}
+              style={{ color: textTheme, border: `1px solid ${theme}` }}
               disabled={!expiration}
               value={expiryMinutes}
               onChange={(e) => setExpiryMinutes(e.target.value)}

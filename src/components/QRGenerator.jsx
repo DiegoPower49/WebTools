@@ -310,7 +310,7 @@ export default function QRGenerator({
           <Button
             style={{ backgroundColor: theme, color: textTheme }}
             onClick={downloadPNG}
-            className="hover:opacity-80  ease-in-out hover:scale-105"
+            className="hover:opacity-80 font-bold ease-in-out hover:scale-105"
           >
             Download PNG
           </Button>
@@ -318,7 +318,7 @@ export default function QRGenerator({
           <Button
             style={{ backgroundColor: theme, color: textTheme }}
             onClick={downloadSVG}
-            className="hover:opacity-80  ease-in-out hover:scale-105"
+            className="hover:opacity-80 font-bold ease-in-out hover:scale-105"
             disabled={!svgData}
           >
             Download SVG

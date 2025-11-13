@@ -5,17 +5,11 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import toast, { Toaster } from "react-hot-toast";
-import {
-  IconBrandSkype,
-  IconBrandSpeedtest,
-  IconBrandWhatsapp,
-  IconDeviceFloppy,
-  IconIcons,
-  IconPencil,
-} from "@tabler/icons-react";
+import { Toaster } from "react-hot-toast";
+import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
+import { Input } from "./ui/input";
 
 export default function Links({
   links,
@@ -77,13 +71,13 @@ export default function Links({
         </div>
         <button
           style={{
-            backgroundColor: !editable ? theme : hoverTheme,
+            boxShadow: editable ? `0px 0px 5px 2px white` : "",
           }}
           onClick={() => setEditable(!editable)}
-          className={`col-start-6 col-end-7  flex justify-center w-12 h-5/6 rounded items-center absolute`}
+          className={`col-start-6 col-end-7 bg-white  flex justify-center w-12 h-5/6 rounded items-center absolute`}
         >
           <IconPencil
-            color={!editable ? textTheme : hoverTextTheme}
+            color={!editable ? textTheme : "black"}
             className={editable && styles.pulse}
             size={40}
           />
@@ -180,23 +174,23 @@ export default function Links({
         </div>
       </div>
       <Dialog onOpenChange={setEditForm} open={editForm}>
-        <DialogContent className="w-full bg-black border-white border-2 text-white overflow-hidden">
+        <DialogContent
+          style={{ color: textTheme }}
+          className="w-full bg-black border-white border-2 text-white overflow-hidden"
+        >
           <DialogTitle className="flex justify-center items-center">
             EDIT LINKS
           </DialogTitle>
           <DialogDescription className="hidden">
             Cuadro de edicion de Links
           </DialogDescription>
-          <div
-            style={{ color: textTheme }}
-            className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full"
-          >
+          <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
             <div className="flex flex-col gap-2">
               <label htmlFor="icono">Icon</label>
-              <input
+              <Input
                 id="icono"
                 type="text"
-                className="p-2 rounded placeholder:text-gray-500 text-black"
+                className="p-2 rounded placeholder:text-gray-500 "
                 value={icono}
                 placeholder="Url"
                 onChange={(e) => {
@@ -207,11 +201,11 @@ export default function Links({
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="nombre">Name</label>
-              <input
+              <Input
                 id="nombre"
                 type="text"
                 placeholder={links[id].nombre || ""}
-                className="p-2 rounded placeholder:text-gray-500 text-black"
+                className="p-2 rounded placeholder:text-gray-500 "
                 value={nombre}
                 onChange={(e) => {
                   const nombre = e.target.value;
@@ -222,9 +216,9 @@ export default function Links({
             <div className="flex flex-col gap-2">
               <label htmlFor="color">Link</label>
               <div className="w-full h-full flex gap-4">
-                <input
+                <Input
                   id="link"
-                  className="p-2 w-full rounded text-black"
+                  className="p-2 w-full rounded"
                   type="text"
                   placeholder={links[id].link || ""}
                   value={link}

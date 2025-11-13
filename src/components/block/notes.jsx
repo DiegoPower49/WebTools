@@ -7,13 +7,9 @@ import {
 } from "@/components/ui/dialog";
 import { Toaster } from "react-hot-toast";
 import {
-  IconBrandSkype,
-  IconBrandSpeedtest,
-  IconBrandWhatsapp,
   IconDeviceFloppy,
   IconDownload,
   IconEraser,
-  IconIcons,
   IconNote,
   IconPencil,
 } from "@tabler/icons-react";
@@ -88,13 +84,13 @@ export default function Notes({
         </div>
         <button
           style={{
-            backgroundColor: !editable ? theme : hoverTheme,
+            boxShadow: editable ? `0px 0px 5px 2px white` : "",
           }}
           onClick={() => setEditable(!editable)}
-          className={`col-start-6 col-end-7  flex justify-center w-12 h-5/6 rounded items-center absolute`}
+          className={`col-start-6 col-end-7 bg-white  flex justify-center w-12 h-5/6 rounded items-center absolute`}
         >
           <IconPencil
-            color={!editable ? textTheme : hoverTextTheme}
+            color={!editable ? textTheme : "black"}
             className={editable && styles.pulse}
             size={40}
           />
@@ -193,7 +189,7 @@ export default function Notes({
                 <>
                   <label htmlFor="title">TITLE</label>
                   <input
-                    style={{ backgroundColor: bgColor, color: theme }}
+                    style={{ backgroundColor: bgColor, color: textTheme }}
                     disabled={!editable}
                     id="title"
                     type="text"
@@ -217,7 +213,7 @@ export default function Notes({
                   rows={10}
                   disabled={!editable}
                   id="content"
-                  style={{ color: theme }}
+                  style={{ color: textTheme }}
                   className={`text-white disabled:cursor-text disabled:select-text resize-none p-2 w-full rounded ${styles.scrollContainer}`}
                   placeholder={content || ""}
                   value={content}

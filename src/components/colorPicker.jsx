@@ -197,8 +197,7 @@ export default function ImageColorPicker({
         </div>
         <div
           onClick={() => reset()}
-          style={{ backgroundColor: hoverTheme, color: hoverTextTheme }}
-          className="col-start-6 font-bold col-end-7 flex justify-center items-center gap-4 p-2 rounded md:m-4 hover:opacity-80"
+          className="active:scale-110 duration-200 col-start-6 border-2 border-black bg-white text-black  font-bold col-end-7 flex justify-center items-center gap-4 p-2 rounded md:m-4 hover:opacity-80"
         >
           CLEAR
         </div>

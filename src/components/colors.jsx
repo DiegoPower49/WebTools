@@ -10,6 +10,7 @@ import {
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
+import { Input } from "./ui/input";
 
 export default function Colors({
   colors,
@@ -75,13 +76,13 @@ export default function Colors({
         </div>
         <button
           style={{
-            backgroundColor: !editable ? theme : hoverTheme,
+            boxShadow: editable ? `0px 0px 5px 2px white` : "",
           }}
           onClick={() => setEditable(!editable)}
-          className={`col-start-6 col-end-7  flex justify-center w-12 h-5/6 rounded items-center absolute`}
+          className={`col-start-6 col-end-7 bg-white  flex justify-center w-12 h-5/6 rounded items-center absolute`}
         >
           <IconPencil
-            color={!editable ? textTheme : hoverTextTheme}
+            color={!editable ? textTheme : "black"}
             className={editable && styles.pulse}
             size={40}
           />
@@ -116,7 +117,12 @@ export default function Colors({
                   }}
                 >
                   {(color.color || editable) && (
-                    <Color color={color} editable={editable} theme={theme} />
+                    <Color
+                      color={color}
+                      editable={editable}
+                      theme={theme}
+                      textTheme={textTheme}
+                    />
                   )}
                 </div>
               ))}
@@ -145,7 +151,12 @@ export default function Colors({
                   }}
                 >
                   {(color.color || editable) && (
-                    <Color color={color} editable={editable} theme={theme} />
+                    <Color
+                      color={color}
+                      editable={editable}
+                      theme={theme}
+                      textTheme={textTheme}
+                    />
                   )}
                 </div>
               ))}
@@ -154,7 +165,10 @@ export default function Colors({
         </div>
       </div>
       <Dialog onOpenChange={setEditForm} open={editForm}>
-        <DialogContent className="w-full bg-black border-white border-2 text-white overflow-hidden">
+        <DialogContent
+          style={{ color: textTheme }}
+          className="w-full bg-black border-white border-2 overflow-hidden"
+        >
           <DialogTitle className="flex justify-center items-center">
             EDIT COLOR
           </DialogTitle>
@@ -163,8 +177,10 @@ export default function Colors({
           </DialogDescription>
           <div className="grid grid-cols-1 grid-rows-3 gap-8  p-4 h-full">
             <div className="flex flex-col gap-2">
-              <label htmlFor="nombre">NAME</label>
-              <input
+              <label className="font-bold" htmlFor="nombre">
+                NAME
+              </label>
+              <Input
                 id="nombre"
                 type="text"
                 placeholder={
@@ -178,7 +194,7 @@ export default function Colors({
                     ? "textHover"
                     : colors[id].nombre
                 }
-                className="p-2 rounded placeholder:text-gray-500 text-black"
+                className="p-2 rounded placeholder:text-gray-500"
                 value={nombre}
                 onChange={(e) => {
                   const nombre = e.target.value;
@@ -187,14 +203,16 @@ export default function Colors({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="color">COLOR</label>
+              <label className="font-bold" htmlFor="color">
+                COLOR
+              </label>
               <div className="w-full h-full flex gap-4">
                 <span className="w-12 flex justify-center items-center text-xl font-bold">
                   #
                 </span>
-                <input
+                <Input
                   id="color"
-                  className="p-2 w-full rounded text-black"
+                  className="p-2 w-full rounded "
                   type="text"
                   placeholder={colors[id].color || ""}
                   value={color.toUpperCase()}
@@ -239,7 +257,6 @@ function Color({ color, theme, editable, textTheme }) {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        color: textTheme,
         border: borderStyle,
       }}
       className={`${
@@ -256,7 +273,10 @@ function Color({ color, theme, editable, textTheme }) {
         }}
         className="h-full w-12 rounded"
       ></div>
-      <div className="w-full h-full flex items-center">
+      <div
+        style={{ color: textTheme }}
+        className="w-full h-full flex items-center"
+      >
         <h1 className="">{color.nombre}</h1>
       </div>
     </div>

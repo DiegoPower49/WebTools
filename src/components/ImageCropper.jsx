@@ -222,8 +222,7 @@ export default function ImageCropper({
         </div>
         <div
           onClick={() => reset()}
-          style={{ backgroundColor: hoverTheme, color: hoverTextTheme }}
-          className="md:col-start-6 font-bold md:col-end-7 flex justify-center items-center gap-4 p-2 rounded md:m-4 hover:opacity-80"
+          className="active:scale-110 duration-200  md:col-start-6 border-2 bg-white text-black border-black font-bold md:col-end-7 flex justify-center items-center gap-4 p-2 rounded md:m-4 hover:opacity-80"
         >
           CLEAR
         </div>

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { Input } from "./ui/input";
 
 const Calculator = ({ theme, textTheme, hoverTheme, hoverTextTheme }) => {
   const [input, setInput] = useState(""); // Estado para el input del usuario
@@ -17,17 +18,6 @@ const Calculator = ({ theme, textTheme, hoverTheme, hoverTextTheme }) => {
       setResult(evalResult.toString());
     } catch {
       setResult(""); // Si hay un error (expresión inválida), limpiar resultado
-    }
-  };
-
-  // Realizar la operación
-  const calculateResult = () => {
-    try {
-      // Evaluar la expresión ingresada
-      const result = eval(input); // Nota: Usa eval con precaución
-      setResult(result.toString());
-    } catch (error) {
-      setInput("Error");
     }
   };
 
@@ -62,11 +52,12 @@ const Calculator = ({ theme, textTheme, hoverTheme, hoverTextTheme }) => {
 
         <div className="  grid grid-cols-1  align-middle">
           <div className="p-2 flex items-center">
-            <input
+            <Input
+              style={{ color: textTheme }}
               type="text"
               value={input}
               readOnly
-              className="w-full p-2 text-right text-xl text-black bg-white border border-gray-300 rounded-md"
+              className="w-full p-2 text-right text-xl border border-gray-300 rounded-md"
             />
           </div>
           <div className="p-2 grid grid-cols-4 gap-2">
@@ -89,8 +80,9 @@ const Calculator = ({ theme, textTheme, hoverTheme, hoverTextTheme }) => {
             ].map((symbol) => (
               <button
                 key={symbol}
+                style={{ backgroundColor: theme, color: textTheme }}
                 onClick={() => handleInput(symbol)}
-                className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="p-2 rounded hover:opacity-70 "
               >
                 {symbol}
               </button>
