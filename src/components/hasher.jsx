@@ -3,15 +3,6 @@ import { useState } from "react";
 import JWTGenerator from "./hasher/JWTGenerator";
 import JWTVerifier from "./hasher/JWTVerifier";
 import { IconHash, IconZoomCode } from "@tabler/icons-react";
-/**
- * JWT Hasher mejorado:
- * - iat y exp automáticos (configurable en minutos)
- * - soporte HS256/HS384/HS512 y RS256 (generación/verificación con jose)
- * - formato JSON robusto
- * - copy al portapapeles
- *
- * Requisitos: npm i jose react-hot-toast
- */
 
 export default function Hasher({ theme, textTheme }) {
   const [action, setAction] = useState("hash");

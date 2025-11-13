@@ -9,8 +9,6 @@ import {
 } from "@tabler/icons-react";
 
 export default function Recorder({ theme, textTheme }) {
-  const [hoverAudio, setHoverAudio] = useState(false);
-  const [hoverVideo, setHoverVideo] = useState(false);
   const [filmando, setFilmando] = useState("");
   const [grabando, setGrabando] = useState("");
   const [recordingType, setRecordingType] = useState(null);
@@ -134,8 +132,6 @@ export default function Recorder({ theme, textTheme }) {
               style={{
                 backgroundColor: theme,
               }}
-              onMouseEnter={() => setHoverAudio(true)}
-              onMouseLeave={() => setHoverAudio(false)}
               onClick={videoRecorder}
               className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105  hover:text-white text-black hover:opacity-70 ${grabando}`}
             >
@@ -167,8 +163,6 @@ export default function Recorder({ theme, textTheme }) {
               style={{
                 backgroundColor: theme,
               }}
-              onMouseEnter={() => setHoverVideo(true)}
-              onMouseLeave={() => setHoverVideo(false)}
               onClick={videoAndAudioRecorder}
               className={`flex h-full flex-col w-full items-center justify-center transform duration-300 bg-red-800 rounded-lg font-bold hover:scale-105  hover:text-white hover:opacity-70 text-black ${filmando}`}
             >
