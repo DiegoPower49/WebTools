@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 import styles from "./enlaces.module.css";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
@@ -10,11 +17,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { text } from "framer-motion/client";
 export default function ApiTester({ theme, textTheme, api, setApi }) {
   const [method, setMethod] = useState("GET");
   const [headers, setHeaders] = useState("");
-  const [body, setBody] = useState("{}");
+  const [body, setBody] = useState("");
   const [headersError, setHeadersError] = useState(null);
   const [bodyError, setBodyError] = useState(null);
   const [response, setResponse] = useState(null);
@@ -195,24 +201,29 @@ export default function ApiTester({ theme, textTheme, api, setApi }) {
 
       <div className="w-full flex-1 flex flex-col gap-4 py-4 px-4 md:px-16">
         <div className="h-full grid grid-cols-1 gap-2  justify-center">
-          <div className="flex w-full gap-4">
-            <select
+          <div className="flex w-full gap-4 items-center justify-center">
+            <Select
+              style={{ color: textTheme }}
               value={method}
-              style={{ color: textTheme, backgroundColor: "black" }}
-              onChange={(e) => setMethod(e.target.value)}
-              className=" rounded h-10 bg-transparent"
+              onValueChange={setMethod}
+              className="p-2 rounded w-full bg-transparent outline-none"
             >
-              {["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"].map((m) => (
-                <option
-                  style={{
-                    backgroundColor: "black",
-                  }}
-                  key={m}
-                >
-                  {m}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger
+                className=" w-[100px] md:w-[150px] font-bold"
+                style={{ color: textTheme, border: `1px solid ${theme}` }}
+              >
+                <SelectValue placeholder="Format" />
+              </SelectTrigger>
+              <SelectContent
+                style={{ color: textTheme, backgroundColor: "black" }}
+              >
+                {["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"].map((m) => (
+                  <SelectItem key={m} value={m}>
+                    {m}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <input
               type="text"
               value={api}
@@ -224,7 +235,11 @@ export default function ApiTester({ theme, textTheme, api, setApi }) {
           </div>
           {/* HEADER */}
           <div className="h-full w-full">
-            <label htmlFor="header" className="text-sm text-gray-400">
+            <label
+              style={{ color: textTheme }}
+              htmlFor="header"
+              className="text-sm text-gray-400 font-bold"
+            >
               Headers (JSON)
             </label>
 
@@ -271,7 +286,11 @@ export default function ApiTester({ theme, textTheme, api, setApi }) {
           {/* BODY */}
 
           <div className="h-full w-full">
-            <label htmlFor="body" className="text-sm text-gray-400">
+            <label
+              style={{ color: textTheme }}
+              htmlFor="body"
+              className="text-sm text-gray-400 font-bold"
+            >
               Body (JSON)
             </label>
             <div className="h-full w-full">

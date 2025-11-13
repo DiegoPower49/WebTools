@@ -235,7 +235,7 @@ export default function ImageCropper({ theme, textTheme }) {
               <div className="w-28">
                 <ImageUpscale
                   size={48}
-                  style={{ color: theme }}
+                  style={{ color: textTheme }}
                   className="animate-bounce"
                 />
               </div>
@@ -273,10 +273,15 @@ export default function ImageCropper({ theme, textTheme }) {
             <div className="font-bold text-lg">FORMAT</div>
 
             <Select value={format} onValueChange={(v) => setFormat(v)}>
-              <SelectTrigger style={{ color: theme }} className="w-[120px]">
+              <SelectTrigger
+                style={{ color: textTheme, border: `1px solid ${theme}` }}
+                className="w-[120px]"
+              >
                 <SelectValue placeholder="Format" />
               </SelectTrigger>
-              <SelectContent style={{ color: theme, backgroundColor: "black" }}>
+              <SelectContent
+                style={{ color: textTheme, backgroundColor: "black" }}
+              >
                 <SelectItem value="png">PNG</SelectItem>
                 <SelectItem value="jpeg">JPG</SelectItem>
                 <SelectItem value="webp">WEBP</SelectItem>

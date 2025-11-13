@@ -243,12 +243,9 @@ export default function Notes({ notes, setNotes, theme, textTheme }) {
                 <div className="flex w-full h-full items-center justify-center gap-4">
                   <AlertDialog>
                     <AlertDialogTrigger className="flex gap-2">
-                      <Button
-                        variant="destructive"
-                        className="hover:opacity-60 w-full p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
-                      >
+                      <div className="border-2 flex items-center justify-center bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 w-full text-sm p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white">
                         DELETE <IconEraser />
-                      </Button>
+                      </div>
                     </AlertDialogTrigger>
                     <AlertDialogContent
                       style={{ color: textTheme }}
@@ -287,7 +284,7 @@ export default function Notes({ notes, setNotes, theme, textTheme }) {
                       setNotes(id, title, content, bgColor);
                       setEditForm(false);
                     }}
-                    className="hover:opacity-60  w-3/4 p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
+                    className="hover:opacity-60  w-8/12 p-2 rounded  font-bold duration-200 active:scale-105 active:border-2 active:border-white"
                   >
                     <div className="flex gap-2 items-center justify-center">
                       <span>SAVE</span> <IconDeviceFloppy />

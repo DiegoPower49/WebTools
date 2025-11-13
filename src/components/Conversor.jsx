@@ -9,7 +9,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { text } from "framer-motion/client";
 
 // Simple Toast Component
 const Toast = ({ message, type, onClose }) => {
@@ -325,12 +324,19 @@ export default function Conversor({ theme, textTheme }) {
                 <p className="text-xl font-bold mb-2 hidden md:block">
                   FORMAT:
                 </p>
-                <Select value={format} onValueChange={setFormat}>
-                  <SelectTrigger className="w-[100px] md:w-[140px]">
+                <Select
+                  style={{ color: textTheme }}
+                  value={format}
+                  onValueChange={setFormat}
+                >
+                  <SelectTrigger
+                    style={{ color: textTheme, border: `1px solid ${theme}` }}
+                    lassName="w-[100px] md:w-[140px]"
+                  >
                     <SelectValue placeholder="Format" />
                   </SelectTrigger>
                   <SelectContent
-                    style={{ color: theme, backgroundColor: "black" }}
+                    style={{ color: textTheme, backgroundColor: "black" }}
                   >
                     <SelectItem value="webp">WEBP</SelectItem>
                     <SelectItem value="jpeg">JPEG</SelectItem>

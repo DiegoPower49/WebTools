@@ -295,14 +295,21 @@ export default function ImageColorPicker({ theme, textTheme }) {
                 </div>
               </div>
               <div
-                style={{ borderLeft: `2px solid ${theme}` }}
+                style={{ borderLeft: `2px solid ${theme}`, color: textTheme }}
                 className="h-full w-full flex flex-col items-center justify-center gap-2"
               >
                 <h1>
                   <b>IMAGE</b>
                 </h1>
-                <Select value={format} onValueChange={setFormat}>
-                  <SelectTrigger className=" w-[80px] md:w-[120px]">
+                <Select
+                  style={{ color: textTheme }}
+                  value={format}
+                  onValueChange={setFormat}
+                >
+                  <SelectTrigger
+                    style={{ color: textTheme, border: `1px solid ${theme}` }}
+                    className=" w-[80px] md:w-[120px] font-bold"
+                  >
                     <SelectValue placeholder="Format" />
                   </SelectTrigger>
                   <SelectContent

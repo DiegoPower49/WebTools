@@ -1,5 +1,12 @@
 "use client";
 import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -11,6 +18,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import * as jose from "jose";
 import styles from "../enlaces.module.css";
+import { Input } from "../ui/input";
 
 export default function JWTGenerator({ theme, textTheme }) {
   const [rsa, setRsa] = useState(false);
@@ -136,11 +144,11 @@ export default function JWTGenerator({ theme, textTheme }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between">
-        <label className="text-sm">Payload (JSON)</label>
+        <label className="font-bold text-sm">Payload (JSON)</label>
         <button
           onClick={formatJSON}
           style={{ backgroundColor: theme, color: textTheme }}
-          className="px-2 text-xs rounded hover:opacity-80"
+          className="px-2 text-xs rounded hover:opacity-80 font-bold "
         >
           Format
         </button>
@@ -160,57 +168,42 @@ export default function JWTGenerator({ theme, textTheme }) {
         />
         <div className="flex gap-2 justify-between items-center">
           <div className="flex gap-2 items-center justify-center">
-            <label className="text-sm md:text-sm">Algorithm:</label>
-            <select
+            <label className="font-bold text-sm md:text-sm">Algorithm:</label>
+
+            <Select
+              style={{ color: textTheme }}
               value={algorithm}
-              style={{ color: textTheme, border: `1px solid ${theme}` }}
-              onChange={(e) => setAlgorithm(e.target.value)}
+              onValueChange={setAlgorithm}
               className="p-2 rounded w-full bg-transparent"
             >
-              <option
-                style={{
-                  backgroundColor: "black",
-                }}
-                value="HS256"
+              <SelectTrigger
+                style={{ color: textTheme, border: `1px solid ${theme}` }}
+                className=" w-[100px] md:w-[150px]"
               >
-                HS256 (SHA-256)
-              </option>
-              <option
-                style={{
-                  backgroundColor: "black",
-                }}
-                value="HS384"
+                <SelectValue placeholder="Format" />
+              </SelectTrigger>
+              <SelectContent
+                style={{ color: textTheme, backgroundColor: "black" }}
               >
-                HS384 (SHA-384)
-              </option>
-              <option
-                style={{
-                  backgroundColor: "black",
-                }}
-                value="HS512"
-              >
-                HS512 (SHA-512)
-              </option>
-              <option
-                style={{
-                  backgroundColor: "black",
-                }}
-                value="RS256"
-              >
-                RS256 (RSA)
-              </option>
-            </select>
+                <SelectItem value="HS256">HS256 (SHA-256)</SelectItem>
+                <SelectItem value="HS384">HS384 (SHA-384)</SelectItem>
+                <SelectItem value="HS512">HS512 (SHA-512)</SelectItem>
+                <SelectItem value="RS256">RS256 (RSA)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="flex gap-2">
-            <span>Expiration?:</span>
+            <span className="font-bold ">Expiration?:</span>
             <input
               onChange={(e) => setExpiration(e.target.checked)}
               type="checkbox"
             />
           </div>
           <div className="flex gap-2 items-center justify-center">
-            <label className="text-sm md:text-sm">Expiry (minutes)</label>
-            <input
+            <label className="text-sm md:text-sm font-bold ">
+              Expiry (minutes)
+            </label>
+            <Input
               type="number"
               min={0}
               style={{ color: textTheme, border: `1px solid ${theme}` }}
@@ -226,7 +219,7 @@ export default function JWTGenerator({ theme, textTheme }) {
 
       {algorithm.startsWith("HS") ? (
         <div>
-          <label className="text-sm">Secret key (HMAC)</label>
+          <label className="text-sm font-bold ">Secret key (HMAC)</label>
           <input
             type="text"
             value={secret}
@@ -247,7 +240,11 @@ export default function JWTGenerator({ theme, textTheme }) {
               onClick={() => {
                 setRsa(true);
               }}
-              style={{ backgroundColor: theme, color: textTheme }}
+              style={{
+                backgroundColor: theme,
+                color: textTheme,
+                boxShadow: `0px 0px 5px 1px ${textTheme}`,
+              }}
               className="p-2 rounded font-semibold hover:opacity-80"
             >
               Generate RSA Keys
@@ -265,7 +262,7 @@ export default function JWTGenerator({ theme, textTheme }) {
       </button>
 
       <div className="">
-        <span className="text-sm">Generated JWT</span>
+        <span className="text-sm font-bold ">Generated JWT</span>
 
         <div className="flex gap-2 w-full ">
           <pre
@@ -282,7 +279,7 @@ export default function JWTGenerator({ theme, textTheme }) {
           <button
             onClick={handleCopy}
             style={{ backgroundColor: theme, color: textTheme }}
-            className="p-2 text-xs rounded hover:opacity-80"
+            className="p-2 text-xs rounded hover:opacity-80 font-bold "
           >
             Copy
           </button>

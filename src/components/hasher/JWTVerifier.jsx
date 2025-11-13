@@ -1,5 +1,12 @@
 "use client";
 import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -66,7 +73,7 @@ export default function JWTVerifier({ theme, textTheme }) {
       <div className="flex flex-col gap-2">
         <div className="flex gap-4">
           <div className="w-3/4">
-            <label className="text-sm">Verify JWT</label>
+            <label className="text-sm font-bold ">Verify JWT</label>
             <input
               type="text"
               style={{ color: textTheme, border: `1px solid ${theme}` }}
@@ -77,52 +84,34 @@ export default function JWTVerifier({ theme, textTheme }) {
             />
           </div>
           <div className="w-1/4">
-            <label className="text-sm">Algorithm</label>
-            <select
-              style={{ color: textTheme, border: `1px solid ${theme}` }}
+            <label className="text-sm font-bold ">Algorithm</label>
+            <Select
+              style={{ color: textTheme }}
               value={verifyAlgorithm}
-              onChange={(e) => setVerifyAlgorithm(e.target.value)}
+              onValueChange={setVerifyAlgorithm}
               className="p-2 rounded w-full bg-transparent"
             >
-              <option
-                style={{
-                  backgroundColor: "black",
-                }}
-                value="HS256"
+              <SelectTrigger
+                style={{ color: textTheme, border: `1px solid ${theme}` }}
+                className=" w-[100px] md:w-[150px]"
               >
-                HS256 (SHA-256)
-              </option>
-              <option
-                style={{
-                  backgroundColor: "black",
-                }}
-                value="HS384"
+                <SelectValue placeholder="Format" />
+              </SelectTrigger>
+              <SelectContent
+                style={{ color: textTheme, backgroundColor: "black" }}
               >
-                HS384 (SHA-384)
-              </option>
-              <option
-                style={{
-                  backgroundColor: "black",
-                }}
-                value="HS512"
-              >
-                HS512 (SHA-512)
-              </option>
-              <option
-                style={{
-                  backgroundColor: "black",
-                }}
-                value="RS256"
-              >
-                RS256 (RSA)
-              </option>
-            </select>
+                <SelectItem value="HS256">HS256 (SHA-256)</SelectItem>
+                <SelectItem value="HS384">HS384 (SHA-384)</SelectItem>
+                <SelectItem value="HS512">HS512 (SHA-512)</SelectItem>
+                <SelectItem value="RS256">RS256 (RSA)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
         {verifyAlgorithm != "RS256" ? (
           <>
-            <label className="text-sm">Secret key</label>
+            <label className="text-sm font-bold ">Secret key</label>
             <input
               type="text"
               style={{ color: textTheme, border: `1px solid ${theme}` }}
@@ -188,7 +177,7 @@ export default function JWTVerifier({ theme, textTheme }) {
       </button>
 
       <div className="mt-2">
-        <label className="text-sm">Decoded Payload</label>
+        <label className="text-sm font-bold ">Decoded Payload</label>
         <pre
           style={{
             "--theme": theme,
