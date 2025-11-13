@@ -32,9 +32,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased relative bg-transparent `}
       >
-        <div className="w-full h-full absolute bg-black inset-0 flex justify-center items-center -z-20"></div>
+        <div className="w-full h-full absolute inset-0 flex justify-center items-center -z-20"></div>
         {children}
         <Analytics />
       </body>
