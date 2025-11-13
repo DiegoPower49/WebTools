@@ -2,32 +2,7 @@
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  IconApi,
-  IconBrush,
-  IconCalculator,
-  IconCloud,
-  IconColorPicker,
-  IconCrop,
-  IconDoor,
-  IconHash,
-  IconLayoutNavbar,
-  IconLink,
-  IconNote,
-  IconPhotoEdit,
-  IconQrcode,
-  IconRocket,
-  IconVideoPlus,
-} from "@tabler/icons-react";
 import Recorder from "@/components/recorder";
-import Block from "@/components/block/block";
 import Calculator from "@/components/calculator";
 import Conversor from "@/components/Conversor";
 import Links from "@/components/enlaces";
@@ -35,7 +10,6 @@ import Colors from "@/components/colors";
 import ApiTester from "@/components/testApi";
 import Hasher from "@/components/hasher";
 import Image from "next/image";
-import AuthenticateForm from "@/components/authenticateForm";
 import ImageCropper from "@/components/ImageCropper";
 import QRGenerator from "@/components/QRGenerator";
 import useUserStore from "@/store/userStore";

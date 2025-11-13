@@ -1,9 +1,10 @@
 "use client";
 
-import { usePageStore } from "@/store/PageStore";
+import { useFireStore } from "@/store/fireStore";
 import {
   DndContext,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
@@ -11,7 +12,6 @@ import {
   rectIntersection,
   pointerWithin,
   getFirstCollision,
-  TouchSensor,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -35,7 +35,9 @@ import {
   IconColorPicker,
   IconRocket,
   IconCloud,
+  IconTools,
   IconTool,
+  IconDoor,
 } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -83,7 +85,7 @@ function SortableButton({ id, label, theme, textTheme }) {
       style={style}
       {...listeners}
       {...attributes}
-      className="relative h-14 w-14 p-2 border-2 border-black rounded flex justify-center items-center cursor-grab active:cursor-grabbing"
+      className="relative h-14 w-14 p-2 border-2 border-black rounded flex justify-center items-center cursor-grab active:cursor-grabbing touch-none"
     >
       <Icon size={40} />
     </div>
@@ -153,7 +155,7 @@ function DroppableArea({
   );
 }
 
-export default function Toolbar({
+export default function FireToolBar({
   theme,
   setAuthenticate,
   textTheme,
@@ -168,7 +170,7 @@ export default function Toolbar({
     setTabs,
     setHeaderArea,
     setToolbarArea,
-  } = usePageStore();
+  } = useFireStore();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -176,13 +178,9 @@ export default function Toolbar({
         distance: 8,
       },
     }),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        delay: 200,
-        tolerance: 8,
-      },
-    })
+    useSensor(TouchSensor)
   );
+  const [showTools, setShowTools] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [activeId, setActiveId] = useState(null);
 
@@ -237,6 +235,7 @@ export default function Toolbar({
   };
 
   const handleDragStart = (event) => {
+    console.log("Drag started", event);
     setActiveId(event.active.id);
   };
 
@@ -335,12 +334,20 @@ export default function Toolbar({
 
       {/* TOOLBAR AREA */}
       <div className="w-screen flex justify-center items-center gap-2 py-2 px-2">
-        <button
-          aria-label="Show Header"
+        <motion.div
+          animate={{
+            x: [1, -1, 1, -1, 1, 0],
+            y: [0, -1, 1, -1, 1, 0],
+          }}
+          transition={{
+            duration: 0.1,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
           style={{
             backgroundColor: !tabs.header ? theme : hoverTheme,
             color: !tabs.header ? textTheme : hoverTextTheme,
-            boxShadow: tabs.header && `0px 0px 5px 1px ${theme}`,
+            boxShadow: `0px 0px 15px 5px ${theme}`,
           }}
           onClick={() => {
             setTabs("header");
@@ -348,8 +355,7 @@ export default function Toolbar({
           className="h-14 w-14 p-2 rounded flex-shrink-0"
         >
           <IconRocket size={40} />
-        </button>
-
+        </motion.div>
         <div className="flex-1">
           <DroppableArea
             id="toolbarArea"
