@@ -10,6 +10,7 @@ import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 export default function Links({ links, setLinks, theme, textTheme }) {
   const scrollRef = useRef(null);
@@ -221,7 +222,20 @@ export default function Links({ links, setLinks, theme, textTheme }) {
               </div>
             </div>
 
-            <div className="w-full h-full flex justify-center items-center">
+            <div className="w-full h-full flex justify-center items-center gap-4">
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setEditForm(false);
+                  setLinks(id, "", "", "");
+                  setId(0);
+                  setNombre("");
+                  setLink("");
+                  setIcono("");
+                }}
+              >
+                DELETE
+              </Button>
               <button
                 style={{ backgroundColor: theme, color: textTheme }}
                 onClick={() => {

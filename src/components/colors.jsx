@@ -11,6 +11,7 @@ import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
 import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
 import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 export default function Colors({ colors, setColors, theme, textTheme }) {
   const scrollRef = useRef(null);
@@ -197,13 +198,21 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
               <label className="font-bold" htmlFor="color">
                 COLOR
               </label>
-              <div className="w-full h-full flex gap-4">
-                <span className="w-12 flex justify-center items-center text-xl font-bold">
+              <div className="w-full h-full flex items-center justify-center gap-4">
+                <div
+                  className="w-8 h-8"
+                  style={{
+                    backgroundColor: `#${manageFormat(color)}`,
+                    border: `1px solid ${theme}`,
+                  }}
+                ></div>
+                <span className="flex justify-center items-center text-xl font-bold">
                   #
                 </span>
                 <Input
                   id="color"
-                  className="p-2 w-full rounded "
+                  maxLength={7}
+                  className="p-2 w-40 rounded "
                   type="text"
                   placeholder={colors[id].color || ""}
                   value={color.toUpperCase()}
@@ -215,7 +224,19 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
               </div>
             </div>
 
-            <div className="w-full h-full flex justify-center items-center">
+            <div className="w-full h-full flex justify-center items-center gap-4">
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setEditForm(false);
+                  setColors(id, "", "");
+                  setColor("");
+                  setNombre("");
+                  setId(0);
+                }}
+              >
+                DELETE
+              </Button>
               <button
                 style={{ backgroundColor: theme, color: textTheme }}
                 onClick={() => {
