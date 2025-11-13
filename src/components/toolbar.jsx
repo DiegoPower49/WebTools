@@ -35,9 +35,6 @@ import {
   IconColorPicker,
   IconRocket,
   IconCloud,
-  IconTools,
-  IconTool,
-  IconDoor,
 } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -338,14 +335,16 @@ export default function FireToolBar({
       <div className="w-screen flex justify-center items-center gap-2 py-2 px-2">
         <div
           style={{
-            backgroundColor: !tabs.header ? theme : hoverTheme,
-            color: !tabs.header ? textTheme : hoverTextTheme,
-            boxShadow: `0px 0px 15px 5px ${theme}`,
+            backgroundColor: theme,
+            color: textTheme,
+            boxShadow: `0px 0px 15px 5px white`,
           }}
           onClick={() => {
             setTabs("header");
           }}
-          className="h-14 w-14 p-2 rounded flex-shrink-0"
+          className={`h-14 w-14 p-2 rounded flex-shrink-0 ${
+            tabs.header ? "opacity-70" : ""
+          }`}
         >
           <IconRocket size={40} />
         </div>

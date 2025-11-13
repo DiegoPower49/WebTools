@@ -227,7 +227,7 @@ export default function Colors({
   );
 }
 
-function Color({ color, theme, editable }) {
+function Color({ color, theme, editable, textTheme }) {
   const [hover, setHover] = useState(false);
   const borderStyle =
     hover && (color.color || editable)
