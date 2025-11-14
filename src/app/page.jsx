@@ -53,10 +53,10 @@ export default function Page() {
     setLinks,
     notes,
     setNotes,
+    theme,
+    textTheme,
   } = usePageStore();
-  const [theme, setTheme] = useState();
   const [authenticate, setAuthenticate] = useState(false);
-  const [textTheme, setTextTheme] = useState();
   const router = useRouter();
 
   const componentsArray = toolbarArea.map((item) => ({
@@ -64,25 +64,6 @@ export default function Page() {
     label: item.label,
     Component: componentMap[item.label],
   }));
-  const loadThemes = (colors) => {
-    const findedColor = colors.find((item) => item.nombre === "theme");
-    const newTheme =
-      findedColor && findedColor.color ? `#${findedColor.color}` : "#b91c1c";
-    setTheme(newTheme);
-
-    const findedText = colors.find((item) => item.nombre === "text");
-    const newTextTheme =
-      findedText && findedText.color ? `#${findedText.color}` : "#fafafa";
-    setTextTheme(newTextTheme);
-  };
-
-  const isActive = (component) => {
-    if (toolbarArea.find((tool) => tool.label === component)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
 
   useEffect(() => {
     const auth = getAuth();
@@ -91,10 +72,6 @@ export default function Page() {
     });
     return () => unsubscribe();
   }, []);
-
-  useEffect(() => {
-    loadThemes(colors);
-  }, [colors]);
 
   return (
     <>

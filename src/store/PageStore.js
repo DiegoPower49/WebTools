@@ -14,6 +14,8 @@ function arrayMove(arr, fromIndex, toIndex) {
 export const pageStore = createStore(
   persist(
     (set, get) => ({
+      theme: "",
+      textTheme: "",
       colors: [
         { id: 1, nombre: "theme", color: "b91c1c" },
         { id: 2, nombre: "text", color: "fafafa" },
@@ -185,7 +187,13 @@ export const pageStore = createStore(
       setApi: (api) => set({ api: api }),
       setText: (text) => set({ text: text }),
       setTitle: (title) => set({ title: title }),
-
+      setTheme: (color) => {
+        set({ theme: `#${color}` });
+      },
+      setTextTheme: (color) => {
+        set({ textTheme: `#${color}` });
+        et().saveToFirestore();
+      },
       setTabs: (tab) => {
         const tabList = get().tabs;
         const updatedTabList = { ...tabList, [tab]: !tabList[tab] };

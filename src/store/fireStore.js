@@ -11,6 +11,8 @@ import { app } from "@/firebase/config";
 const db = getFirestore(app);
 
 export const fireStore = createStore((set, get) => ({
+  theme: "",
+  textTheme: "",
   uid: null,
   colors: [
     { id: 1, nombre: "theme", color: "b91c1c" },
@@ -165,6 +167,15 @@ export const fireStore = createStore((set, get) => ({
   ],
   setUid: (uid) => {
     set({ uid });
+    get().saveToFirestore();
+  },
+  setTheme: (color) => {
+    set({ theme: `#${color}` });
+    get().saveToFirestore();
+  },
+  setTextTheme: (color) => {
+    set({ textTheme: `#${color}` });
+    get().saveToFirestore();
   },
   api: "http://localhost:3000",
   loading: true,

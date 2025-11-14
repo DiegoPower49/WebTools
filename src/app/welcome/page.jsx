@@ -49,9 +49,9 @@ export default function Page() {
     setLinks,
     loadUserData,
     loading,
+    theme,
+    textTheme,
   } = useFireStore();
-  const [theme, setTheme] = useState(null);
-  const [textTheme, setTextTheme] = useState();
 
   const componentsArray = toolbarArea.map((item) => ({
     id: item.id,
@@ -63,18 +63,6 @@ export default function Page() {
     logout();
     toast.success("Session closed");
     router.push("/");
-  };
-
-  const loadThemes = (colors) => {
-    const findedColor = colors.find((item) => item.nombre === "theme");
-    const newTheme =
-      findedColor && findedColor.color ? `#${findedColor.color}` : "#b91c1c";
-    setTheme(newTheme);
-
-    const findedText = colors.find((item) => item.nombre === "text");
-    const newTextTheme =
-      findedText && findedText.color ? `#${findedText.color}` : "#fafafa";
-    setTextTheme(newTextTheme);
   };
 
   useEffect(() => {
@@ -114,12 +102,6 @@ export default function Page() {
       }
     };
   }, []);
-
-  useEffect(() => {
-    if (!loading) {
-      loadThemes(colors);
-    }
-  }, [colors, loading]);
 
   return (
     <>

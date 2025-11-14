@@ -9,11 +9,20 @@ import {
 } from "@/components/ui/dialog";
 import styles from "./enlaces.module.css";
 import { useRef, useEffect, useState } from "react";
-import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
+import {
+  IconColorSwatch,
+  IconDeviceFloppy,
+  IconImageInPicture,
+  IconPencil,
+  IconTex,
+  IconTextColor,
+} from "@tabler/icons-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useFireStore } from "@/store/fireStore";
 
 export default function Colors({ colors, setColors, theme, textTheme }) {
+  const { setTheme, setTextTheme } = useFireStore();
   const scrollRef = useRef(null);
   const [editable, setEditable] = useState(false);
   const [editForm, setEditForm] = useState(false);
@@ -185,13 +194,6 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
               <Input
                 id="nombre"
                 type="text"
-                placeholder={
-                  colors[id].id === 1
-                    ? "theme"
-                    : colors[id].id === 2
-                    ? "text"
-                    : colors[id].nombre
-                }
                 className="p-2 rounded placeholder:text-gray-500"
                 value={nombre}
                 onChange={(e) => {
@@ -256,6 +258,26 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
                 </div>
               </button>
             </div>
+            {colors[id].color && (
+              <div className="w-full flex gap-8 items-center justify-center">
+                <Button
+                  variant="outline"
+                  className="text-white bg-black border-2 border-white"
+                  onClick={() => setTheme(color)}
+                >
+                  <IconColorSwatch />
+                  SET COLOR THEME
+                </Button>
+                <Button
+                  variant="outline"
+                  className="text-white bg-black border-2 border-white"
+                  onClick={() => setTextTheme(color)}
+                >
+                  <IconTextColor size={10} />
+                  SET COLOR TEXT
+                </Button>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
