@@ -81,11 +81,14 @@ function SortableButton({ id, label, theme, textTheme }) {
       style={style}
       {...listeners}
       {...attributes}
-      className={`relative h-14 w-14 p-2 border-2 border-black rounded flex justify-center items-center cursor-grab active:cursor-grabbing touch-none ${
+      className={`relative h-14 w-14 p-2  rounded flex justify-center items-center cursor-grab active:cursor-grabbing touch-none ${
         label === "recorder" || label === "picker" ? "sm:block hidden" : ""
       }`}
     >
-      <Icon size={40} />
+      <Icon
+        style={{ boxShadow: `0 0 15px 1px ${textTheme}`, color: textTheme }}
+        size={40}
+      />
     </div>
   );
 }
