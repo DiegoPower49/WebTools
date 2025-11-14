@@ -103,7 +103,10 @@ function ButtonOverlay({ label, theme, textTheme }) {
       }}
       className="relative h-14 w-14 p-2 border-2 border-black rounded flex justify-center items-center cursor-grabbing"
     >
-      <Icon size={40} />
+      <Icon
+        style={{ boxShadow: `0 0 15px 2px ${textTheme}`, color: textTheme }}
+        size={40}
+      />
     </div>
   );
 }
@@ -329,7 +332,7 @@ export default function FireToolBar({ theme, setAuthenticate, textTheme }) {
           style={{
             backgroundColor: theme,
             color: textTheme,
-            boxShadow: `0px 0px 15px 5px white`,
+            boxShadow: `0 0 15px 5px ${textTheme}`,
           }}
           onClick={() => {
             setTabs("header");

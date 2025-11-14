@@ -86,7 +86,7 @@ function SortableButton({ id, label, theme, textTheme }) {
       }`}
     >
       <Icon
-        style={{ boxShadow: `0 0 15px 1px ${textTheme}`, color: textTheme }}
+        style={{ boxShadow: `0 0 15px 2px ${textTheme}`, color: textTheme }}
         size={40}
       />
     </div>
@@ -342,9 +342,9 @@ export default function FireToolBar({ theme, getOut, textTheme }) {
             ease: "easeInOut",
           }}
           style={{
+            boxShadow: `0 0 15px 5px ${textTheme}`,
             backgroundColor: theme,
             color: textTheme,
-            boxShadow: `0px 0px 15px 5px white`,
           }}
           onClick={() => {
             setTabs("header");
