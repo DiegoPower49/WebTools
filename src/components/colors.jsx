@@ -268,18 +268,18 @@ export default function Colors({
                 <Button
                   variant="outline"
                   className="text-white bg-black border-2 border-white"
-                  onClick={() => setTheme(color)}
+                  onClick={() => setTheme(manageFormat(color))}
                 >
                   <IconColorSwatch />
-                  SET COLOR THEME
+                  SET THEME COLOR
                 </Button>
                 <Button
                   variant="outline"
                   className="text-white bg-black border-2 border-white"
-                  onClick={() => setTextTheme(color)}
+                  onClick={() => setTextTheme(manageFormat(color))}
                 >
                   <IconTextColor size={10} />
-                  SET COLOR TEXT
+                  SET TEXT COLOR
                 </Button>
               </div>
             )}
