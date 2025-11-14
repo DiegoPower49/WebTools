@@ -19,10 +19,15 @@ import {
 } from "@tabler/icons-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { useFireStore } from "@/store/fireStore";
 
-export default function Colors({ colors, setColors, theme, textTheme }) {
-  const { setTheme, setTextTheme } = useFireStore();
+export default function Colors({
+  colors,
+  setColors,
+  theme,
+  textTheme,
+  setTheme,
+  setTextTheme,
+}) {
   const scrollRef = useRef(null);
   const [editable, setEditable] = useState(false);
   const [editForm, setEditForm] = useState(false);

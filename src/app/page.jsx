@@ -54,6 +54,8 @@ export default function Page() {
     notes,
     setNotes,
     theme,
+    setTheme,
+    setTextTheme,
     textTheme,
   } = usePageStore();
   const [authenticate, setAuthenticate] = useState(false);
@@ -131,7 +133,9 @@ export default function Page() {
                 >
                   <component.Component
                     theme={theme}
+                    setTheme={setTheme}
                     textTheme={textTheme}
+                    setTextTheme={setTextTheme}
                     notes={notes}
                     setNotes={setNotes}
                     colors={colors}

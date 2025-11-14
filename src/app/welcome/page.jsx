@@ -50,7 +50,9 @@ export default function Page() {
     loadUserData,
     loading,
     theme,
+    setTheme,
     textTheme,
+    setTextTheme,
   } = useFireStore();
 
   const componentsArray = toolbarArea.map((item) => ({
@@ -169,7 +171,9 @@ export default function Page() {
                     >
                       <component.Component
                         theme={theme}
+                        setTheme={setTheme}
                         textTheme={textTheme}
+                        setTextTheme={setTextTheme}
                         notes={notes}
                         setNotes={setNotes}
                         colors={colors}
