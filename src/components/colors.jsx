@@ -277,10 +277,7 @@ function Color({ color, theme, editable, textTheme }) {
     >
       <div
         style={{
-          backgroundColor:
-            color.color && color.color.length === 9
-              ? `#${color.color}`
-              : "transparent",
+          backgroundColor: color.color && color.nombre ? `#${color.color}` : "",
           border: color.color || editable ? `1px solid ${theme}` : "none",
         }}
         className="h-full w-12 rounded"
