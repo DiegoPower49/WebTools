@@ -250,6 +250,7 @@ export default function ImageColorPicker({ theme, textTheme }) {
                   style={{
                     position: "absolute",
                     right: 10,
+                    color: textTheme,
                     background: "rgba(0,0,0,0.6)",
                     padding: "2px 6px",
                     borderRadius: "4px",

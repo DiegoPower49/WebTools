@@ -105,68 +105,72 @@ export default function Notes({ notes, setNotes, theme, textTheme }) {
         className={`w-full flex-1 overflow-x-auto overflow-y-hidden ${styles.scrollContainer}`}
       >
         <div className="hidden md:flex gap-6 w-full">
-          {notes &&
-            groups.map((group, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
-              >
-                {group.map((note, e) => (
-                  <div key={e}>
-                    {(note.title != "" || editable) && (
-                      <div
-                        onClick={() => {
-                          setId(note.id - 1);
-                          setTitle(note.title);
-                          setContent(note.content);
-                          setEditForm(true);
-                          setBgColor(note.color);
-                        }}
-                      >
-                        <NoteItem
-                          note={note}
-                          theme={theme}
-                          editable={editable}
-                          textTheme={textTheme}
-                        />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ))}
+          {(editable
+            ? groups
+            : groups.filter((group) => group.some((e) => e.title))
+          ).map((group, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
+            >
+              {group.map((note, e) => (
+                <div key={e}>
+                  {(note.title != "" || editable) && (
+                    <div
+                      onClick={() => {
+                        setId(note.id - 1);
+                        setTitle(note.title);
+                        setContent(note.content);
+                        setEditForm(true);
+                        setBgColor(note.color);
+                      }}
+                    >
+                      <NoteItem
+                        note={note}
+                        theme={theme}
+                        editable={editable}
+                        textTheme={textTheme}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
         <div className="flex md:hidden gap-6 w-full">
-          {notes &&
-            groupsMobile.map((group, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-1 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
-              >
-                {group.map((note, e) => (
-                  <div key={e}>
-                    {(note.title != "" || editable) && (
-                      <div
-                        onClick={() => {
-                          setId(note.id - 1);
-                          setTitle(note.title);
-                          setContent(note.content);
-                          setEditForm(true);
-                          setBgColor(note.color);
-                        }}
-                      >
-                        <NoteItem
-                          note={note}
-                          theme={theme}
-                          editable={editable}
-                          textTheme={textTheme}
-                        />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ))}
+          {(editable
+            ? groups
+            : groups.filter((group) => group.some((e) => e.title))
+          ).map((group, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-1 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
+            >
+              {group.map((note, e) => (
+                <div key={e}>
+                  {(note.title != "" || editable) && (
+                    <div
+                      onClick={() => {
+                        setId(note.id - 1);
+                        setTitle(note.title);
+                        setContent(note.content);
+                        setEditForm(true);
+                        setBgColor(note.color);
+                      }}
+                    >
+                      <NoteItem
+                        note={note}
+                        theme={theme}
+                        editable={editable}
+                        textTheme={textTheme}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
       <Dialog onOpenChange={setEditForm} open={editForm}>

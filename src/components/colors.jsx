@@ -92,9 +92,12 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
         className={`w-full flex-1 overflow-x-auto overflow-y-hidden ${styles.scrollContainer}`}
       >
         <div className="hidden md:flex gap-6 w-full">
-          {groups.map((group, index) => (
+          {(editable
+            ? groups
+            : groups.filter((group) => group.some((e) => e.nombre))
+          ).map((group, i) => (
             <div
-              key={index}
+              key={i}
               className="grid grid-cols-3 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
             >
               {group.map((color, i) => (
@@ -126,9 +129,12 @@ export default function Colors({ colors, setColors, theme, textTheme }) {
           ))}
         </div>
         <div className="flex md:hidden gap-6 w-full">
-          {groupsMobile.map((group, index) => (
+          {(editable
+            ? groupsMobile
+            : groupsMobile.filter((group) => group.some((e) => e.nombre))
+          ).map((group, i) => (
             <div
-              key={index}
+              key={i}
               className="grid grid-cols-2 grid-rows-4 gap-2 w-full p-4 rounded-2xl flex-shrink-0"
             >
               {group.map((color, i) => (
